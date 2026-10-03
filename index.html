@@ -213,6 +213,39 @@ const PORTFOLIO_POOL = ["images/hero.jpg","images/cat-decorator.jpg","images/cat
 
 const catName = id => (CATEGORIES.find(c=>c.id===id)||{}).name || id;
 const occName = id => (OCCASIONS.find(o=>o.id===id)||{}).name || id;
+
+/* ---------- location detection: show nearby vendors automatically ---------- */
+const GEO_COUNTRY = { US:"USA", IN:"India", AE:"UAE", GB:"United Kingdom", CA:"Canada", AU:"Australia", SG:"Singapore", PK:"Pakistan", BD:"Bangladesh", NP:"Nepal", DE:"Germany", FR:"France" };
+/* geo state (let bindings) is declared after `store` below */
+function detectGeo(){
+  if(geo || geoOff) return;
+  const ctl = new AbortController();
+  const t = setTimeout(()=>ctl.abort(), 4500);
+  fetch("https://ipapi.co/json/", {signal:ctl.signal}).then(r=>r.json()).then(d=>{
+    clearTimeout(t);
+    const cc = GEO_COUNTRY[d.country_code];
+    if(!cc) return;
+    const raw = (d.city||"").toLowerCase();
+    const hit = CITIES.find(c=>raw.includes(c.toLowerCase()));
+    geo = { city: hit||"", country: cc, label: d.city ? d.city+", "+cc : cc };
+    store.set("utsav_geo", geo);
+    if((location.hash||"#/").indexOf("#/browse")===0 || (location.hash||"#/")==="#/") router();
+  }).catch(()=>{ /* stay global on failure */ });
+}
+function geoClear(){ geoOff = true; store.set("utsav_geo_off", true); geo = null; store.remove("utsav_geo"); router(); toast("Showing vendors everywhere"); }
+function geoActive(){
+  if(!geo || geoOff) return false;
+  if(geo.city) return true;
+  try { return allVendors().some(v=>v.country===geo.country); } catch(e){ return false; }
+}
+function geoBanner(){
+  if(!geoActive()) return "";
+  const where = geo.city ? `near <b>${esc(geo.city)}</b>` : `in <b>${esc(geo.country)}</b>`;
+  return `<div class="mt-3 inline-flex items-center gap-2 bg-white/70 border border-gold-light rounded-full pl-4 pr-2 py-1.5 text-sm text-maroon">
+    <span>📍 Showing vendors ${where}</span>
+    <button onclick="geoClear()" class="underline text-xs text-muted">Show all</button>
+  </div>`;
+}
 </script>
 
 <script>
@@ -444,8 +477,11 @@ const TESTIMONIALS = [
 /* ---------- storage ---------- */
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
-  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  remove(k){ try { localStorage.removeItem(k); } catch(e){} }
 };
+let geo = store.get("utsav_geo", null);            // {city, country, label}
+let geoOff = store.get("utsav_geo_off", false);    // user chose "show all"
 
 /* ---------- vendor access ---------- */
 const allVendors = () => SEED_VENDORS.concat(store.get("utsav_vendors_custom", []));
@@ -915,6 +951,7 @@ function HomeView(){
         <p class="text-gold-light font-semibold tracking-[.25em] text-xs uppercase mb-4">✦ The celebration marketplace</p>
         <h1 class="font-display text-5xl sm:text-7xl font-semibold text-ivory leading-[1.02] tracking-tight">Every celebration,<br><em class="text-gold-light">one app.</em></h1>
         <p class="text-ivory/80 text-lg mt-5 max-w-xl leading-relaxed">From sangeet to Halloween — book verified decorators, artists, photographers, DJs & caterers. Indian, American, and everything in between, at prices that respect your budget.</p>
+        <div class="mt-4">${geoActive() ? `<a href="#/browse" class="inline-flex items-center gap-1.5 text-ivory/85 text-sm bg-white/10 border border-white/20 rounded-full px-4 py-1.5 hover:bg-white/20 transition">📍 ${esc(geo.city || geo.country)} — vendors near you →</a>` : ""}</div>
       </div>
       <div class="mt-8 max-w-3xl reveal revealed reveal-d1">${conciergeHTML()}</div>
       <div class="flex flex-wrap gap-x-10 gap-y-4 mt-10 reveal revealed reveal-d2">
@@ -1074,8 +1111,9 @@ function parseHashQuery(){
 function BrowseView(){
   const q = parseHashQuery();
   const fz = frozenGet();
+  const geoCity = (!q.city && geo && !geoOff && geo.city) ? geo.city : "";
   const f = {
-    cat:q.cat||"", city:q.city||"", occasion:q.occasion||"", text:q.q||"",
+    cat:q.cat||"", city:q.city||geoCity, occasion:q.occasion||"", text:q.q||"",
     max:q.max?parseFloat(q.max):(fz?Math.round(frozenUSD()):""),
     minRating:q.minRating?parseFloat(q.minRating):0,
     verified:q.verified==="1", newcomer:q.newcomer==="1",
@@ -1086,6 +1124,7 @@ function BrowseView(){
     <div class="reveal revealed">
       <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">The directory</p>
       <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">Find your vendors</h1>
+      ${geoBanner()}
       ${fz?`<div class="mt-3 inline-flex items-center gap-3 bg-maroon-deep text-ivory rounded-full pl-4 pr-2 py-1.5 text-sm">
         <span>❄ Budget frozen: <b class="text-gold-light">${fmtPrice(fz.cur,fz.amount)}</b>${fz.guests?` · ${fz.guests} guests`:""} · ${occName(fz.occasion)}</span>
         <button onclick="openFreezeModal()" class="underline text-gold-light text-xs">edit</button>
@@ -1136,8 +1175,13 @@ function BrowseView(){
 function currentFilters(){
   const q = parseHashQuery();
   const fz = frozenGet();
+  let city = q.city||"", country = "";
+  if(!city && geoActive()){
+    if(geo.city) city = geo.city;
+    else if(geo.country) country = geo.country;
+  }
   return {
-    cat:q.cat||"", city:q.city||"", occasion:q.occasion||"", text:(q.q||"").toLowerCase(),
+    cat:q.cat||"", city, country, occasion:q.occasion||"", text:(q.q||"").toLowerCase(),
     max:q.max?parseFloat(q.max):(fz?frozenUSD():null),
     minRating:q.minRating?parseFloat(q.minRating):0,
     verified:q.verified==="1", newcomer:q.newcomer==="1", sort:q.sort||"recommended"
@@ -1148,6 +1192,7 @@ function filteredVendors(){
   let list = allVendors().slice();
   if(f.cat) list = list.filter(v=>v.cat===f.cat);
   if(f.city) list = list.filter(v=>v.city===f.city);
+  if(f.country) list = list.filter(v=>v.country===f.country);
   if(f.occasion) list = list.filter(v=>v.occ.includes(f.occasion));
   if(f.text) list = list.filter(v=>(v.name+" "+v.tag+" "+v.bio+" "+catName(v.cat)).toLowerCase().includes(f.text));
   const preBudget = list.length;
@@ -1178,6 +1223,7 @@ function renderBrowseResults(){
 }
 function setFilter(k, v){
   const q = parseHashQuery();
+  if(k==="city" && (v===""||v==null) && geo && !geoOff){ geoClear(); return; }
   if(k==="cat" && v==="") delete q.cat;
   if(v===""||v==null||v==="0"&&k==="minRating") delete q[k]; else q[k]=v;
   if(k==="max" && !v) delete q.max;
@@ -1894,6 +1940,7 @@ document.querySelectorAll(".mobile-link").forEach(a=>a.addEventListener("click",
   document.getElementById("mobile-menu").classList.add("hidden");
 }));
 window.addEventListener("hashchange", router);
+detectGeo();
 router();
 </script>
 </body>
