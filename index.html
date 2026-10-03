@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utsav — Every celebration, one app | Book trusted event vendors</title>
+<meta name="description" content="Utsav is the budget-first marketplace for event vendors — decorators, makeup artists, mehendi artists, photographers, choreographers, hosts, DJs and caterers — for Indian, American, and every celebration in between.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      ivory: '#FAF6EF', cream: '#F3EBDD',
+      maroon: { DEFAULT: '#6D1A2D', dark: '#521422', deep: '#3E0F1D' },
+      gold: { DEFAULT: '#C19A3D', light: '#EAD9AC', pale: '#F7EFDA' },
+      ink: '#2B2320', muted: '#7A6F66'
+    },
+    fontFamily: { display: ['Fraunces','serif'], body: ['Inter','sans-serif'] },
+    boxShadow: { soft: '0 10px 40px -12px rgba(109,26,45,.18)', lift: '0 20px 50px -12px rgba(109,26,45,.28)' }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { background:#FAF6EF; color:#2B2320; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+  .font-display { font-family:'Fraunces',serif; }
+  ::selection { background:#C19A3D; color:#fff; }
+  ::-webkit-scrollbar { width:10px; height:10px; }
+  ::-webkit-scrollbar-track { background:#F3EBDD; }
+  ::-webkit-scrollbar-thumb { background:#C19A3D; border-radius:8px; }
+
+  .btn-primary { background:#6D1A2D; color:#fff; font-weight:600; border-radius:9999px; padding:.8rem 1.9rem; display:inline-flex; align-items:center; gap:.5rem; transition:all .25s ease; box-shadow:0 8px 24px -8px rgba(109,26,45,.5); }
+  .btn-primary:hover { background:#521422; transform:translateY(-2px); box-shadow:0 14px 30px -8px rgba(109,26,45,.55); }
+  .btn-gold { background:#C19A3D; color:#3E0F1D; font-weight:700; border-radius:9999px; padding:.8rem 1.9rem; display:inline-flex; align-items:center; gap:.5rem; transition:all .25s ease; }
+  .btn-gold:hover { background:#a9842f; transform:translateY(-2px); }
+  .btn-outline { border:2px solid #6D1A2D; color:#6D1A2D; font-weight:600; border-radius:9999px; padding:.7rem 1.7rem; display:inline-flex; align-items:center; gap:.5rem; transition:all .25s ease; background:transparent; }
+  .btn-outline:hover { background:#6D1A2D; color:#fff; }
+  .btn-sm { padding:.5rem 1.2rem; font-size:.85rem; }
+
+  .card { background:#fff; border-radius:1.25rem; overflow:hidden; box-shadow:0 10px 40px -12px rgba(109,26,45,.12); transition:transform .3s ease, box-shadow .3s ease; border:1px solid rgba(193,154,61,.18); }
+  .card:hover { transform:translateY(-6px); box-shadow:0 20px 50px -12px rgba(109,26,45,.25); }
+
+  .badge { display:inline-flex; align-items:center; gap:.3rem; font-size:.7rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:9999px; padding:.28rem .7rem; }
+  .badge-verified { background:#F7EFDA; color:#8a6d1f; border:1px solid #EAD9AC; }
+  .badge-newcomer { background:#E9F5EC; color:#1e7a34; border:1px solid #bfe3c8; }
+  .badge-cat { background:rgba(109,26,45,.08); color:#6D1A2D; }
+
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.revealed { opacity:1; transform:none; }
+  .reveal-d1 { transition-delay:.08s; } .reveal-d2 { transition-delay:.16s; } .reveal-d3 { transition-delay:.24s; }
+
+  .field { width:100%; border:1.5px solid #E5D9C3; border-radius:.8rem; padding:.75rem 1rem; background:#fff; font-size:.95rem; transition:border .2s, box-shadow .2s; }
+  .field:focus { outline:none; border-color:#C19A3D; box-shadow:0 0 0 3px rgba(193,154,61,.18); }
+  label.lbl { display:block; font-size:.8rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:#7A6F66; margin-bottom:.4rem; }
+
+  .tab-btn { padding:.65rem 1.2rem; border-radius:9999px; font-weight:600; font-size:.9rem; color:#7A6F66; transition:all .2s; white-space:nowrap; }
+  .tab-btn.active { background:#6D1A2D; color:#fff; }
+  .tab-btn:not(.active):hover { background:rgba(109,26,45,.08); color:#6D1A2D; }
+
+  .slot { border:1.5px solid #E5D9C3; border-radius:.7rem; padding:.55rem .4rem; font-size:.82rem; font-weight:600; text-align:center; cursor:pointer; transition:all .18s; background:#fff; }
+  .slot:hover:not(:disabled) { border-color:#C19A3D; background:#F7EFDA; }
+  .slot.selected { background:#6D1A2D; color:#fff; border-color:#6D1A2D; }
+  .slot:disabled { opacity:.35; cursor:not-allowed; text-decoration:line-through; }
+  .date-pill { min-width:64px; border:1.5px solid #E5D9C3; border-radius:.9rem; padding:.55rem .3rem; text-align:center; cursor:pointer; transition:all .18s; background:#fff; }
+  .date-pill:hover { border-color:#C19A3D; }
+  .date-pill.selected { background:#6D1A2D; color:#fff; border-color:#6D1A2D; }
+  .date-pill.selected .dp-sub { color:#EAD9AC; }
+
+  .modal-overlay { position:fixed; inset:0; background:rgba(43,15,24,.55); backdrop-filter:blur(4px); z-index:80; display:flex; align-items:center; justify-content:center; padding:1rem; opacity:0; transition:opacity .25s ease; }
+  .modal-overlay.show { opacity:1; }
+  .modal-box { background:#FAF6EF; border-radius:1.5rem; max-width:640px; width:100%; max-height:92vh; overflow-y:auto; transform:translateY(24px) scale(.98); transition:transform .3s cubic-bezier(.2,.9,.3,1.2); box-shadow:0 30px 80px -20px rgba(0,0,0,.4); }
+  .modal-overlay.show .modal-box { transform:none; }
+
+  .toast { background:#2B2320; color:#FAF6EF; padding:.85rem 1.4rem; border-radius:9999px; font-weight:500; font-size:.9rem; box-shadow:0 12px 30px -8px rgba(0,0,0,.4); display:flex; align-items:center; gap:.6rem; animation:toastIn .3s ease; }
+  @keyframes toastIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+  .stars { color:#C19A3D; letter-spacing:.1em; }
+  .hero-pattern { background-image:radial-gradient(rgba(193,154,61,.16) 1.5px, transparent 1.5px); background-size:26px 26px; }
+  .gold-divider { height:3px; width:72px; background:linear-gradient(90deg,#C19A3D,transparent); border-radius:2px; }
+  .step-num { width:52px; height:52px; border-radius:9999px; background:#6D1A2D; color:#EAD9AC; font-family:'Fraunces',serif; font-size:1.4rem; display:flex; align-items:center; justify-content:center; font-weight:600; }
+  .filter-chip { border:1.5px solid #E5D9C3; background:#fff; border-radius:9999px; padding:.45rem 1rem; font-size:.85rem; font-weight:600; cursor:pointer; transition:all .18s; }
+  .filter-chip:hover { border-color:#C19A3D; }
+  .filter-chip.active { background:#6D1A2D; color:#fff; border-color:#6D1A2D; }
+  input[type="range"] { accent-color:#6D1A2D; }
+  .onboard-step-dot { width:34px; height:34px; border-radius:9999px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; background:#EFE6D3; color:#7A6F66; }
+  .onboard-step-dot.active { background:#6D1A2D; color:#fff; }
+  .onboard-step-dot.done { background:#C19A3D; color:#fff; }
+  .lightbox-img { max-height:82vh; max-width:92vw; border-radius:1rem; box-shadow:0 30px 80px rgba(0,0,0,.5); }
+  .marquee-track { display:flex; gap:1.25rem; animation:marquee 32s linear infinite; width:max-content; }
+  @keyframes marquee { to { transform:translateX(-50%); } }
+  .nav-link { font-weight:500; font-size:.95rem; color:#2B2320; position:relative; }
+  .nav-link:hover { color:#6D1A2D; }
+  .nav-link::after { content:''; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:#C19A3D; transition:width .25s; }
+  .nav-link:hover::after { width:100%; }
+</style>
+</head>
+<body class="font-body">
+
+<!-- ══════════ NAVBAR ══════════ -->
+<header class="sticky top-0 z-50 bg-ivory/90 backdrop-blur-md border-b border-gold-light/60">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
+    <a href="#/" class="flex items-center gap-2.5">
+      <span class="w-10 h-10 rounded-full bg-maroon flex items-center justify-center text-gold-light font-display text-xl font-semibold">U</span>
+      <span class="font-display text-2xl font-semibold text-maroon tracking-tight">Utsav</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#/browse" class="nav-link">Find vendors</a>
+      <a href="#/occasions" class="nav-link">Occasions</a>
+      <a href="#/team" class="nav-link">My team <span id="team-count" class="hidden ml-1 min-w-[22px] h-[22px] px-1 rounded-full bg-gold text-maroon-deep text-xs font-bold items-center justify-center" style="display:none">0</span></a>
+      <a href="#/onboard" class="nav-link">List your business</a>
+      <a href="#/bookings" class="nav-link">My bookings</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <span id="freeze-pill"></span>
+      <a href="#/onboard" class="btn-primary btn-sm hidden sm:inline-flex">Become a vendor</a>
+      <button id="menu-btn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full border border-gold-light" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="#6D1A2D" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="md:hidden hidden border-t border-gold-light/60 bg-ivory px-6 py-4">
+    <nav class="flex flex-col gap-4 text-lg font-medium">
+      <a href="#/browse" class="mobile-link">Find vendors</a>
+      <a href="#/occasions" class="mobile-link">Occasions</a>
+      <a href="#/team" class="mobile-link">My team</a>
+      <a href="#/onboard" class="mobile-link">List your business</a>
+      <a href="#/bookings" class="mobile-link">My bookings</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app" class="min-h-[70vh]"></main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-maroon-deep text-ivory/90 mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid gap-10 md:grid-cols-4">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <span class="w-10 h-10 rounded-full bg-gold flex items-center justify-center text-maroon-deep font-display text-xl font-semibold">U</span>
+        <span class="font-display text-2xl font-semibold text-ivory">Utsav</span>
+      </div>
+      <p class="text-sm text-ivory/70 leading-relaxed">Every celebration, one app. Verified event vendors — from sangeet choreographers to Halloween DJs — at honest, budget-first prices.</p>
+    </div>
+    <div>
+      <h4 class="font-display text-lg text-gold-light mb-4">Explore</h4>
+      <ul class="space-y-2.5 text-sm text-ivory/70">
+        <li><a href="#/browse" class="hover:text-gold-light">Find vendors</a></li>
+        <li><a href="#/occasions" class="hover:text-gold-light">Occasions</a></li>
+        <li><a href="#/bookings" class="hover:text-gold-light">My bookings</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-display text-lg text-gold-light mb-4">Vendors</h4>
+      <ul class="space-y-2.5 text-sm text-ivory/70">
+        <li><a href="#/onboard" class="hover:text-gold-light">List your business</a></li>
+        <li><a href="#/browse?newcomer=1" class="hover:text-gold-light">Newcomer spotlight</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-display text-lg text-gold-light mb-4">Our promise</h4>
+      <p class="text-sm text-ivory/70 leading-relaxed">Every vendor is profile-verified. Newcomers get a fair shot — great work at beginner-friendly prices, rated by real clients.</p>
+    </div>
+  </div>
+  <div class="border-t border-ivory/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 text-xs text-ivory/50 flex flex-col sm:flex-row justify-between gap-2">
+      <span>© 2026 Utsav. A demonstration marketplace — bookings are requests, no payments processed.</span>
+      <span>Made for every celebration.</span>
+    </div>
+  </div>
+</footer>
+
+<div id="modal-root"></div>
+<div id="toast-root" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2"></div>
+
+<script>
+/* ═══════════════════════ UTSAV — app logic ═══════════════════════ */
+"use strict";
+
+/* ---------- constants ---------- */
+const CATEGORIES = [
+  { id:"decorators",     name:"Decorators",          img:"images/cat-decorator.jpg",    blurb:"Mandaps, stages & party decor" },
+  { id:"makeup",         name:"Makeup Artists",      img:"images/cat-makeup.jpg",       blurb:"Bridal & party glam" },
+  { id:"mehendi",        name:"Mehendi Artists",     img:"images/cat-mehendi.jpg",      blurb:"Bridal henna & party designs" },
+  { id:"photographers",  name:"Photographers",       img:"images/cat-photographer.jpg", blurb:"Candid & cinematic stories" },
+  { id:"choreographers", name:"Choreographers",      img:"images/cat-choreographer.jpg",blurb:"Sangeet dance trainers" },
+  { id:"hosts",          name:"Event Hosts & MCs",   img:"images/cat-host.jpg",         blurb:"Anchors who own the room" },
+  { id:"djs",            name:"DJs",                 img:"images/cat-dj.jpg",           blurb:"Dance floors that never empty" },
+  { id:"caterers",       name:"Caterers",            img:"images/cat-caterer.jpg",      blurb:"Feasts for every guest list" }
+];
+const OCCASIONS = [
+  { id:"wedding",     name:"Wedding",              img:"images/hero.jpg",          desc:"The big day, done right — every vendor you need, one shortlist." },
+  { id:"sangeet",     name:"Sangeet",              img:"images/port-sangeet.jpg",  desc:"Dance rehearsals, dhol energy, and a night nobody forgets." },
+  { id:"mehendi",     name:"Mehendi",              img:"images/cat-mehendi.jpg",   desc:"Morning henna rituals with artists who paint stories." },
+  { id:"birthday",    name:"Birthday",             img:"images/cat-birthday.jpg",  desc:"First birthdays to fiftieths — decor, cake tables & fun." },
+  { id:"bachelor",    name:"Bachelor / Bachelorette", img:"images/cat-dj.jpg",     desc:"One last wild night — DJs, venues, and zero regrets." },
+  { id:"babyshower",  name:"Baby Shower",          img:"images/port-table.jpg",    desc:"Seemantham or sprinkle — soft pastels, sweet setups." },
+  { id:"bridalshower",name:"Bridal Shower",        img:"images/port-bridal.jpg",   desc:"Brunch, glam, and the bride's favorite people." },
+  { id:"anniversary", name:"Anniversary",          img:"images/port-prewedding.jpg",desc:"Silver, pearl, golden — celebrate the years in style." },
+  { id:"graduation",  name:"Graduation",           img:"images/cat-photographer.jpg", desc:"Caps off — portraits and parties for the grad." },
+  { id:"housewarming",name:"Housewarming",         img:"images/cat-decorator.jpg", desc:"Griha pravesham or new-home party — bless it beautifully." },
+  { id:"halloween",   name:"Halloween Party",      img:"images/port-sangeet.jpg",  desc:"Haunted setups, spooky tables, killer playlists." },
+  { id:"christmas",   name:"Christmas & New Year", img:"images/cat-decorator.jpg", desc:"Trees, lights, and midnight countdowns." },
+  { id:"corporate",   name:"Corporate Event",      img:"images/cat-host.jpg",      desc:"Offsites and galas with hosts who keep it sharp." },
+  { id:"prewedding",  name:"Pre-wedding Shoot",    img:"images/port-prewedding.jpg",desc:"Golden-hour portraits before the chaos begins." }
+];
+const CITIES = ["Boston","New York","Houston","Bay Area","Dallas","Hyderabad","Chennai","Bangalore"];
+const SLOT_TIMES = ["10:00 AM","1:00 PM","4:00 PM","7:00 PM"];
+const PORTFOLIO_POOL = ["images/hero.jpg","images/cat-decorator.jpg","images/cat-makeup.jpg","images/cat-mehendi.jpg","images/cat-photographer.jpg","images/cat-choreographer.jpg","images/cat-host.jpg","images/cat-birthday.jpg","images/cat-dj.jpg","images/cat-caterer.jpg","images/port-mandap.jpg","images/port-bridal.jpg","images/port-table.jpg","images/port-prewedding.jpg","images/port-sangeet.jpg","images/port-mehendi-detail.jpg"];
+
+const catName = id => (CATEGORIES.find(c=>c.id===id)||{}).name || id;
+const occName = id => (OCCASIONS.find(o=>o.id===id)||{}).name || id;
+</script>
+
+<script>
+/* ---------- seed vendors (19) ---------- */
+const SEED_VENDORS = [
+{ id:"meera", name:"Meera's Marigold Events", cat:"decorators", city:"Houston", country:"USA", cur:"$", rating:4.9, rc:132, price:1200, verified:true, newcomer:false,
+  tag:"Mandaps that smell like home.",
+  bio:"Meera has dressed 300+ mandaps across Texas over 9 years. Her team grows its own marigolds — yes, really — and builds stages that photograph like a dream. Famous for calm, on-time setups even when the baraat runs two hours late.",
+  langs:["English","Hindi","Telugu"], ig:"meerasmarigold_demo",
+  occ:["wedding","sangeet","mehendi","housewarming","prewedding"],
+  services:[["Full mandap decor",1200,"event"],["Sangeet stage",900,"event"],["Mehendi morning setup",650,"event"],["Floral entryway",300,"setup"],["Photobooth corner",450,"event"]],
+  port:["images/hero.jpg","images/cat-decorator.jpg","images/port-mandap.jpg","images/port-table.jpg","images/port-sangeet.jpg"],
+  revs:[["Ananya R.",5,"Sep 2026","The mandap made my mother cry. Meera's team set up 400 flowers while we were still at the temple. Flawless."],["Divya S.",5,"Aug 2026","On time, on budget, and the stage looked straight out of a movie. Worth every dollar."],["Kavya M.",4,"Jun 2026","Gorgeous work. One backdrop panel arrived late but they fixed it before guests walked in."],["Rohit P.",5,"May 2026","They handled my sister's sangeet stage overnight. Magicians, honestly."]],
+  collab:["lens","priya"] },
+
+{ id:"priya", name:"Glam by Priya", cat:"makeup", city:"New York", country:"USA", cur:"$", rating:4.8, rc:214, price:350, verified:true, newcomer:false,
+  tag:"Red lips approved by 200+ brides.",
+  bio:"Priya is a certified pro artist who specializes in South Asian bridal glam — the kind that lasts through pheras, a hundred hugs, and happy tears. Trial sessions at her Queens studio.",
+  langs:["English","Hindi","Tamil"], ig:"glam_by_priya_demo",
+  occ:["wedding","sangeet","prewedding","bridalshower","anniversary"],
+  services:[["Bridal makeup + hair",350,"person"],["Party makeup",120,"person"],["Makeup trial",80,"session"],["Groom styling",90,"person"]],
+  port:["images/cat-makeup.jpg","images/port-bridal.jpg","images/port-mehendi-detail.jpg"],
+  revs:[["Sneha K.",5,"Sep 2026","My makeup survived 14 hours, three outfit changes, and my crying. Priya is a miracle worker."],["Lakshmi V.",5,"Jul 2026","She understood 'soft but make it bridal' perfectly. Trial was so thorough."],["Anitha D.",4,"May 2026","Beautiful work, slightly rushed during the big-morning rush — book the trial."],["Farah N.",5,"Apr 2026","Did my whole bridal party of six. Everyone looked like themselves, just luminous."]],
+  collab:["aisha"] },
+
+{ id:"aisha", name:"Henna by Aisha", cat:"mehendi", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:6, price:80, verified:true, newcomer:true,
+  tag:"Bridal henna, party henna, tiny tattoos.",
+  bio:"Aisha learned henna from her grandmother in Hyderabad and turned a dorm-room side hustle into the Bay Area's most-booked newcomer. Intricate bridal work in under four hours, organic cones only.",
+  langs:["English","Hindi","Urdu"], ig:"henna.by.aisha_demo",
+  occ:["mehendi","wedding","sangeet","bridalshower","birthday"],
+  services:[["Bridal henna (both hands)",220,"person"],["Party henna",80,"person"],["Kids' henna motifs",40,"person"]],
+  port:["images/cat-mehendi.jpg","images/port-mehendi-detail.jpg"],
+  revs:[["Zara H.",5,"Sep 2026","The stain was DARK for a week. My bridal henna got more compliments than my lehenga."],["Priya N.",5,"Aug 2026","Booked her for my sister's mehendi morning — fast, sweet, insanely detailed."],["Meera J.",5,"Jul 2026","Newcomer prices, veteran skills. Get her before she raises rates!"]],
+  collab:["priya"] },
+
+{ id:"lens", name:"Lens & Light Studio", cat:"photographers", city:"Dallas", country:"USA", cur:"$", rating:4.9, rc:98, price:1500, verified:true, newcomer:false,
+  tag:"Candid first, posed never.",
+  bio:"Husband-wife duo Arjun and Sara shoot 40+ Indian weddings a year. Two shooters, a same-day teaser reel, and a gallery your grandchildren will fight over.",
+  langs:["English","Hindi"], ig:"lensandlight_demo",
+  occ:["wedding","prewedding","sangeet","anniversary","birthday"],
+  services:[["Full-day wedding (2 shooters)",1500,"event"],["Pre-wedding shoot",600,"session"],["Sangeet coverage",800,"event"],["Teaser reel",300,"add-on"]],
+  port:["images/cat-photographer.jpg","images/port-prewedding.jpg","images/port-bridal.jpg"],
+  revs:[["Vikram T.",5,"Sep 2026","They caught my dad's expression when he saw my bride. I cried watching the teaser."],["Nisha R.",5,"Aug 2026","Invisible during the ceremony, everywhere that mattered. 900 stunning photos."],["Aditi L.",4,"Jun 2026","Gorgeous gallery. Delivery took 5 weeks, but worth the wait."]],
+  collab:["meera"] },
+
+{ id:"natya", name:"Natya Beats", cat:"choreographers", city:"Boston", country:"USA", cur:"$", rating:4.9, rc:8, price:60, verified:true, newcomer:true,
+  tag:"Your cousins WILL nail the hook step.",
+  bio:"Classically trained in Bharatanatyam, fluent in Bollywood. Natya Beats has taught 200+ family members their sangeet routines — including one very reluctant chacha who now won't sit down.",
+  langs:["English","Hindi","Tamil"], ig:"natyabeats_demo",
+  occ:["sangeet","wedding","birthday","anniversary"],
+  services:[["Sangeet choreography (4 sessions)",240,"package"],["Couple's first dance",180,"package"],["Kids' group number",150,"package"],["Hourly rehearsal",60,"hour"]],
+  port:["images/cat-choreographer.jpg","images/port-sangeet.jpg"],
+  revs:[["Deepa K.",5,"Sep 2026","She taught 14 of us — ages 8 to 68 — a 4-minute medley in 4 sessions. Standing ovation."],["Sanjay M.",5,"Aug 2026","Patient, funny, and our sangeet video looks professional."],["Ritu S.",4,"Jul 2026","Great with kids. Wish we'd booked more sessions!"]],
+  collab:["arjun"] },
+
+{ id:"arjun", name:"MC Arjun Rao", cat:"hosts", city:"New York", country:"USA", cur:"$", rating:4.8, rc:76, price:400, verified:true, newcomer:false,
+  tag:"Bilingual banter, zero awkward silences.",
+  bio:"Arjun has hosted 150+ sangeets and receptions across the tri-state. English-Hindi-Telugu on the mic, games the elders actually enjoy, and timelines that stay on track.",
+  langs:["English","Hindi","Telugu"], ig:"mcarjunrao_demo",
+  occ:["sangeet","wedding","corporate","birthday","anniversary"],
+  services:[["Sangeet hosting (4 hrs)",400,"event"],["Wedding reception MC",550,"event"],["Corporate anchor",600,"event"]],
+  port:["images/cat-host.jpg","images/port-sangeet.jpg"],
+  revs:[["Kiran B.",5,"Sep 2026","He had both families laughing within ten minutes. The dumb charades round was legendary."],["Shreya P.",5,"Jul 2026","Professional, punctual, and kept our 6-hour sangeet moving perfectly."],["Amit J.",4,"May 2026","Great energy. Book early — he's in demand."]],
+  collab:["natya"] },
+
+{ id:"everafter", name:"EverAfter Decor", cat:"decorators", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:5, price:600, verified:true, newcomer:true,
+  tag:"Pinterest boards, but real.",
+  bio:"Two best friends, one storage unit full of drapes, and five flawless events. EverAfter does modern Indian decor — think pampas grass meets marigold, at newcomer prices.",
+  langs:["English","Hindi"], ig:"everafter.decor_demo",
+  occ:["wedding","birthday","bridalshower","babyshower","anniversary"],
+  services:[["Full venue decor",600,"event"],["Balloon + floral arch",250,"setup"],["Table styling (10 tables)",350,"event"]],
+  port:["images/cat-decorator.jpg","images/port-table.jpg","images/cat-birthday.jpg"],
+  revs:[["Neha G.",5,"Sep 2026","Our backyard wedding looked like a venue. They worked with our tiny budget so kindly."],["Sara F.",5,"Aug 2026","The arch was all over Instagram. Setup and teardown were silent and fast."]],
+  collab:[] },
+
+{ id:"glowcraft", name:"GlowCraft Artistry", cat:"makeup", city:"Houston", country:"USA", cur:"$", rating:4.9, rc:7, price:180, verified:true, newcomer:true,
+  tag:"Soft glam that survives happy tears.",
+  bio:"Nisha worked backstage at fashion week before moving to Houston. Airbrush bridal looks at prices that don't need a family meeting — and lashes that stay put.",
+  langs:["English","Hindi","Gujarati"], ig:"glowcraft.nisha_demo",
+  occ:["wedding","bridalshower","prewedding","birthday","graduation"],
+  services:[["Bridal airbrush",180,"person"],["Engagement look",120,"person"],["Bridesmaid (per person)",75,"person"]],
+  port:["images/cat-makeup.jpg","images/port-bridal.jpg"],
+  revs:[["Pooja V.",5,"Sep 2026","Airbrush lasted 12 hours in Houston humidity. Enough said."],["Rina D.",5,"Jul 2026","So gentle and precise. My engagement photos are flawless."]],
+  collab:[] },
+
+{ id:"shubh", name:"Shubh Decor Studio", cat:"decorators", city:"Hyderabad", country:"India", cur:"₹", rating:4.8, rc:187, price:25000, verified:true, newcomer:false,
+  tag:"Big-fat-wedding decor, honest prices.",
+  bio:"Twelve years, 500+ weddings across Telangana and Andhra Pradesh. Shubh Decor owns its flowers, trussing, and lighting — which is why their quotes never have surprises.",
+  langs:["Telugu","Hindi","English"], ig:"shubhdecor_demo",
+  occ:["wedding","sangeet","mehendi","housewarming"],
+  services:[["Wedding mandap + stage",25000,"event"],["Sangeet stage",15000,"event"],["Home mehendi setup",8000,"event"],["Car decoration",2500,"setup"]],
+  port:["images/hero.jpg","images/port-mandap.jpg","images/cat-decorator.jpg"],
+  revs:[["Sravani K.",5,"Sep 2026","They decorated our whole wedding in one night. My in-laws are still talking about the entrance."],["Harish G.",5,"Aug 2026","Transparent billing, no last-minute extras. Rare in this industry."],["Lalitha M.",4,"Jun 2026","Beautiful mandap. Flower freshness could be better in summer — ask for seasonal blooms."]],
+  collab:["karthik"] },
+
+{ id:"kaya", name:"Kaya Kalp Makeup", cat:"makeup", city:"Chennai", country:"India", cur:"₹", rating:4.9, rc:143, price:8000, verified:true, newcomer:false,
+  tag:"Muhurtham-proof makeup.",
+  bio:"Lakshmi's HD bridal looks stay put through six-hour muhurthams and Chennai humidity. Trials at her Adyar studio include a full skin-prep consultation.",
+  langs:["Tamil","English","Hindi"], ig:"kayakalpmakeup_demo",
+  occ:["wedding","prewedding","bridalshower"],
+  services:[["Bridal HD makeup",8000,"person"],["Reception look",6000,"person"],["Trial session",1500,"session"]],
+  port:["images/cat-makeup.jpg","images/port-bridal.jpg"],
+  revs:[["Divya R.",5,"Sep 2026","Sweat-proof through a June muhurtham. My photos need zero retouching."],["Janani S.",5,"Jul 2026","The trial alone was worth it — she fixed my skincare routine too."]],
+  collab:["ritu"] },
+
+{ id:"ritu", name:"Mehendi Magic by Ritu", cat:"mehendi", city:"Bangalore", country:"India", cur:"₹", rating:5.0, rc:9, price:2100, verified:true, newcomer:true,
+  tag:"Full bridal in 4 hours flat.",
+  bio:"Ritu does three weddings a weekend in peak season and still takes party bookings. Organic henna, deep-stain guarantee, and designs from minimal chic to full bridal.",
+  langs:["Hindi","English","Kannada"], ig:"mehendimagic.ritu_demo",
+  occ:["mehendi","wedding","sangeet"],
+  services:[["Bridal (hands + feet)",2100,"person"],["Party henna",500,"person"],["Engagement motif",800,"person"]],
+  port:["images/cat-mehendi.jpg","images/port-mehendi-detail.jpg"],
+  revs:[["Shalini P.",5,"Sep 2026","Darkest stain I've ever had. She finished both hands in 3.5 hours."],["Nandini K.",5,"Aug 2026","So fast without rushing the detail. Highly recommended."]],
+  collab:["kaya"] },
+
+{ id:"karthik", name:"Frames by Karthik", cat:"photographers", city:"Chennai", country:"India", cur:"₹", rating:4.9, rc:11, price:15000, verified:true, newcomer:true,
+  tag:"Temple-town storytelling.",
+  bio:"Karthik shot his first wedding on a borrowed camera; eleven 5-star reviews later, he's Chennai's worst-kept secret. Drone coverage included in every package.",
+  langs:["Tamil","English"], ig:"framesbykarthik_demo",
+  occ:["wedding","prewedding","housewarming"],
+  services:[["Wedding day (1 shooter + drone)",15000,"event"],["Pre-wedding (2 locations)",9000,"session"],["Family portraits",5000,"session"]],
+  port:["images/cat-photographer.jpg","images/port-prewedding.jpg"],
+  revs:[["Arun V.",5,"Sep 2026","The drone shot of our temple wedding is framed in our living room now."],["Meenakshi D.",5,"Jul 2026","Unobtrusive, creative, and half the price of the big studios."]],
+  collab:["shubh"] },
+
+{ id:"dhoom", name:"Dhoom Dance Crew", cat:"choreographers", city:"Hyderabad", country:"India", cur:"₹", rating:4.8, rc:89, price:5000, verified:true, newcomer:false,
+  tag:"Sangeet choreography in 6 sessions.",
+  bio:"Four dancers, one dhol player on call, and sangeet routines that uncles can actually learn. Dhoom has choreographed 200+ family performances across two states.",
+  langs:["Telugu","Hindi","English"], ig:"dhoomdancecrew_demo",
+  occ:["sangeet","wedding","birthday"],
+  services:[["Family sangeet (6 sessions)",5000,"package"],["Bride/groom solo",3000,"package"],["Flash mob",8000,"package"]],
+  port:["images/cat-choreographer.jpg","images/port-sangeet.jpg"],
+  revs:[["Sandeep R.",5,"Sep 2026","My 60-year-old father did a hook step. Enough said."],["Geetha N.",5,"Aug 2026","Six sessions, zero stress, one unforgettable sangeet."]],
+  collab:["divya"] },
+
+{ id:"divya", name:"Anchor Divya", cat:"hosts", city:"Bangalore", country:"India", cur:"₹", rating:5.0, rc:4, price:7000, verified:true, newcomer:true,
+  tag:"Games your athai will actually play.",
+  bio:"Ex-RJ Divya brings radio energy to sangeets and birthdays. Kannada, Hindi, English, Tamil — she'll get your shyest cousin on stage and keep the aunties laughing.",
+  langs:["Kannada","Hindi","English","Tamil"], ig:"anchordivya_demo",
+  occ:["sangeet","wedding","birthday","corporate"],
+  services:[["Sangeet anchoring",7000,"event"],["Birthday hosting",5000,"event"],["Corporate emcee",10000,"event"]],
+  port:["images/cat-host.jpg"],
+  revs:[["Rakshita S.",5,"Sep 2026","She handled a 300-guest sangeet like a pro. The couple's game round was hilarious."]],
+  collab:["dhoom"] },
+
+{ id:"petals", name:"Petal & Pine Events", cat:"decorators", city:"Chennai", country:"India", cur:"₹", rating:4.7, rc:12, price:9000, verified:true, newcomer:true,
+  tag:"Birthdays, half-saree ceremonies, and small joys.",
+  bio:"Specialists in intimate celebrations — half-saree functions, seemanthams, first birthdays. Thoughtful, elegant decor that doesn't need a wedding budget.",
+  langs:["Tamil","English"], ig:"petalandpine_demo",
+  occ:["birthday","babyshower","housewarming","anniversary"],
+  services:[["Birthday setup",9000,"event"],["Half-saree ceremony",12000,"event"],["Seemantham decor",10000,"event"]],
+  port:["images/cat-birthday.jpg","images/port-table.jpg"],
+  revs:[["Kavitha J.",5,"Aug 2026","My daughter's half-saree function looked straight out of a magazine."],["Revathi A.",4,"Jul 2026","Lovely work, very warm team. Slightly delayed setup — plan buffer time."]],
+  collab:[] },
+
+{ id:"marcus", name:"DJ Marcus Cole", cat:"djs", city:"Boston", country:"USA", cur:"$", rating:4.8, rc:87, price:500, verified:true, newcomer:false,
+  tag:"From Bollywood to Bad Bunny, one dance floor.",
+  bio:"Marcus DJs 60+ South Asian weddings a year. Bhangra-to-Bad-Bunny transitions, dhol player on request, and a dance floor that empties only when the lights come on.",
+  langs:["English"], ig:"djmarcuscole_demo",
+  occ:["wedding","sangeet","birthday","halloween","christmas","corporate","bachelor","graduation"],
+  services:[["Wedding DJ (5 hrs)",500,"event"],["Sangeet DJ",350,"event"],["Dhol player add-on",250,"add-on"],["Halloween party set",400,"event"]],
+  port:["images/cat-dj.jpg","images/port-sangeet.jpg"],
+  revs:[["Jessica T.",5,"Oct 2026","He read our crowd perfectly — my Indian side and his American side never left the floor."],["Aarav M.",5,"Sep 2026","The bhangra-to-hip-hop transitions were unreal. Best sangeet ever."]],
+  collab:["confetti"] },
+
+{ id:"confetti", name:"Confetti & Co.", cat:"decorators", city:"Dallas", country:"USA", cur:"$", rating:4.9, rc:6, price:250, verified:true, newcomer:true,
+  tag:"Balloon arches that break the internet.",
+  bio:"Started in a garage in 2024, now Dallas's go-to for birthdays and baby showers. Organic balloon garlands, neon signs, and genuine same-week availability.",
+  langs:["English","Spanish"], ig:"confettiandco_demo",
+  occ:["birthday","babyshower","bridalshower","halloween","graduation","anniversary"],
+  services:[["Balloon garland",250,"setup"],["Full birthday setup",600,"event"],["Neon sign rental",120,"rental"],["Halloween porch",300,"setup"]],
+  port:["images/cat-birthday.jpg","images/port-table.jpg"],
+  revs:[["Emily R.",5,"Sep 2026","The garland was the backdrop of every photo. Setup took 40 minutes flat."],["Sofia L.",5,"Aug 2026","Affordable, adorable, and so easy to work with."]],
+  collab:["marcus"] },
+
+{ id:"hudson", name:"Hudson & Harvest", cat:"caterers", city:"New York", country:"USA", cur:"$", rating:4.7, rc:112, price:900, verified:true, newcomer:false,
+  tag:"Farm-to-table, chaat to charcuterie.",
+  bio:"A catering company that actually gets Indian weddings — live chaat counters next to a carving station. Serving 50 to 500 guests across the tri-state area.",
+  langs:["English","Hindi"], ig:"hudsonandharvest_demo",
+  occ:["wedding","corporate","birthday","housewarming","christmas","anniversary"],
+  services:[["Wedding buffet (per 100 guests)",900,"event"],["Live chaat counter",400,"add-on"],["Corporate lunch",750,"event"]],
+  port:["images/cat-caterer.jpg","images/port-table.jpg"],
+  revs:[["Rajesh K.",4,"Sep 2026","The chaat counter had a longer line than the bar. Food was excellent, service slightly slow at peak."],["Michelle D.",5,"Aug 2026","They catered our 200-person Diwali gala flawlessly."]],
+  collab:[] },
+
+{ id:"wicked", name:"Wicked Whimsy Studios", cat:"decorators", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:5, price:350, verified:true, newcomer:true,
+  tag:"Halloween haunted houses, Christmas wonderlands.",
+  bio:"Prop stylists obsessed with October and December. Haunted house builds, spooky tablescapes, and Christmas installs that belong in movies — at newcomer prices.",
+  langs:["English"], ig:"wickedwhimsy_demo",
+  occ:["halloween","christmas","birthday","corporate"],
+  services:[["Halloween home haunt",350,"event"],["Christmas install",500,"event"],["Spooky tablescape",200,"setup"]],
+  port:["images/cat-birthday.jpg","images/port-sangeet.jpg"],
+  revs:[["Hannah W.",5,"Oct 2026","Our house was THE house on the street. Kids are still talking about it."],["Chris B.",5,"Sep 2026","Insanely creative. The floating candles! The fog! Worth double."]],
+  collab:[] }
+];
+
+/* ---------- testimonials ---------- */
+const TESTIMONIALS = [
+  { name:"Ananya Reddy", role:"Bride · Houston", text:"I planned my whole sangeet from my couch. The choreographer taught my family over four sessions, and the decorator knew exactly what 'Telugu wedding but make it modern' meant." },
+  { name:"Jessica & Aarav", role:"Married · Boston", text:"Two cultures, one wedding, zero stress. Our DJ blended bhangra and hip-hop so well both grandmothers danced. The newcomer prices saved us thousands." },
+  { name:"Lakshmi Venkatesh", role:"Mother of the bride · Chennai", text:"I was scared of booking online, but the verified badges and real reviews convinced me. The mehendi artist arrived early and the stain lasted ten days." },
+  { name:"Sofia Martinez", role:"Birthday mom · Dallas", text:"My daughter's 7th birthday looked like a magazine shoot for under $700. The balloon team even cleaned up after themselves!" },
+  { name:"Rohit & Sneha", role:"Sangeet hosts · New York", text:"The MC kept 200 guests laughing for four hours straight. Booking the slot took two minutes — easier than ordering pizza." },
+  { name:"Emily Chen", role:"Halloween host · Bay Area", text:"Wicked Whimsy turned my porch into a haunted house. The neighbors thought I hired a film crew." }
+];
+</script>
+
+<script>
+/* ---------- storage ---------- */
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+
+/* ---------- vendor access ---------- */
+const allVendors = () => SEED_VENDORS.concat(store.get("utsav_vendors_custom", []));
+const vendorById = id => allVendors().find(v => v.id === id);
+const catVendors = cat => allVendors().filter(v => v.cat === cat);
+
+/* ---------- formatting ---------- */
+function fmtPrice(cur, amt){
+  if(cur === "₹") return "₹" + Number(amt).toLocaleString("en-IN");
+  return "$" + Number(amt).toLocaleString("en-US");
+}
+const priceUSD = v => v.cur === "₹" ? v.price / 83 : v.price;
+function stars(r){
+  const full = Math.round(r);
+  let s = "";
+  for(let i=1;i<=5;i++) s += `<span class="${i<=full?'':'opacity-25'}">★</span>`;
+  return `<span class="stars text-sm">${s}</span>`;
+}
+function initials(name){
+  return name.split(/\s+/).filter(w=>/[A-Za-z]/.test(w[0])).slice(0,2).map(w=>w[0].toUpperCase()).join("") || "U";
+}
+function avatarBg(name){
+  const grads = ["linear-gradient(135deg,#6D1A2D,#a33)","linear-gradient(135deg,#C19A3D,#8a6d1f)","linear-gradient(135deg,#8a4b2a,#6D1A2D)","linear-gradient(135deg,#4b5a8a,#2b3a5e)","linear-gradient(135deg,#2a7a5e,#1e5a44)"];
+  let h=0; for(const c of name) h=(h*31+c.charCodeAt(0))%grads.length;
+  return grads[h];
+}
+const esc = s => String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const coverImg = v => { const p = v.port[0]; return (p && typeof p === "object") ? p.img : p; };
+
+/* ---------- availability (deterministic) ---------- */
+function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function dateStr(offset){ const d=new Date(); d.setDate(d.getDate()+offset); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function prettyDate(ds){ const d=new Date(ds+"T12:00:00"); return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}); }
+function slotsFor(vid, ds){
+  const v = vendorById(vid);
+  const booked = (store.get("utsav_bookings",[])||[]).filter(b=>b.vendorId===vid && b.date===ds).map(b=>b.slot);
+  let times = SLOT_TIMES.slice();
+  if(v && v.avail){
+    if(v.avail.slots && v.avail.slots.length) times = v.avail.slots.slice();
+    if(v.avail.days && v.avail.days.length){
+      const dow = new Date(ds+"T12:00:00").getDay();
+      const names = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      if(!v.avail.days.includes(names[dow])) return [];
+    }
+  }
+  return times.map(t=>{
+    const free = (hashStr(vid+"|"+ds+"|"+t)%10) < 7;
+    return { time:t, free: free && !booked.includes(t) };
+  });
+}
+function vendorReviews(v){
+  const extra = (store.get("utsav_reviews",{})[v.id]||[]);
+  return (v.revs||[]).concat(extra);
+}
+function vendorRating(v){
+  const r = vendorReviews(v);
+  if(!r.length) return v.rating;
+  const avg = r.reduce((a,x)=>a+((x[1]!=null?x[1]:x.rating)||0),0)/r.length;
+  return Math.round(avg*10)/10;
+}
+
+/* ---------- team + compare state ---------- */
+const teamGet = () => store.get("utsav_team", []);
+const teamHas = id => teamGet().includes(id);
+function teamToggle(id){
+  let t = teamGet();
+  t = t.includes(id) ? t.filter(x=>x!==id) : t.concat([id]);
+  store.set("utsav_team", t); updateTeamBadge();
+  toast(t.includes(id) ? "Added to your team" : "Removed from your team");
+  if(location.hash.startsWith("#/team") || location.hash.startsWith("#/browse")) navigate();
+}
+function updateTeamBadge(){
+  const el = document.getElementById("team-count");
+  if(el){ const n = teamGet().length; el.textContent = n; el.style.display = n? "inline-flex":"none"; }
+}
+let compareList = [];
+function compareToggle(id){
+  if(compareList.includes(id)) compareList = compareList.filter(x=>x!==id);
+  else { if(compareList.length>=3){ toast("You can compare up to 3 vendors"); return; } compareList.push(id); }
+  renderCompareBar();
+  if(location.hash.startsWith("#/browse")) navigate(false);
+}
+function renderCompareBar(){
+  let bar = document.getElementById("compare-bar");
+  if(!compareList.length){ if(bar) bar.remove(); return; }
+  if(!bar){
+    bar = document.createElement("div");
+    bar.id = "compare-bar";
+    bar.className = "fixed bottom-5 left-1/2 -translate-x-1/2 z-[70] bg-maroon-deep text-ivory rounded-full pl-5 pr-2 py-2 flex items-center gap-3 shadow-lift";
+    document.body.appendChild(bar);
+  }
+  bar.innerHTML = `<span class="text-sm font-medium">${compareList.length} selected</span>
+    <div class="flex -space-x-2">${compareList.map(id=>{const v=vendorById(id);return `<span class="w-8 h-8 rounded-full border-2 border-ivory flex items-center justify-center text-xs font-bold" style="background:${avatarBg(v.name)}">${initials(v.name)}</span>`;}).join("")}</div>
+    <a href="#/compare" class="btn-gold btn-sm">Compare now</a>
+    <button onclick="compareClear()" class="w-8 h-8 rounded-full hover:bg-white/10 text-lg leading-none">×</button>`;
+}
+function compareClear(){ compareList = []; renderCompareBar(); if(location.hash.startsWith("#/compare")) location.hash = "#/browse"; }
+
+/* ---------- toast / modal ---------- */
+function toast(msg){
+  const root = document.getElementById("toast-root");
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.innerHTML = `<span class="text-gold">✦</span> ${esc(msg)}`;
+  root.appendChild(el);
+  setTimeout(()=>{ el.style.opacity="0"; el.style.transition="opacity .4s"; setTimeout(()=>el.remove(),400); }, 2600);
+}
+function openModal(html, wide){
+  const root = document.getElementById("modal-root");
+  root.innerHTML = `<div class="modal-overlay" id="m-ov" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box ${wide?'!max-w-4xl':''}">${html}</div></div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("m-ov").classList.add("show")));
+  document.body.style.overflow = "hidden";
+}
+function closeModal(){
+  const ov = document.getElementById("m-ov");
+  if(ov){ ov.classList.remove("show"); setTimeout(()=>{ document.getElementById("modal-root").innerHTML=""; },250); }
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+
+/* ---------- confetti (tasteful) ---------- */
+function confettiBurst(){
+  const c = document.createElement("canvas");
+  c.style.cssText = "position:fixed;inset:0;z-index:200;pointer-events:none";
+  document.body.appendChild(c);
+  const ctx = c.getContext("2d");
+  c.width = innerWidth; c.height = innerHeight;
+  const colors = ["#C19A3D","#6D1A2D","#EAD9AC","#fff","#a33"];
+  const parts = Array.from({length:140},()=>({
+    x: innerWidth/2 + (Math.random()-.5)*120, y: innerHeight*0.35,
+    vx:(Math.random()-.5)*11, vy: Math.random()*-9-3,
+    s: Math.random()*7+4, r: Math.random()*Math.PI, vr:(Math.random()-.5)*.3,
+    col: colors[Math.floor(Math.random()*colors.length)], life:1
+  }));
+  let frames = 0;
+  (function tick(){
+    ctx.clearRect(0,0,c.width,c.height); frames++;
+    parts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.28; p.r+=p.vr; p.life-=.008;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r);
+      ctx.globalAlpha = Math.max(0,p.life); ctx.fillStyle = p.col;
+      ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.62); ctx.restore();
+    });
+    if(frames<170) requestAnimationFrame(tick); else c.remove();
+  })();
+}
+
+/* ---------- shared snippets ---------- */
+function badgeRow(v){
+  return `<div class="flex flex-wrap gap-1.5 mt-2">
+    ${v.verified?`<span class="badge badge-verified">✓ Verified</span>`:""}
+    ${v.newcomer?`<span class="badge badge-newcomer">✦ Newcomer · Budget pick</span>`:""}
+  </div>`;
+}
+function vendorCard(v){
+  const inTeam = teamHas(v.id), inCmp = compareList.includes(v.id);
+  return `<div class="card reveal">
+    <a href="#/vendor/${v.id}" class="block relative h-52 overflow-hidden group">
+      <img src="${coverImg(v)}" alt="${esc(v.name)}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+      <div class="absolute inset-0 bg-gradient-to-t from-maroon-deep/70 via-transparent to-transparent"></div>
+      <span class="absolute top-3 left-3 badge badge-cat !bg-ivory/90">${catName(v.cat)}</span>
+      <span class="absolute bottom-3 left-3 text-ivory font-display text-lg font-semibold drop-shadow">${esc(v.name)}</span>
+    </a>
+    <div class="p-5">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-muted">📍 ${esc(v.city)}</span>
+        <span class="flex items-center gap-1.5">${stars(v.rating)}<b>${v.rating.toFixed(1)}</b><span class="text-muted">(${v.rc})</span></span>
+      </div>
+      <p class="text-sm text-muted italic mt-1.5 font-display">“${esc(v.tag)}”</p>
+      ${badgeRow(v)}
+      <div class="flex items-center justify-between mt-4 pt-4 border-t border-cream">
+        <div><span class="text-xs text-muted uppercase tracking-wide">Starting at</span><div class="font-display text-xl font-semibold text-maroon">${fmtPrice(v.cur, v.price)}</div></div>
+        <div class="flex gap-2">
+          <button onclick="event.preventDefault();compareToggle('${v.id}')" title="Compare" class="w-10 h-10 rounded-full border ${inCmp?'bg-maroon text-white border-maroon':'border-gold-light text-maroon'} flex items-center justify-center text-lg font-bold hover:scale-110 transition">⇄</button>
+          <button onclick="event.preventDefault();teamToggle('${v.id}')" title="${inTeam?'Remove from team':'Add to team'}" class="w-10 h-10 rounded-full border ${inTeam?'bg-gold text-maroon-deep border-gold':'border-gold-light text-maroon'} flex items-center justify-center text-lg font-bold hover:scale-110 transition">${inTeam?'✓':'+'}</button>
+          <a href="#/vendor/${v.id}" class="btn-primary btn-sm">View</a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════ AI CONCIERGE ═══════════ */
+const TEAM_BY_OCCASION = {
+  wedding:["decorators","makeup","photographers","caterers"],
+  sangeet:["choreographers","hosts","decorators","djs"],
+  mehendi:["mehendi","decorators","photographers"],
+  birthday:["decorators","photographers","caterers"],
+  bachelor:["djs","decorators","photographers"],
+  babyshower:["decorators","photographers","caterers"],
+  bridalshower:["decorators","makeup","photographers"],
+  anniversary:["decorators","photographers","caterers"],
+  graduation:["photographers","decorators","djs"],
+  housewarming:["decorators","caterers","photographers"],
+  halloween:["decorators","djs","photographers"],
+  christmas:["decorators","caterers","djs"],
+  corporate:["hosts","caterers","photographers"],
+  prewedding:["photographers","makeup"]
+};
+function conciergeParse(q){
+  const t = q.toLowerCase();
+  let occasion = null;
+  for(const o of OCCASIONS){
+    if(t.includes(o.name.toLowerCase()) || t.includes(o.id)) { occasion = o.id; break; }
+  }
+  if(!occasion){
+    if(t.includes("mehndi")) occasion="mehendi";
+    else if(t.includes("shaadi")||t.includes("marriage")) occasion="wedding";
+    else if(t.includes("party")&&t.includes("dance")) occasion="sangeet";
+  }
+  let city = null;
+  for(const c of CITIES){ if(t.includes(c.toLowerCase())){ city = c; break; } }
+  let budget=null, bcur="$";
+  let m = t.match(/₹\s?([\d,]+)/) || t.match(/([\d,]+)\s?(₹|rs\.?|rupees)/) || t.match(/rs\.?\s?([\d,]+)/);
+  if(m){ budget = parseInt(m[1].replace(/,/g,"")); bcur="₹"; }
+  else { m = t.match(/\$\s?([\d,]+)/) || t.match(/([\d,]+)\s?(dollars|usd|bucks)/); if(m) budget = parseInt(m[1].replace(/,/g,"")); }
+  if(!budget){
+    m = t.match(/(?:budget|under|within|around|approx\.?)\s+([\d,]+)/);
+    if(m){ budget = parseInt(m[1].replace(/,/g,""));
+      bcur = (city && ["Hyderabad","Chennai","Bangalore"].includes(city)) ? "₹" : "$"; }
+  }
+  const g = t.match(/(\d+)\s*(guests|people|pax)/);
+  return { occasion: occasion||"wedding", city, budget, bcur, guests: g?parseInt(g[1]):null, raw:q };
+}
+function pickVendor(catId, p){
+  const occ = p.occasion;
+  let cands = allVendors().filter(v=>v.cat===catId && v.occ.includes(occ));
+  if(!cands.length) cands = allVendors().filter(v=>v.cat===catId);
+  const scored = cands.map(v=>{
+    let s = v.rating*2 + (v.verified?1:0) + (v.newcomer?0.6:0);
+    if(p.city && v.city===p.city) s += 3;
+    else if(p.city){
+      const vIn = v.country==="India", cIn = ["Hyderabad","Chennai","Bangalore"].includes(p.city);
+      if(vIn===cIn) s += 1;
+    }
+    if(p.budget){
+      const pusd = priceUSD(v), busd = p.bcur==="₹" ? p.budget/83 : p.budget;
+      const share = busd / TEAM_BY_OCCASION[p.occasion].length;
+      if(pusd <= share*1.8) s += 1.5; else s -= 2;
+    }
+    return {v, s};
+  }).sort((a,b)=>b.s-a.s);
+  // ensure a newcomer gets surfaced when affordable
+  const top = scored[0];
+  const newcomerAlt = scored.find(x=>x.v.newcomer && (!p.budget || priceUSD(x.v) <= (p.bcur==="₹"?p.budget/83:p.budget)/TEAM_BY_OCCASION[p.occasion].length*1.8));
+  if(newcomerAlt && top && !top.v.newcomer && (top.s - newcomerAlt.s) < 1.2) return newcomerAlt.v;
+  return top ? top.v : null;
+}
+function recommendTeam(p){
+  const cats = TEAM_BY_OCCASION[p.occasion] || ["decorators","photographers","makeup","djs"];
+  const team = [];
+  for(const c of cats){ const v = pickVendor(c, Object.assign({},p,{occasion:p.occasion})); if(v && !team.find(x=>x.id===v.id)) team.push(v); }
+  const totalUSD = team.reduce((a,v)=>a+priceUSD(v),0);
+  const cur = p.bcur || "$";
+  const total = cur==="₹" ? Math.round(totalUSD*83) : Math.round(totalUSD);
+  return { team, total, cur, cats };
+}
+function recommendTeamStrict(p){
+  // Budget-freeze mode: every pick must keep the running total inside the frozen budget.
+  const cats = TEAM_BY_OCCASION[p.occasion] || ["decorators","photographers","makeup","djs"];
+  const budgetUSD = (p.bcur==="₹" ? p.budget/83 : p.budget);
+  let remaining = budgetUSD;
+  const team = [], skipped = [];
+  cats.forEach((c, idx)=>{
+    const share = remaining / (cats.length - idx);
+    let cands = allVendors().filter(v=>v.cat===c && v.occ.includes(p.occasion));
+    if(!cands.length) cands = allVendors().filter(v=>v.cat===c);
+    const inRegion = v => {
+      if(!p.city) return v.country === (p.bcur==="₹" ? "India" : "USA");
+      if(v.city===p.city) return true;
+      const vIn = v.country==="India", cIn = ["Hyderabad","Chennai","Bangalore"].includes(p.city);
+      return vIn===cIn;
+    };
+    const affordable = cands.filter(v=>priceUSD(v) <= share*1.15)
+      .sort((a,b)=>((inRegion(b)?1:0)-(inRegion(a)?1:0)) || ((b.newcomer?1:0)-(a.newcomer?1:0)) || (b.rating-a.rating) || (priceUSD(a)-priceUSD(b)));
+    let pick = affordable[0];
+    if(!pick){
+      const cheapest = cands.slice().sort((a,b)=>priceUSD(a)-priceUSD(b))[0];
+      if(cheapest && priceUSD(cheapest) <= remaining) pick = cheapest;
+    }
+    if(pick){ team.push(pick); remaining -= priceUSD(pick); }
+    else skipped.push(catName(c));
+  });
+  const totalUSD = budgetUSD - remaining;
+  const cur = p.bcur || "$";
+  return { team, total: cur==="₹" ? Math.round(totalUSD*83) : Math.round(totalUSD), cur, skipped };
+}
+function conciergeHTML(){
+  return `<div class="bg-white/10 backdrop-blur-xl border border-white/25 rounded-3xl p-6 sm:p-8 shadow-lift">
+    <div class="flex items-center gap-2 mb-1">
+      <span class="text-gold-light text-xl">✦</span>
+      <h3 class="font-display text-xl sm:text-2xl text-ivory font-semibold">Ask the Utsav concierge</h3>
+    </div>
+    <p class="text-ivory/70 text-sm mb-4">Describe your celebration in plain words — get a vendor team matched to your occasion, city & budget.</p>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <input id="concierge-input" class="flex-1 rounded-full px-5 py-3.5 bg-white/95 text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-gold" placeholder='Try: "sangeet for 80 people in Houston next month, budget $3000"'>
+      <button onclick="runConcierge()" class="btn-gold whitespace-nowrap">✦ Plan it for me</button>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-4">
+      ${["Sangeet in Houston under $2000","Mehendi artist in Bay Area","Birthday decorator in Dallas","DJ in Boston","Budget makeup in Houston"].map(c=>`<button onclick="conciergeChip('${c}')" class="text-xs font-medium text-ivory/85 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full px-3.5 py-1.5 transition">${c}</button>`).join("")}
+    </div>
+    <div id="concierge-result" class="mt-5"></div>
+  </div>`;
+}
+function conciergeChip(c){ document.getElementById("concierge-input").value = c; runConcierge(); }
+function runConcierge(){
+  const q = document.getElementById("concierge-input").value.trim();
+  const box = document.getElementById("concierge-result");
+  if(!q){ box.innerHTML = `<p class="text-ivory/80 text-sm">Tell me about your celebration first — occasion, city, and budget help me match you best.</p>`; return; }
+  const p = conciergeParse(q);
+  const fz = frozenGet();
+  let strict = false, res;
+  if(fz){
+    p.budget = fz.amount; p.bcur = fz.cur; if(fz.occasion) p.occasion = fz.occasion; strict = true;
+    res = recommendTeamStrict(p);
+  } else {
+    res = recommendTeam(p);
+  }
+  const { team, total, cur } = res;
+  const detected = [];
+  detected.push(`<span class="badge !bg-white/15 !text-ivory !border-white/25">${occName(p.occasion)}</span>`);
+  if(p.city) detected.push(`<span class="badge !bg-white/15 !text-ivory !border-white/25">📍 ${p.city}</span>`);
+  if(p.budget) detected.push(`<span class="badge !bg-white/15 !text-ivory !border-white/25">Budget ${fmtPrice(p.bcur,p.budget)}</span>`);
+  if(p.guests) detected.push(`<span class="badge !bg-white/15 !text-ivory !border-white/25">${p.guests} guests</span>`);
+  box.innerHTML = `
+  <div class="bg-ivory rounded-2xl p-5 sm:p-6 text-ink" style="animation:toastIn .4s ease">
+    <div class="flex flex-wrap items-center gap-2 mb-1"><span class="text-xs font-bold uppercase tracking-widest text-muted">Matched for you</span>${detected.join("")}</div>
+    <h4 class="font-display text-2xl font-semibold text-maroon mb-1">Your celebration team</h4>
+    <p class="text-sm text-muted mb-4">Estimated starting total: <b class="text-maroon font-display text-xl">${fmtPrice(cur,total)}</b>
+    ${strict?`<span class="text-xs">of <b>${fmtPrice(cur,p.budget)}</b> frozen ❄ · <b class="text-green-700">${fmtPrice(cur,Math.max(0,p.budget-total))}</b> headroom</span>`:`<span class="text-xs">(starting prices — final quote confirmed with each vendor)</span>`}</p>
+    ${strict && res.skipped.length?`<p class="text-xs text-muted mb-4 bg-gold-pale border border-gold-light rounded-lg px-3 py-2">Skipped to protect your budget: ${res.skipped.join(", ")} — ask the concierge for a smaller occasion or raise the freeze.</p>`:""}
+    <div class="grid sm:grid-cols-2 gap-3 mb-5">
+      ${team.map(v=>`
+        <div class="flex items-center gap-3 bg-white border border-cream rounded-xl p-3">
+          <img src="${coverImg(v)}" class="w-14 h-14 rounded-lg object-cover" alt="">
+          <div class="flex-1 min-w-0">
+            <div class="font-semibold text-sm truncate">${esc(v.name)}</div>
+            <div class="text-xs text-muted">${catName(v.cat)} · ${stars(v.rating)} ${v.rating.toFixed(1)}</div>
+            <div class="text-xs font-bold text-maroon">from ${fmtPrice(v.cur,v.price)}</div>
+          </div>
+          <a href="#/vendor/${v.id}" class="btn-outline btn-sm !py-1.5 !px-3 text-xs">View</a>
+        </div>`).join("")}
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <button onclick='addTeamMany(${JSON.stringify(team.map(v=>v.id))})' class="btn-primary btn-sm">＋ Add team to My Team</button>
+      <a href="#/browse?occasion=${p.occasion}${p.city?`&city=${encodeURIComponent(p.city)}`:""}" class="btn-outline btn-sm">Browse all ${occName(p.occasion)} vendors</a>
+    </div>
+  </div>`;
+  box.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+function addTeamMany(ids){
+  let t = teamGet();
+  ids.forEach(id=>{ if(!t.includes(id)) t.push(id); });
+  store.set("utsav_team", t); updateTeamBadge();
+  toast("Team saved — open My Team to compare slots");
+}
+</script>
+
+<script>
+/* ═══════════ BUDGET FREEZE (two-sided) ═══════════ */
+const frozenGet = () => store.get("utsav_frozen", null);
+const frozenUSD = () => { const f = frozenGet(); return f ? (f.cur==="₹" ? f.amount/83 : f.amount) : null; };
+function freezeSet(amount, cur, guests, occasion){
+  store.set("utsav_frozen", { amount, cur, guests, occasion });
+  updateFreezePill(); toast("Budget frozen — results now respect it");
+  if(location.hash.startsWith("#/browse") || location.hash==="#/" || location.hash==="") navigate(false);
+}
+function freezeClear(){
+  localStorage.removeItem("utsav_frozen"); updateFreezePill(); toast("Budget unfrozen");
+  if(location.hash.startsWith("#/browse") || location.hash==="#/" || location.hash==="") navigate(false);
+}
+function updateFreezePill(){
+  const el = document.getElementById("freeze-pill");
+  if(!el) return;
+  const f = frozenGet();
+  if(!f){ el.innerHTML = ""; return; }
+  el.innerHTML = `<button onclick="openFreezeModal()" class="badge !text-[.72rem] !py-2 !px-3.5 bg-maroon text-gold-light border border-gold/50 hover:bg-maroon-dark transition" title="Edit frozen budget">❄ ${fmtPrice(f.cur,f.amount)} frozen</button>`;
+}
+function openFreezeModal(){
+  const f = frozenGet() || { amount:"", cur:"$", guests:"", occasion:"" };
+  openModal(`
+  <div class="p-7 sm:p-9">
+    <div class="flex items-start justify-between mb-1">
+      <h3 class="font-display text-3xl font-semibold text-maroon">❄ Freeze your budget</h3>
+      <button onclick="closeModal()" class="text-3xl text-muted hover:text-maroon leading-none">×</button>
+    </div>
+    <p class="text-muted text-sm mb-6">Set your total celebration budget once. Every search result, filter, and AI team is built strictly inside it. Proof over promises.</p>
+    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+      <div><label class="lbl">Total budget</label><input id="fz-amount" type="number" min="1" class="field" placeholder="3000" value="${f.amount||""}"></div>
+      <div><label class="lbl">Currency</label><select id="fz-cur" class="field"><option value="$" ${f.cur==="$"?"selected":""}>USD ($)</option><option value="₹" ${f.cur==="₹"?"selected":""}>INR (₹)</option></select></div>
+      <div><label class="lbl">Guests (optional)</label><input id="fz-guests" type="number" min="1" class="field" placeholder="80" value="${f.guests||""}"></div>
+      <div><label class="lbl">Occasion</label><select id="fz-occ" class="field">${OCCASIONS.map(o=>`<option value="${o.id}" ${f.occasion===o.id?"selected":""}>${o.name}</option>`).join("")}</select></div>
+    </div>
+    <div class="flex flex-wrap gap-3 mt-6">
+      <button onclick="doFreeze()" class="btn-primary flex-1 justify-center">❄ Freeze this budget</button>
+      ${frozenGet()?`<button onclick="freezeClear();closeModal();" class="btn-outline">Unfreeze</button>`:""}
+    </div>
+  </div>`);
+}
+function doFreeze(){
+  const amount = parseFloat(document.getElementById("fz-amount").value);
+  if(!amount || amount<=0){ toast("Enter a budget amount first"); return; }
+  const cur = document.getElementById("fz-cur").value;
+  const guests = parseInt(document.getElementById("fz-guests").value)||null;
+  const occasion = document.getElementById("fz-occ").value;
+  closeModal(); freezeSet(amount, cur, guests, occasion);
+}
+
+/* ---------- budget-tagged portfolio ---------- */
+/* per-vendor portfolio budgets, aligned with SEED_VENDORS port[] order: {b: budget, g: guests, l: label} */
+const PORTFOLIO_BUDGETS = {
+  meera:[{b:1800,g:150,l:"Mandap setup"},{b:2400,g:200,l:"Full stage floral"},{b:1500,g:120,l:"Mandap canopy detail"},{b:900,g:100,l:"Reception tables"},{b:1200,g:180,l:"Sangeet stage"}],
+  priya:[{b:350,g:1,l:"Bridal trial look"},{b:350,g:1,l:"Wedding day glam"},{b:120,g:1,l:"Party makeup"}],
+  aisha:[{b:220,g:1,l:"Bridal henna"},{b:80,g:1,l:"Party henna design"}],
+  lens:[{b:1500,g:200,l:"Full-day wedding"},{b:600,g:2,l:"Pre-wedding shoot"},{b:600,g:2,l:"Bridal portraits"}],
+  natya:[{b:240,g:15,l:"Family medley"},{b:240,g:20,l:"Sangeet rehearsal"}],
+  arjun:[{b:400,g:150,l:"Sangeet hosting"},{b:400,g:200,l:"Reception stage"}],
+  everafter:[{b:600,g:80,l:"Backyard wedding"},{b:350,g:60,l:"Table styling"},{b:450,g:40,l:"Birthday setup"}],
+  glowcraft:[{b:180,g:1,l:"Airbrush bridal"},{b:180,g:1,l:"Engagement look"}],
+  shubh:[{b:45000,g:300,l:"Grand mandap"},{b:25000,g:200,l:"Mandap detail"},{b:60000,g:400,l:"Stage + florals"}],
+  kaya:[{b:8000,g:1,l:"HD bridal look"},{b:8000,g:1,l:"Muhurtham glam"}],
+  ritu:[{b:2100,g:1,l:"Bridal henna set"},{b:500,g:1,l:"Party henna"}],
+  karthik:[{b:15000,g:250,l:"Wedding + drone"},{b:9000,g:2,l:"Pre-wedding shoot"}],
+  dhoom:[{b:5000,g:25,l:"Family sangeet"},{b:5000,g:30,l:"Stage rehearsal"}],
+  divya:[{b:7000,g:200,l:"Sangeet anchoring"}],
+  petals:[{b:9000,g:50,l:"Birthday setup"},{b:12000,g:60,l:"Seemantham table"}],
+  marcus:[{b:500,g:150,l:"Wedding DJ set"},{b:350,g:120,l:"Sangeet night"}],
+  confetti:[{b:600,g:40,l:"Birthday install"},{b:350,g:30,l:"Balloon garland"}],
+  hudson:[{b:900,g:100,l:"Wedding buffet"},{b:900,g:120,l:"Gala dinner"}],
+  wicked:[{b:300,g:30,l:"Porch haunt"},{b:500,g:80,l:"Stage build"}]
+};
+function portItems(v){
+  const meta = PORTFOLIO_BUDGETS[v.id] || [];
+  return v.port.map((p,i)=>{
+    if(p && typeof p === "object") return p;
+    const m = meta[i] || {};
+    return { img:p, budget:(m.b!=null?m.b:null), guests:(m.g!=null?m.g:null), label:m.l||"" };
+  });
+}
+function worksWithin(v){
+  const bs = portItems(v).map(p=>p.budget).filter(b=>b!=null);
+  if(!bs.length) return null;
+  return { min:Math.min.apply(null,bs), max:Math.max.apply(null,bs), cur:v.cur };
+}
+function budgetTagHTML(v, item){
+  if(item.budget==null) return "";
+  const g = item.guests ? ` · ${item.guests} guest${item.guests>1?"s":""}` : "";
+  return `<span class="absolute bottom-2 left-2 badge !bg-maroon-deep/85 !text-gold-light !border-0 backdrop-blur">❄ ${fmtPrice(v.cur,item.budget)}${g}</span>`;
+}
+
+/* ═══════════ HOME ═══════════ */
+function HomeView(){
+  const newcomers = allVendors().filter(v=>v.newcomer).slice(0,8);
+  const featuredOcc = ["sangeet","halloween","mehendi","birthday","wedding","christmas","prewedding","corporate"].map(id=>OCCASIONS.find(o=>o.id===id));
+  const fz = frozenGet();
+  return `
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0"><img src="images/hero.jpg" alt="" class="w-full h-full object-cover"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-maroon-deep/80 via-maroon-deep/55 to-maroon-deep/85"></div>
+    <div class="absolute inset-0 hero-pattern opacity-40"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-14">
+      <div class="max-w-3xl reveal revealed">
+        <p class="text-gold-light font-semibold tracking-[.25em] text-xs uppercase mb-4">✦ The celebration marketplace</p>
+        <h1 class="font-display text-5xl sm:text-7xl font-semibold text-ivory leading-[1.02] tracking-tight">Every celebration,<br><em class="text-gold-light">one app.</em></h1>
+        <p class="text-ivory/80 text-lg mt-5 max-w-xl leading-relaxed">From sangeet to Halloween — book verified decorators, artists, photographers, DJs & caterers. Indian, American, and everything in between, at prices that respect your budget.</p>
+      </div>
+      <div class="mt-8 max-w-3xl reveal revealed reveal-d1">${conciergeHTML()}</div>
+      <div class="flex flex-wrap gap-x-10 gap-y-4 mt-10 reveal revealed reveal-d2">
+        ${[["8","Cities & counting"],["8","Vendor categories"],["14","Occasions covered"],["100%","Verified profiles"]].map(s=>`
+          <div><div class="font-display text-4xl font-semibold text-gold-light"><span class="counter" data-to="${s[0]}">0</span>${s[0]==="100%"?"":""}</div>
+          <div class="text-ivory/60 text-sm mt-1">${s[1]}</div></div>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- BUDGET FREEZE BAND -->
+  <section class="bg-maroon border-y border-gold/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row items-start lg:items-center gap-6">
+      <div class="flex-1 reveal">
+        <h2 class="font-display text-2xl sm:text-3xl text-ivory font-semibold">❄ Freeze your budget. We do the rest.</h2>
+        <p class="text-ivory/70 mt-2 max-w-2xl">Set your total once — every search, filter, and AI-built team stays strictly inside it. Vendors prove their prices with budget-tagged past work, not promises.</p>
+      </div>
+      <div class="reveal reveal-d1 w-full lg:w-auto">
+        ${fz ? `
+        <div class="bg-ivory rounded-2xl px-6 py-4 flex items-center gap-4 flex-wrap">
+          <div><div class="text-xs uppercase tracking-widest text-muted font-bold">Frozen budget</div>
+          <div class="font-display text-3xl font-semibold text-maroon">${fmtPrice(fz.cur,fz.amount)}</div>
+          <div class="text-xs text-muted">${fz.guests?fz.guests+" guests · ":""}${occName(fz.occasion)}</div></div>
+          <button onclick="openFreezeModal()" class="btn-outline btn-sm">Edit</button>
+          <button onclick="freezeClear()" class="text-sm text-muted underline hover:text-maroon">Unfreeze</button>
+        </div>` : `
+        <button onclick="openFreezeModal()" class="btn-gold text-lg !px-8 !py-4">❄ Freeze my budget</button>`}
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-16">
+    <div class="flex items-end justify-between mb-8 reveal">
+      <div><p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Browse by craft</p>
+      <h2 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">Who do you need?</h2></div>
+      <a href="#/browse" class="hidden sm:inline-flex btn-outline btn-sm">View all vendors →</a>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      ${CATEGORIES.map((c,i)=>`
+      <a href="#/browse?cat=${c.id}" class="card reveal ${i%4===1?'reveal-d1':i%4===2?'reveal-d2':i%4===3?'reveal-d3':''} group">
+        <div class="relative h-40 sm:h-48 overflow-hidden">
+          <img src="${c.img}" alt="${c.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-maroon-deep/60 to-transparent"></div>
+        </div>
+        <div class="p-4"><h3 class="font-display text-lg font-semibold text-maroon">${c.name}</h3><p class="text-sm text-muted">${c.blurb}</p></div>
+      </a>`).join("")}
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-20">
+    <div class="text-center mb-10 reveal"><p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Simple by design</p>
+    <h2 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">How Utsav works</h2></div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-8 reveal">
+        <h3 class="font-display text-2xl font-semibold text-maroon mb-6">For celebrations <span class="text-gold">✦</span></h3>
+        ${[["Tell us your occasion","Pick from 14 occasions — sangeet, Halloween, birthdays & beyond. Freeze your budget once.","1"],["Compare verified vendors","Real portfolios with real past-work budgets, ratings from real clients, transparent starting prices.","2"],["Book your slot","Pick a date & time that works. Instant confirmation, no endless quote-chasing.","3"]].map(s=>`
+        <div class="flex gap-4 mb-6 last:mb-0"><div class="step-num shrink-0">${s[2]}</div>
+        <div><h4 class="font-semibold text-lg">${s[0]}</h4><p class="text-muted text-sm mt-1 leading-relaxed">${s[1]}</p></div></div>`).join("")}
+      </div>
+      <div class="card p-8 reveal reveal-d1 !bg-maroon-deep !border-maroon-deep">
+        <h3 class="font-display text-2xl font-semibold text-gold-light mb-6">For vendors <span>✦</span></h3>
+        ${[["List free as a newcomer","New to the business? Your first listings are free. Show 2–3 past events with their budgets.","1"],["Prove it with budgets","Every portfolio photo carries what it actually cost. Clients trust proof, not promises.","2"],["Get discovered & booked","Appear in concierge teams, comparisons, and occasion collections. Collect ratings, raise prices.","3"]].map(s=>`
+        <div class="flex gap-4 mb-6 last:mb-0"><div class="step-num shrink-0 !bg-gold !text-maroon-deep">${s[2]}</div>
+        <div><h4 class="font-semibold text-lg text-ivory">${s[0]}</h4><p class="text-ivory/60 text-sm mt-1 leading-relaxed">${s[1]}</p></div></div>`).join("")}
+        <a href="#/onboard" class="btn-gold mt-6">List your business — it's free →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUDGET PICKS / NEWCOMERS -->
+  <section class="pt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-end justify-between mb-8 reveal">
+      <div><p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Newcomer spotlight</p>
+      <h2 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">Budget picks, <em class="text-gold">proven</em> work</h2>
+      <p class="text-muted mt-2 max-w-xl">Rising stars with 2–3 events behind them and honest prices. Every photo shows what it actually cost.</p></div>
+      <a href="#/browse?newcomer=1" class="hidden sm:inline-flex btn-outline btn-sm">All newcomers →</a>
+    </div>
+    <div class="max-w-7xl mx-auto pl-4 sm:pl-6"><div class="flex gap-5 overflow-x-auto pb-4 pr-4" style="scroll-snap-type:x mandatory">
+      ${newcomers.map(v=>`<div class="min-w-[300px] sm:min-w-[340px]" style="scroll-snap-align:start">${vendorCard(v)}</div>`).join("")}
+    </div></div>
+  </section>
+
+  <!-- OCCASION COLLECTIONS -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-20">
+    <div class="flex items-end justify-between mb-8 reveal">
+      <div><p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Start from the moment</p>
+      <h2 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">Occasion collections</h2></div>
+      <a href="#/occasions" class="hidden sm:inline-flex btn-outline btn-sm">All 14 occasions →</a>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      ${featuredOcc.map((o,i)=>`
+      <a href="#/browse?occasion=${o.id}" class="card reveal ${i%4===1?'reveal-d1':i%4===2?'reveal-d2':i%4===3?'reveal-d3':''} group">
+        <div class="relative h-44 sm:h-56 overflow-hidden">
+          <img src="${o.img}" alt="${o.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-maroon-deep/75 via-maroon-deep/10 to-transparent"></div>
+          <div class="absolute bottom-0 p-4"><h3 class="font-display text-xl font-semibold text-ivory">${o.name}</h3>
+          <span class="text-gold-light text-sm font-medium">Find vendors →</span></div>
+        </div>
+      </a>`).join("")}
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS MARQUEE -->
+  <section class="pt-20 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 reveal text-center">
+      <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Loved across celebrations</p>
+      <h2 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">Families trust Utsav</h2>
+    </div>
+    <div class="relative">
+      <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-ivory to-transparent z-10"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-ivory to-transparent z-10"></div>
+      <div class="marquee-track py-2">
+        ${TESTIMONIALS.concat(TESTIMONIALS).map(t=>`
+        <div class="card !rounded-2xl p-6 w-[340px] shrink-0">
+          <div class="stars mb-3">★★★★★</div>
+          <p class="text-[.95rem] leading-relaxed text-ink/90">“${t.text}”</p>
+          <div class="mt-4 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background:${avatarBg(t.name)}">${initials(t.name)}</span>
+            <div><div class="font-semibold text-sm">${t.name}</div><div class="text-xs text-muted">${t.role}</div></div>
+          </div>
+        </div>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- VENDOR CTA -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-20">
+    <div class="reveal relative overflow-hidden rounded-[2rem] bg-maroon-deep">
+      <div class="absolute inset-0 hero-pattern opacity-30"></div>
+      <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-gold/20 blur-3xl"></div>
+      <div class="relative p-10 sm:p-14 lg:flex items-center gap-10">
+        <div class="flex-1">
+          <p class="text-gold-light font-bold tracking-[.2em] text-xs uppercase mb-3">For vendors</p>
+          <h2 class="font-display text-4xl sm:text-5xl font-semibold text-ivory tracking-tight leading-tight">Done 2–3 events?<br>Your next 20 start here.</h2>
+          <p class="text-ivory/70 mt-4 max-w-lg leading-relaxed">List free as a newcomer. Tag every portfolio photo with what it actually cost — clients book proof, not promises. Collect ratings, get discovered by the concierge, raise your prices as you grow.</p>
+          <div class="flex flex-wrap gap-4 mt-8">
+            <a href="#/onboard" class="btn-gold">List your business — free →</a>
+            <a href="#/browse?newcomer=1" class="btn-outline !border-gold-light !text-gold-light hover:!bg-gold-light hover:!text-maroon-deep">See newcomer spotlight</a>
+          </div>
+        </div>
+        <div class="hidden lg:block w-80 shrink-0"><img src="images/port-sangeet.jpg" alt="" class="rounded-2xl shadow-lift rotate-2"></div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ═══════════ BROWSE ═══════════ */
+function parseHashQuery(){
+  const h = location.hash;
+  const q = {};
+  const qi = h.indexOf("?");
+  if(qi>0) h.slice(qi+1).split("&").forEach(p=>{ const [k,v]=p.split("="); q[decodeURIComponent(k)]=decodeURIComponent(v||""); });
+  return q;
+}
+function BrowseView(){
+  const q = parseHashQuery();
+  const fz = frozenGet();
+  const f = {
+    cat:q.cat||"", city:q.city||"", occasion:q.occasion||"", text:q.q||"",
+    max:q.max?parseFloat(q.max):(fz?Math.round(frozenUSD()):""),
+    minRating:q.minRating?parseFloat(q.minRating):0,
+    verified:q.verified==="1", newcomer:q.newcomer==="1",
+    sort:q.sort||"recommended"
+  };
+  return `
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
+    <div class="reveal revealed">
+      <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">The directory</p>
+      <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">Find your vendors</h1>
+      ${fz?`<div class="mt-3 inline-flex items-center gap-3 bg-maroon-deep text-ivory rounded-full pl-4 pr-2 py-1.5 text-sm">
+        <span>❄ Budget frozen: <b class="text-gold-light">${fmtPrice(fz.cur,fz.amount)}</b>${fz.guests?` · ${fz.guests} guests`:""} · ${occName(fz.occasion)}</span>
+        <button onclick="openFreezeModal()" class="underline text-gold-light text-xs">edit</button>
+        <button onclick="freezeClear()" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-sm">×</button>
+      </div>`:`<button onclick="openFreezeModal()" class="mt-3 btn-outline btn-sm">❄ Freeze a budget to filter by it</button>`}
+    </div>
+    <div class="grid lg:grid-cols-[280px_1fr] gap-8 mt-8 items-start">
+      <aside class="card p-6 lg:sticky lg:top-24 reveal revealed">
+        <div class="flex items-center justify-between mb-4"><h3 class="font-display text-xl font-semibold text-maroon">Filters</h3><button onclick="location.hash='#/browse'" class="text-xs text-muted underline">Clear all</button></div>
+        <label class="lbl">Search</label>
+        <input id="f-text" class="field mb-4" placeholder="Name, style, keyword…" value="${esc(f.text)}" onkeydown="if(event.key==='Enter')applyFilters()">
+        <label class="lbl">Category</label>
+        <div class="flex flex-wrap gap-2 mb-4" id="f-cats">
+          <button data-cat="" class="filter-chip ${!f.cat?'active':''}" onclick="setFilter('cat','')">All</button>
+          ${CATEGORIES.map(c=>`<button data-cat="${c.id}" class="filter-chip ${f.cat===c.id?'active':''}" onclick="setFilter('cat','${c.id}')">${c.name}</button>`).join("")}
+        </div>
+        <label class="lbl">City</label>
+        <select id="f-city" class="field mb-4" onchange="setFilter('city',this.value)">
+          <option value="">All cities</option>${CITIES.map(c=>`<option ${f.city===c?'selected':''}>${c}</option>`).join("")}
+        </select>
+        <label class="lbl">Occasion</label>
+        <select id="f-occ" class="field mb-4" onchange="setFilter('occasion',this.value)">
+          <option value="">All occasions</option>${OCCASIONS.map(o=>`<option value="${o.id}" ${f.occasion===o.id?'selected':''}>${o.name}</option>`).join("")}
+        </select>
+        <label class="lbl">Max budget <span class="text-gold font-bold" id="f-max-label">${f.max?"$"+Number(f.max).toLocaleString():"Any"}</span></label>
+        <input id="f-max" type="range" min="50" max="3000" step="50" value="${f.max||3000}" class="w-full mb-1" oninput="document.getElementById('f-max-label').textContent='$'+Number(this.value).toLocaleString()" onchange="setFilter('max',this.value)">
+        <p class="text-[11px] text-muted mb-4">USD equivalent · ${fz?"pre-filled from your frozen budget":"slide to set"}</p>
+        <label class="lbl">Minimum rating</label>
+        <select id="f-rating" class="field mb-4" onchange="setFilter('minRating',this.value)">
+          <option value="0">Any rating</option><option value="4.5" ${f.minRating===4.5?'selected':''}>4.5★ & up</option><option value="4.8" ${f.minRating===4.8?'selected':''}>4.8★ & up</option>
+        </select>
+        <label class="flex items-center gap-2.5 mb-2.5 cursor-pointer text-sm font-medium"><input type="checkbox" ${f.verified?'checked':''} onchange="setFilter('verified',this.checked?'1':'')" class="w-4 h-4 accent-[#6D1A2D]"> Verified only</label>
+        <label class="flex items-center gap-2.5 mb-5 cursor-pointer text-sm font-medium"><input type="checkbox" ${f.newcomer?'checked':''} onchange="setFilter('newcomer',this.checked?'1':'')" class="w-4 h-4 accent-[#6D1A2D]"> ✦ Newcomer budget picks</label>
+        <label class="lbl">Sort by</label>
+        <select id="f-sort" class="field" onchange="setFilter('sort',this.value)">
+          <option value="recommended" ${f.sort==='recommended'?'selected':''}>Recommended</option>
+          <option value="price" ${f.sort==='price'?'selected':''}>Price: low to high</option>
+          <option value="rating" ${f.sort==='rating'?'selected':''}>Highest rated</option>
+          <option value="reviews" ${f.sort==='reviews'?'selected':''}>Most reviewed</option>
+        </select>
+      </aside>
+      <div>
+        <div id="browse-results" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+      </div>
+    </div>
+  </section>`;
+}
+function currentFilters(){
+  const q = parseHashQuery();
+  const fz = frozenGet();
+  return {
+    cat:q.cat||"", city:q.city||"", occasion:q.occasion||"", text:(q.q||"").toLowerCase(),
+    max:q.max?parseFloat(q.max):(fz?frozenUSD():null),
+    minRating:q.minRating?parseFloat(q.minRating):0,
+    verified:q.verified==="1", newcomer:q.newcomer==="1", sort:q.sort||"recommended"
+  };
+}
+function filteredVendors(){
+  const f = currentFilters();
+  let list = allVendors().slice();
+  if(f.cat) list = list.filter(v=>v.cat===f.cat);
+  if(f.city) list = list.filter(v=>v.city===f.city);
+  if(f.occasion) list = list.filter(v=>v.occ.includes(f.occasion));
+  if(f.text) list = list.filter(v=>(v.name+" "+v.tag+" "+v.bio+" "+catName(v.cat)).toLowerCase().includes(f.text));
+  const preBudget = list.length;
+  if(f.max) list = list.filter(v=>priceUSD(v)<=f.max);
+  const hiddenByBudget = preBudget - list.length;
+  if(f.minRating) list = list.filter(v=>v.rating>=f.minRating);
+  if(f.verified) list = list.filter(v=>v.verified);
+  if(f.newcomer) list = list.filter(v=>v.newcomer);
+  const sorts = {
+    recommended:(a,b)=>(b.verified-a.verified)||(b.rating-a.rating)||(a.rc-b.rc),
+    price:(a,b)=>priceUSD(a)-priceUSD(b),
+    rating:(a,b)=>b.rating-a.rating,
+    reviews:(a,b)=>b.rc-a.rc
+  };
+  list.sort(sorts[f.sort]||sorts.recommended);
+  return { list, hiddenByBudget, max:f.max };
+}
+function renderBrowseResults(){
+  const { list, hiddenByBudget, max } = filteredVendors();
+  const el = document.getElementById("browse-results");
+  if(!el) return;
+  let notice = "";
+  if(hiddenByBudget>0) notice = `<div class="col-span-full bg-gold-pale border border-gold-light rounded-xl px-4 py-3 text-sm text-maroon">❄ ${hiddenByBudget} vendor${hiddenByBudget>1?"s":""} hidden — over your ${max?"$"+Number(max).toLocaleString():""} budget. <button class="underline font-semibold" onclick="setFilter('max','')">Show all</button></div>`;
+  el.innerHTML = notice + (list.length
+    ? list.map(vendorCard).join("")
+    : `<div class="col-span-full card p-12 text-center"><h3 class="font-display text-2xl text-maroon mb-2">No vendors match — yet</h3><p class="text-muted mb-6">Try widening the budget or clearing a filter.</p><button onclick="location.hash='#/browse'" class="btn-primary btn-sm">Clear filters</button></div>`);
+  initReveals();
+}
+function setFilter(k, v){
+  const q = parseHashQuery();
+  if(k==="cat" && v==="") delete q.cat;
+  if(v===""||v==null||v==="0"&&k==="minRating") delete q[k]; else q[k]=v;
+  if(k==="max" && !v) delete q.max;
+  const qs = Object.keys(q).map(key=>key+"="+encodeURIComponent(q[key])).join("&");
+  location.hash = "#/browse" + (qs?"?"+qs:"");
+}
+function applyFilters(){
+  const t = document.getElementById("f-text").value;
+  setFilter("q", t);
+}
+</script>
+
+<script>
+/* ═══════════ VENDOR PROFILE ═══════════ */
+let profileTab = "portfolio", profileSlot = null;
+function VendorView(id){
+  const v = vendorById(id);
+  if(!v) return `<section class="max-w-3xl mx-auto px-4 py-20 text-center"><h1 class="font-display text-4xl text-maroon mb-4">Vendor not found</h1><a href="#/browse" class="btn-primary">Back to browse</a></section>`;
+  profileSlot = null;
+  const ww = worksWithin(v);
+  const revs = vendorReviews(v);
+  const rating = vendorRating(v);
+  const dist = [5,4,3,2,1].map(s=>({s, n: revs.filter(r=>r.rating===s).length}));
+  const collabs = (v.collab||[]).map(vendorById).filter(Boolean);
+  return `
+  <section class="relative">
+    <div class="h-64 sm:h-80 overflow-hidden relative">
+      <img src="${portItems(v)[0].img}" class="w-full h-full object-cover" alt="">
+      <div class="absolute inset-0 bg-gradient-to-t from-maroon-deep via-maroon-deep/40 to-transparent"></div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="relative -mt-20 sm:-mt-24 flex flex-col sm:flex-row sm:items-end gap-5 reveal revealed">
+        <span class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl flex items-center justify-center text-ivory font-display text-4xl font-semibold shadow-lift border-4 border-ivory shrink-0" style="background:${avatarBg(v.name)}">${initials(v.name)}</span>
+        <div class="flex-1 pb-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="badge badge-cat">${catName(v.cat)}</span>
+            ${v.verified?`<span class="badge badge-verified">✓ Verified</span>`:""}
+            ${v.newcomer?`<span class="badge badge-newcomer">✦ Newcomer · Budget pick</span>`:""}
+          </div>
+          <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">${esc(v.name)}</h1>
+          <p class="text-muted mt-1">📍 ${esc(v.city)}, ${esc(v.country)} · <span class="italic font-display">“${esc(v.tag)}”</span></p>
+        </div>
+        <div class="flex gap-2 pb-1">
+          <button onclick="teamToggle('${v.id}')" class="btn-outline btn-sm">${teamHas(v.id)?"✓ In your team":"+ Add to team"}</button>
+          <button onclick="openBooking('${v.id}')" class="btn-primary btn-sm">Book now</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-6 mt-6 pb-6 border-b border-cream flex-wrap">
+        <div class="flex items-center gap-2">${stars(rating)}<b class="text-xl">${rating.toFixed(1)}</b><span class="text-muted text-sm">(${v.rc + (revs.length-(v.revs||[]).length)} reviews)</span></div>
+        <div class="text-sm"><span class="text-muted">Starting at</span> <b class="font-display text-2xl text-maroon">${fmtPrice(v.cur,v.price)}</b></div>
+        ${ww?`<div class="text-sm"><span class="text-muted">❄ Works within</span> <b class="text-maroon">${fmtPrice(ww.cur,ww.min)}–${fmtPrice(ww.cur,ww.max)}</b> <span class="text-muted text-xs">(tagged past work)</span></div>`:""}
+        <div class="text-sm text-muted">🗣 ${v.langs.join(" · ")}</div>
+      </div>
+      <div class="flex gap-2 mt-6 overflow-x-auto pb-1" id="profile-tabs">
+        ${[["portfolio","Portfolio"],["services","Services & Pricing"],["availability","Availability"],["reviews","Reviews"],["about","About"]].map(t=>`<button class="tab-btn ${profileTab===t[0]?'active':''}" onclick="setProfileTab('${t[0]}','${v.id}')">${t[1]}</button>`).join("")}
+      </div>
+      <div id="profile-tab-body" class="py-8"></div>
+    </div>
+  </section>`;
+}
+function setProfileTab(t, id){ profileTab = t; renderProfileTab(id);
+  document.querySelectorAll("#profile-tabs .tab-btn").forEach(b=>b.classList.toggle("active", b.textContent.toLowerCase().includes(t==="services"?"services":t)));
+}
+function renderProfileTab(id){
+  const v = vendorById(id); const el = document.getElementById("profile-tab-body");
+  if(!v || !el) return;
+  if(profileTab==="portfolio"){
+    el.innerHTML = `<p class="text-sm text-muted mb-4">❄ Every photo is tagged with what it <b>actually cost</b> — proof over promises.</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      ${portItems(v).map((p,i)=>`
+      <button onclick="openLightbox('${v.id}',${i})" class="card !rounded-xl relative group text-left">
+        <div class="relative h-48 sm:h-56 overflow-hidden">
+          <img src="${p.img}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108" alt="${esc(p.label||v.name)}">
+          <div class="absolute inset-0 bg-gradient-to-t from-maroon-deep/50 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+          ${budgetTagHTML(v,p)}
+        </div>
+        ${p.label?`<div class="px-3 py-2 text-xs font-medium text-muted">${esc(p.label)}</div>`:""}
+      </button>`).join("")}
+    </div>`;
+  } else if(profileTab==="services"){
+    el.innerHTML = `<div class="grid md:grid-cols-2 gap-4">
+      ${v.services.map((s,i)=>`
+      <div class="card p-5 flex items-center justify-between gap-4">
+        <div><h4 class="font-semibold">${esc(s[0])}</h4><p class="text-xs text-muted mt-0.5">per ${s[2]}</p></div>
+        <div class="text-right shrink-0"><div class="font-display text-xl font-semibold text-maroon">${fmtPrice(v.cur,s[1])}</div>
+        <button onclick="openBooking('${v.id}',{service:${i}})" class="btn-primary btn-sm mt-1">Book</button></div>
+      </div>`).join("")}
+    </div>`;
+  } else if(profileTab==="availability"){
+    el.innerHTML = `<p class="text-sm text-muted mb-4">Free slots for the next 14 days. Pick one to start booking.</p>
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-4" id="avail-dates">
+      ${Array.from({length:14},(_,d)=>{const ds=dateStr(d+1);return `<button class="date-pill shrink-0" data-ds="${ds}" onclick="pickAvailDate('${v.id}','${ds}',this)"><div class="text-xs font-bold dp-sub text-muted">${new Date(ds+"T12:00:00").toLocaleDateString("en-US",{weekday:"short"})}</div><div class="font-display text-lg font-semibold">${new Date(ds+"T12:00:00").getDate()}</div></button>`;}).join("")}
+    </div>
+    <div id="avail-slots" class="grid grid-cols-2 sm:grid-cols-4 gap-3"><p class="text-muted text-sm col-span-full">← Choose a date above</p></div>`;
+  } else if(profileTab==="reviews"){
+    const revs = vendorReviews(v); const rating = vendorRating(v);
+    const dist = [5,4,3,2,1].map(s=>({s, n: revs.filter(r=>(r[1]!=null?r[1]:r.rating)===s).length}));
+    const mx = Math.max(1,...dist.map(d=>d.n));
+    el.innerHTML = `<div class="grid md:grid-cols-[300px_1fr] gap-8">
+      <div class="card p-6 h-fit">
+        <div class="font-display text-5xl font-semibold text-maroon">${rating.toFixed(1)}</div>
+        <div class="mt-1">${stars(rating)}</div><p class="text-sm text-muted mt-1">${revs.length} written reviews</p>
+        <div class="mt-4 space-y-1.5">${dist.map(d=>`<div class="flex items-center gap-2 text-xs"><span class="w-6">${d.s}★</span><div class="flex-1 h-2 bg-cream rounded-full"><div class="h-2 bg-gold rounded-full" style="width:${d.n/mx*100}%"></div></div><span class="w-6 text-muted">${d.n}</span></div>`).join("")}</div>
+      </div>
+      <div>
+        <div class="space-y-4 mb-8">${revs.map(r=>`
+          <div class="card p-5"><div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3"><span class="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background:${avatarBg(r[0])}">${initials(r[0])}</span>
+            <div><div class="font-semibold text-sm">${esc(r[0])}</div><div class="text-xs text-muted">${esc(r[2])}</div></div></div>
+            ${stars(r[1])}</div><p class="text-sm leading-relaxed">${esc(r[3])}</p></div>`).join("") || `<p class="text-muted">No reviews yet — be the first!</p>`}</div>
+        <div class="card p-6 !bg-cream/60"><h4 class="font-display text-xl font-semibold text-maroon mb-4">Write a review</h4>
+          <div class="grid sm:grid-cols-2 gap-4 mb-4">
+            <div><label class="lbl">Your name</label><input id="rv-name" class="field" placeholder="e.g., Ananya"></div>
+            <div><label class="lbl">Rating</label><select id="rv-rating" class="field"><option value="5">★★★★★ — Loved it</option><option value="4">★★★★ — Great</option><option value="3">★★★ — Good</option><option value="2">★★ — Okay</option><option value="1">★ — Not great</option></select></div>
+          </div>
+          <label class="lbl">Review</label><textarea id="rv-text" class="field mb-4" rows="3" placeholder="How was your experience?"></textarea>
+          <button onclick="submitReview('${v.id}')" class="btn-primary btn-sm">Post review</button>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    const collabs = (v.collab||[]).map(vendorById).filter(Boolean);
+    el.innerHTML = `<div class="grid md:grid-cols-2 gap-8">
+      <div><h4 class="font-display text-2xl font-semibold text-maroon mb-3">About</h4><p class="leading-relaxed text-ink/85">${esc(v.bio)}</p>
+        <div class="mt-5"><span class="lbl">Languages</span><div class="flex flex-wrap gap-2">${v.langs.map(l=>`<span class="filter-chip !cursor-default">${l}</span>`).join("")}</div></div>
+        <div class="mt-5"><span class="lbl">Occasions served</span><div class="flex flex-wrap gap-2">${v.occ.map(o=>`<a href="#/browse?occasion=${o}" class="filter-chip">${occName(o)}</a>`).join("")}</div></div>
+        <a href="https://instagram.com/${v.ig}" target="_blank" rel="noopener" class="btn-outline btn-sm mt-6">📸 @${esc(v.ig)}</a>
+        <p class="text-[11px] text-muted mt-2">Illustrative demo profile — not a real business.</p></div>
+      <div><h4 class="font-display text-2xl font-semibold text-maroon mb-3">Collaborates with</h4>
+        ${collabs.length?`<div class="space-y-3">${collabs.map(c=>`
+          <a href="#/vendor/${c.id}" class="card p-4 flex items-center gap-4">
+            <span class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold" style="background:${avatarBg(c.name)}">${initials(c.name)}</span>
+            <div class="flex-1"><div class="font-semibold">${esc(c.name)}</div><div class="text-xs text-muted">${catName(c.cat)} · ${stars(c.rating)} ${c.rating.toFixed(1)}</div></div>
+            <span class="text-gold text-xl">→</span></a>`).join("")}</div>
+        <p class="text-sm text-muted mt-3">Vendors vouch for each other — book the whole trusted crew.</p>`
+        :`<p class="text-muted text-sm">No collaborations listed yet.</p>`}</div>
+    </div>`;
+  }
+}
+function pickAvailDate(vid, ds, btn){
+  document.querySelectorAll("#avail-dates .date-pill").forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
+  const slots = slotsFor(vid, ds);
+  document.getElementById("avail-slots").innerHTML = slots.map(s=>`
+    <button class="slot" ${s.free?"": "disabled"} onclick="openBooking('${vid}',{date:'${ds}',slot:'${s.time}'})">${s.time}</button>`).join("");
+}
+function submitReview(vid){
+  const name = document.getElementById("rv-name").value.trim();
+  const rating = parseInt(document.getElementById("rv-rating").value);
+  const text = document.getElementById("rv-text").value.trim();
+  if(!name || !text){ toast("Add your name and a few words"); return; }
+  const all = store.get("utsav_reviews", {});
+  (all[vid] = all[vid] || []).push([name, rating, new Date().toLocaleDateString("en-US",{month:"short",year:"numeric"}), text]);
+  store.set("utsav_reviews", all);
+  toast("Review posted — thank you!");
+  renderProfileTab(vid);
+}
+/* lightbox */
+let lbState = null;
+function openLightbox(vid, idx){
+  const v = vendorById(vid); const items = portItems(v);
+  lbState = { vid, idx, n: items.length };
+  renderLightbox();
+}
+function renderLightbox(){
+  const v = vendorById(lbState.vid); const p = portItems(v)[lbState.idx];
+  openModal(`
+  <div class="relative bg-maroon-deep !rounded-3xl overflow-hidden">
+    <img src="${p.img}" class="lightbox-img w-full object-contain" alt="">
+    <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white text-2xl">×</button>
+    <button onclick="lbNav(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 text-white text-xl">‹</button>
+    <button onclick="lbNav(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 text-white text-xl">›</button>
+    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-between gap-3">
+      <div><div class="text-ivory font-semibold">${esc(p.label||v.name)}</div>
+      ${p.budget!=null?`<div class="text-gold-light text-sm font-semibold mt-0.5">❄ Executed at ${fmtPrice(v.cur,p.budget)}${p.guests?` · ${p.guests} guests`:""}</div>`:""}</div>
+      <div class="text-ivory/70 text-sm">${lbState.idx+1} / ${lbState.n}</div>
+    </div>
+  </div>`, true);
+}
+function lbNav(d){ lbState.idx = (lbState.idx + d + lbState.n) % lbState.n; renderLightbox(); }
+
+/* ═══════════ COMPARE ═══════════ */
+function CompareView(){
+  const vs = compareList.map(vendorById).filter(Boolean).slice(0,3);
+  if(!vs.length) return `<section class="max-w-3xl mx-auto px-4 py-20 text-center"><h1 class="font-display text-4xl text-maroon mb-4">Nothing to compare yet</h1><p class="text-muted mb-8">Tap the ⇄ button on any vendor card to add them here — up to 3.</p><a href="#/browse" class="btn-primary">Browse vendors</a></section>`;
+  const rows = [
+    ["Photo", v=>`<img src="${v.port[0].img||v.port[0]}" class="w-24 h-24 rounded-2xl object-cover mx-auto">`],
+    ["Vendor", v=>`<b class="font-display text-xl text-maroon">${esc(v.name)}</b><div class="text-xs text-muted">${catName(v.cat)}</div>`],
+    ["Rating", v=>`${stars(v.rating)} <b>${v.rating.toFixed(1)}</b> <span class="text-muted text-xs">(${v.rc})</span>`],
+    ["Starting price", v=>`<b class="font-display text-2xl text-maroon">${fmtPrice(v.cur,v.price)}</b>`],
+    ["Budget proof", v=>{const w=worksWithin(v);return w?`<span class="text-sm">❄ ${fmtPrice(w.cur,w.min)}–${fmtPrice(w.cur,w.max)}</span>`:'<span class="text-muted text-sm">—</span>';}],
+    ["Badges", v=>`<div class="flex justify-center gap-1 flex-wrap">${v.verified?'<span class="badge badge-verified">✓</span>':""}${v.newcomer?'<span class="badge badge-newcomer">✦ New</span>':""}</div>`],
+    ["Experience", v=>{const n=v.rc;return `<span class="text-sm font-medium">${n>=100?"200+ events":n>=20?"50+ events":n>=5?"10+ events":"Rising star"}</span>`;}],
+    ["City", v=>`<span class="text-sm">📍 ${esc(v.city)}</span>`],
+    ["Services", v=>`<span class="text-sm">${v.services.length} listed</span>`],
+    ["Occasions", v=>`<span class="text-sm">${v.occ.length} occasions</span>`],
+    ["", v=>`<div class="flex flex-col gap-2"><a href="#/vendor/${v.id}" class="btn-outline btn-sm">Profile</a><button onclick="openBooking('${v.id}')" class="btn-primary btn-sm">Book</button><button onclick="compareToggle('${v.id}')" class="text-xs text-muted underline">Remove</button></div>`]
+  ];
+  return `<section class="max-w-6xl mx-auto px-4 sm:px-6 pt-10">
+    <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Side by side</p>
+    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight mb-8">Compare vendors</h1>
+    <div class="card overflow-x-auto"><table class="w-full min-w-[560px]">
+      ${rows.map(r=>`<tr class="border-b border-cream last:border-0 ${r[0]===""?"":"hover:bg-ivory/60"}">
+        <td class="p-4 text-xs font-bold uppercase tracking-widest text-muted w-36 align-top">${r[0]}</td>
+        ${vs.map(v=>`<td class="p-4 text-center align-top">${r[1](v)}</td>`).join("")}
+      </tr>`).join("")}
+    </table></div>
+    <p class="text-sm text-muted mt-6">💡 Newcomers often deliver the same quality at half the price — check their budget-tagged portfolios.</p>
+  </section>`;
+}
+
+/* ═══════════ TEAM BUILDER ═══════════ */
+function sharedSlots(team){
+  const days = [];
+  for(let d=1; d<=14; d++){
+    const ds = dateStr(d);
+    const per = team.map(v=>slotsFor(v.id, ds).filter(s=>s.free).map(s=>s.time));
+    const common = per.reduce((a,b)=>a.filter(t=>b.includes(t)), per[0]||[]);
+    if(common.length) days.push({ ds, slots: common });
+  }
+  return days;
+}
+function TeamView(){
+  const team = teamGet().map(vendorById).filter(Boolean);
+  if(!team.length) return `<section class="max-w-3xl mx-auto px-4 py-20 text-center">
+    <h1 class="font-display text-4xl sm:text-5xl text-maroon mb-4">Build your celebration team</h1>
+    <p class="text-muted mb-8 max-w-lg mx-auto">Add a decorator, photographer, makeup artist — anyone you need. See one combined price and the dates when <b>everyone</b> is free.</p>
+    <a href="#/browse" class="btn-primary">Find vendors to add →</a></section>`;
+  const usd = team.filter(v=>v.cur==="$"), inr = team.filter(v=>v.cur==="₹");
+  const totUSD = usd.reduce((a,v)=>a+v.price,0), totINR = inr.reduce((a,v)=>a+v.price,0);
+  const shared = sharedSlots(team);
+  return `<section class="max-w-6xl mx-auto px-4 sm:px-6 pt-10">
+    <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Bundle & save the back-and-forth</p>
+    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight mb-2">My celebration team</h1>
+    <p class="text-muted mb-8">${team.length} vendor${team.length>1?"s":""} · one combined estimate · shared availability below</p>
+    <div class="grid md:grid-cols-[1fr_320px] gap-6 items-start">
+      <div class="space-y-4">
+        ${team.map(v=>`
+        <div class="card p-4 flex items-center gap-4">
+          <img src="${v.port[0].img||v.port[0]}" class="w-20 h-20 rounded-xl object-cover" alt="">
+          <div class="flex-1 min-w-0"><div class="font-semibold truncate">${esc(v.name)}</div>
+          <div class="text-xs text-muted">${catName(v.cat)} · ${stars(v.rating)} ${v.rating.toFixed(1)}</div>
+          <div class="text-sm font-bold text-maroon mt-0.5">from ${fmtPrice(v.cur,v.price)}</div></div>
+          <a href="#/vendor/${v.id}" class="btn-outline btn-sm hidden sm:inline-flex">View</a>
+          <button onclick="teamToggle('${v.id}')" class="text-sm text-muted underline">Remove</button>
+        </div>`).join("")}
+      </div>
+      <div class="card p-6 lg:sticky lg:top-24">
+        <h3 class="font-display text-2xl font-semibold text-maroon mb-1">Combined estimate</h3>
+        <p class="text-xs text-muted mb-4">Sum of starting prices — final quotes confirmed per vendor.</p>
+        ${usd.length?`<div class="flex justify-between py-2 border-b border-cream text-sm"><span>${usd.length} US vendor${usd.length>1?"s":""}</span><b class="font-display text-xl text-maroon">$${totUSD.toLocaleString("en-US")}</b></div>`:""}
+        ${inr.length?`<div class="flex justify-between py-2 border-b border-cream text-sm"><span>${inr.length} India vendor${inr.length>1?"s":""}</span><b class="font-display text-xl text-maroon">₹${totINR.toLocaleString("en-IN")}</b></div>`:""}
+        <button onclick="openTeamBooking()" class="btn-primary w-full justify-center mt-5" ${shared.length?"":"disabled style='opacity:.4'"}>Book team together</button>
+        ${shared.length?"":'<p class="text-xs text-muted mt-2">No common free slots in the next 14 days — try removing a vendor.</p>'}
+      </div>
+    </div>
+    <h3 class="font-display text-2xl font-semibold text-maroon mt-10 mb-1">Shared availability</h3>
+    <p class="text-sm text-muted mb-4">Dates when <b>everyone</b> on your team has a free slot — pick one to book the whole team.</p>
+    ${shared.length?`<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${shared.slice(0,9).map(d=>`
+      <button onclick="openTeamBooking('${d.ds}')" class="card p-4 text-left hover:border-gold">
+        <div class="font-semibold">${prettyDate(d.ds)}</div>
+        <div class="flex flex-wrap gap-1.5 mt-2">${d.slots.map(s=>`<span class="badge badge-cat">${s}</span>`).join("")}</div>
+      </button>`).join("")}</div>`
+    :`<div class="card p-8 text-center text-muted">No shared slots found in the next 14 days.</div>`}
+  </section>`;
+}
+</script>
+
+<style>
+  #app.page-in { animation: pageIn .45s ease; }
+  @keyframes pageIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+  .glass { background:rgba(255,255,255,.1); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,.25); }
+</style>
+<script>
+/* ═══════════ BOOKING ═══════════ */
+let booking = null;
+function openBooking(vid, pre){
+  pre = pre || {};
+  const v = vendorById(vid);
+  booking = { vendorId: vid, serviceIdx: pre.service!=null?pre.service:0, date: pre.date||null, slot: pre.slot||null, step:1, name:"", phone:"", city:v.city, notes:"" };
+  renderBookingModal();
+}
+function bookingStepsBar(){
+  const steps = ["Service","Date & time","Details"];
+  return `<div class="flex items-center gap-2 mb-6">${steps.map((s,i)=>`
+    <div class="flex items-center gap-2 ${i<2?'flex-1':''}">
+      <span class="onboard-step-dot ${booking.step===i+1?'active':booking.step>i+1?'done':''}">${booking.step>i+1?'✓':i+1}</span>
+      <span class="text-xs font-bold uppercase tracking-widest ${booking.step===i+1?'text-maroon':'text-muted'} hidden sm:inline">${s}</span>
+      ${i<2?'<div class="flex-1 h-px bg-gold-light"></div>':''}
+    </div>`).join("")}</div>`;
+}
+function renderBookingModal(){
+  const v = vendorById(booking.vendorId);
+  let body = "";
+  if(booking.step===1){
+    body = `${bookingStepsBar()}
+    <h3 class="font-display text-2xl font-semibold text-maroon mb-1">Choose a service</h3>
+    <p class="text-sm text-muted mb-5">${esc(v.name)} · ${catName(v.cat)}</p>
+    <div class="space-y-3">${v.services.map((s,i)=>`
+      <label class="card !rounded-xl p-4 flex items-center gap-4 cursor-pointer ${booking.serviceIdx===i?'!border-maroon !ring-2 !ring-maroon/20':''}">
+        <input type="radio" name="bk-svc" ${booking.serviceIdx===i?'checked':''} onchange="booking.serviceIdx=${i};renderBookingModal()" class="w-5 h-5 accent-[#6D1A2D]">
+        <div class="flex-1"><div class="font-semibold">${esc(s[0])}</div><div class="text-xs text-muted">per ${s[2]}</div></div>
+        <div class="font-display text-xl font-semibold text-maroon">${fmtPrice(v.cur,s[1])}</div>
+      </label>`).join("")}</div>
+    <button onclick="booking.step=2;renderBookingModal()" class="btn-primary w-full justify-center mt-6">Continue →</button>`;
+  } else if(booking.step===2){
+    const dates = Array.from({length:14},(_,d)=>dateStr(d+1));
+    const slots = booking.date ? slotsFor(v.id, booking.date) : [];
+    body = `${bookingStepsBar()}
+    <h3 class="font-display text-2xl font-semibold text-maroon mb-1">Pick a date & time</h3>
+    <p class="text-sm text-muted mb-5">${esc(v.services[booking.serviceIdx][0])} · <b class="text-maroon">${fmtPrice(v.cur, v.services[booking.serviceIdx][1])}</b></p>
+    <label class="lbl">Date</label>
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-4">${dates.map(ds=>`
+      <button class="date-pill shrink-0 ${booking.date===ds?'selected':''}" onclick="booking.date='${ds}';booking.slot=null;renderBookingModal()">
+        <div class="text-xs font-bold dp-sub ${booking.date===ds?'':'text-muted'}">${new Date(ds+"T12:00:00").toLocaleDateString("en-US",{weekday:"short"})}</div>
+        <div class="font-display text-lg font-semibold">${new Date(ds+"T12:00:00").getDate()}</div>
+      </button>`).join("")}</div>
+    <label class="lbl">Time slot</label>
+    ${booking.date ? (slots.some(s=>s.free)
+      ? `<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">${slots.map(s=>`<button class="slot ${booking.slot===s.time?'selected':''}" ${s.free?"":"disabled"} onclick="booking.slot='${s.time}';renderBookingModal()">${s.time}</button>`).join("")}</div>`
+      : `<p class="text-sm text-muted bg-cream/60 rounded-xl p-4">Fully booked that day — try another date.</p>`)
+    : `<p class="text-sm text-muted">← Choose a date first</p>`}
+    <div class="flex gap-3 mt-6"><button onclick="booking.step=1;renderBookingModal()" class="btn-outline flex-1 justify-center">← Back</button>
+    <button onclick="if(!booking.date||!booking.slot){toast('Pick a date and time');}else{booking.step=3;renderBookingModal()}" class="btn-primary flex-1 justify-center">Continue →</button></div>`;
+  } else if(booking.step===3){
+    const s = v.services[booking.serviceIdx];
+    body = `${bookingStepsBar()}
+    <h3 class="font-display text-2xl font-semibold text-maroon mb-1">Your details</h3>
+    <p class="text-sm text-muted mb-5">Booking request — <b>no payment now.</b> The vendor confirms within 24 hours.</p>
+    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+      <div><label class="lbl">Full name *</label><input id="bk-name" class="field" value="${esc(booking.name)}" placeholder="Your name"></div>
+      <div><label class="lbl">Phone *</label><input id="bk-phone" class="field" value="${esc(booking.phone)}" placeholder="+1 555 000 1234"></div>
+      <div><label class="lbl">Event city</label><input id="bk-city" class="field" value="${esc(booking.city)}"></div>
+      <div><label class="lbl">Event date</label><input class="field" value="${prettyDate(booking.date)} · ${booking.slot}" disabled></div>
+    </div>
+    <label class="lbl">Notes for the vendor</label>
+    <textarea id="bk-notes" class="field mb-2" rows="3" placeholder="Venue, theme, guest count, anything they should know…">${esc(booking.notes)}</textarea>
+    <div class="bg-gold-pale border border-gold-light rounded-xl p-4 text-sm mt-4 flex justify-between items-center">
+      <span><b>${esc(s[0])}</b><br><span class="text-muted">${prettyDate(booking.date)} · ${booking.slot}</span></span>
+      <span class="font-display text-2xl font-semibold text-maroon">${fmtPrice(v.cur,s[1])}</span>
+    </div>
+    <div class="flex gap-3 mt-6"><button onclick="booking.step=2;renderBookingModal()" class="btn-outline flex-1 justify-center">← Back</button>
+    <button onclick="confirmBooking()" class="btn-primary flex-1 justify-center">Confirm booking ✦</button></div>`;
+  }
+  openModal(`<div class="p-7 sm:p-9">
+    <div class="flex items-start justify-between mb-5">
+      <div class="flex items-center gap-3">
+        <span class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold" style="background:${avatarBg(v.name)}">${initials(v.name)}</span>
+        <div><div class="font-semibold">${esc(v.name)}</div><div class="text-xs text-muted">${catName(v.cat)} · 📍 ${esc(v.city)}</div></div>
+      </div>
+      <button onclick="closeModal()" class="text-3xl text-muted hover:text-maroon leading-none">×</button>
+    </div>${body}</div>`);
+}
+function confirmBooking(){
+  const name = document.getElementById("bk-name").value.trim();
+  const phone = document.getElementById("bk-phone").value.trim();
+  if(!name || !phone){ toast("Please add your name and phone"); return; }
+  const v = vendorById(booking.vendorId);
+  const s = v.services[booking.serviceIdx];
+  const ref = "UTS-" + Math.random().toString(36).slice(2,8).toUpperCase();
+  const rec = { ref, type:"single", vendorId:v.id, vendorName:v.name, cat:v.cat, service:s[0], price:s[1], cur:v.cur,
+    date:booking.date, slot:booking.slot, name, phone, city:document.getElementById("bk-city").value.trim(),
+    notes:document.getElementById("bk-notes").value.trim(), createdAt:Date.now() };
+  const all = store.get("utsav_bookings", []); all.unshift(rec); store.set("utsav_bookings", all);
+  openModal(`<div class="p-10 text-center">
+    <div class="w-20 h-20 mx-auto rounded-full bg-gold-pale border-2 border-gold flex items-center justify-center text-4xl mb-5">✦</div>
+    <h3 class="font-display text-3xl font-semibold text-maroon mb-2">You're booked!</h3>
+    <p class="text-muted mb-1">Booking reference</p>
+    <div class="font-mono font-bold text-2xl tracking-widest text-maroon mb-5">${ref}</div>
+    <div class="bg-white border border-cream rounded-2xl p-5 text-left text-sm space-y-1.5 mb-6">
+      <div class="flex justify-between"><span class="text-muted">Vendor</span><b>${esc(v.name)}</b></div>
+      <div class="flex justify-between"><span class="text-muted">Service</span><b>${esc(s[0])}</b></div>
+      <div class="flex justify-between"><span class="text-muted">When</span><b>${prettyDate(booking.date)} · ${booking.slot}</b></div>
+      <div class="flex justify-between"><span class="text-muted">Estimate</span><b class="font-display text-lg text-maroon">${fmtPrice(v.cur,s[1])}</b></div>
+    </div>
+    <p class="text-xs text-muted mb-6">${esc(v.name)} confirms within 24 hours on ${esc(phone)}. No payment due now.</p>
+    <div class="flex gap-3 justify-center"><a href="#/bookings" onclick="closeModal()" class="btn-primary btn-sm">View my bookings</a>
+    <button onclick="closeModal()" class="btn-outline btn-sm">Done</button></div>
+  </div>`);
+  confettiBurst();
+  if(location.hash.startsWith("#/bookings")) navigate();
+}
+/* team booking */
+function openTeamBooking(preDate){
+  const team = teamGet().map(vendorById).filter(Boolean);
+  if(!team.length) return;
+  const shared = sharedSlots(team);
+  if(!shared.length){ toast("No shared slots in the next 14 days"); return; }
+  const ds = preDate || shared[0].ds;
+  const day = shared.find(d=>d.ds===ds) || shared[0];
+  openModal(`<div class="p-7 sm:p-9">
+    <div class="flex items-start justify-between mb-5">
+      <h3 class="font-display text-3xl font-semibold text-maroon">Book your team</h3>
+      <button onclick="closeModal()" class="text-3xl text-muted hover:text-maroon leading-none">×</button>
+    </div>
+    <p class="text-sm text-muted mb-4">${team.length} vendors · one shared slot. Each vendor confirms separately.</p>
+    <div class="flex flex-wrap gap-2 mb-5">${team.map(v=>`<span class="badge badge-cat">${esc(v.name)}</span>`).join("")}</div>
+    <label class="lbl">Shared date</label>
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-4">${shared.map(d=>`
+      <button class="date-pill shrink-0 ${d.ds===day.ds?'selected':''}" onclick="openTeamBooking('${d.ds}')">
+        <div class="text-xs font-bold ${d.ds===day.ds?'':'text-muted'} dp-sub">${prettyDate(d.ds).split(",")[0]}</div>
+        <div class="font-display text-lg font-semibold">${new Date(d.ds+"T12:00:00").getDate()}</div>
+      </button>`).join("")}</div>
+    <label class="lbl">Shared time</label>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5" id="tm-slots">
+      ${day.slots.map(s=>`<button class="slot" onclick="this.parentNode.querySelectorAll('.slot').forEach(x=>x.classList.remove('selected'));this.classList.add('selected')">${s}</button>`).join("")}
+    </div>
+    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+      <div><label class="lbl">Full name *</label><input id="tm-name" class="field"></div>
+      <div><label class="lbl">Phone *</label><input id="tm-phone" class="field"></div>
+    </div>
+    <label class="lbl">Notes</label><textarea id="tm-notes" class="field mb-6" rows="2" placeholder="Venue, guest count…"></textarea>
+    <button onclick="confirmTeamBooking('${day.ds}')" class="btn-primary w-full justify-center">Confirm team booking ✦</button>
+  </div>`);
+}
+function confirmTeamBooking(ds){
+  const name = document.getElementById("tm-name").value.trim();
+  const phone = document.getElementById("tm-phone").value.trim();
+  const slotEl = document.querySelector("#tm-slots .slot.selected");
+  if(!name || !phone || !slotEl){ toast("Add name, phone & pick a time"); return; }
+  const team = teamGet().map(vendorById).filter(Boolean);
+  const ref = "UTS-" + Math.random().toString(36).slice(2,8).toUpperCase();
+  const rec = { ref, type:"team", vendors: team.map(v=>({id:v.id, name:v.name, cat:v.cat})), date:ds, slot:slotEl.textContent,
+    name, phone, notes:document.getElementById("tm-notes").value.trim(), createdAt:Date.now() };
+  const all = store.get("utsav_bookings", []); all.unshift(rec); store.set("utsav_bookings", all);
+  openModal(`<div class="p-10 text-center">
+    <div class="w-20 h-20 mx-auto rounded-full bg-gold-pale border-2 border-gold flex items-center justify-center text-4xl mb-5">✦</div>
+    <h3 class="font-display text-3xl font-semibold text-maroon mb-2">Team booked!</h3>
+    <div class="font-mono font-bold text-2xl tracking-widest text-maroon mb-5">${ref}</div>
+    <p class="text-sm text-muted mb-6">${team.length} vendors · ${prettyDate(ds)} · ${slotEl.textContent}. Each vendor confirms within 24 hours.</p>
+    <div class="flex gap-3 justify-center"><a href="#/bookings" onclick="closeModal()" class="btn-primary btn-sm">View my bookings</a>
+    <button onclick="closeModal()" class="btn-outline btn-sm">Done</button></div>
+  </div>`);
+  confettiBurst();
+}
+
+/* ═══════════ ONBOARDING ═══════════ */
+let ob = null;
+function freshOb(){ return { step:1, name:"", cat:"", city:"", phone:"", ig:"", tag:"", bio:"",
+  services:[{name:"",price:"",unit:"event"}], selImgs:[], portMeta:{}, days:["Sat","Sun"], slots:["10:00 AM","4:00 PM"] }; }
+function OnboardView(){
+  if(!ob) ob = freshOb();
+  const steps = ["Basics","Services","Portfolio","Availability"];
+  let body = "";
+  if(ob.step===1){
+    body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">Tell us about your business</h3>
+    <p class="text-muted text-sm mb-6">Free for newcomers — show 2–3 past events and you're in.</p>
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div><label class="lbl">Business name *</label><input id="ob-name" class="field" value="${esc(ob.name)}" placeholder="e.g., Bloom & Bliss Decor"></div>
+      <div><label class="lbl">Phone *</label><input id="ob-phone" class="field" value="${esc(ob.phone)}" placeholder="+1 555 000 1234"></div>
+      <div><label class="lbl">Category *</label><select id="ob-cat" class="field"><option value="">Choose…</option>${CATEGORIES.map(c=>`<option value="${c.id}" ${ob.cat===c.id?"selected":""}>${c.name}</option>`).join("")}</select></div>
+      <div><label class="lbl">City *</label><select id="ob-city" class="field"><option value="">Choose…</option>${CITIES.map(c=>`<option ${ob.city===c?"selected":""}>${c}</option>`).join("")}</select></div>
+      <div><label class="lbl">Instagram (demo handle)</label><input id="ob-ig" class="field" value="${esc(ob.ig)}" placeholder="yourname_demo"></div>
+      <div><label class="lbl">One-line tagline</label><input id="ob-tag" class="field" value="${esc(ob.tag)}" placeholder="e.g., Balloons that break the internet"></div>
+    </div>
+    <label class="lbl mt-4">Short bio</label><textarea id="ob-bio" class="field" rows="3" placeholder="Your story, your style, what makes you different…">${esc(ob.bio)}</textarea>`;
+  } else if(ob.step===2){
+    body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">Services & pricing</h3>
+    <p class="text-muted text-sm mb-6">Transparent prices win bookings. You can edit these anytime.</p>
+    <div id="ob-svcs" class="space-y-3">${ob.services.map((s,i)=>`
+      <div class="flex gap-2 items-center">
+        <input class="field flex-1" placeholder="Service name" value="${esc(s.name)}" oninput="ob.services[${i}].name=this.value">
+        <input class="field !w-28" type="number" placeholder="Price" value="${esc(s.price)}" oninput="ob.services[${i}].price=this.value">
+        <select class="field !w-28" onchange="ob.services[${i}].unit=this.value">${["event","person","hour","session","package","setup","rental","add-on"].map(u=>`<option ${s.unit===u?"selected":""}>${u}</option>`).join("")}</select>
+        ${ob.services.length>1?`<button onclick="ob.services.splice(${i},1);OnboardRerender()" class="text-maroon text-xl px-2">×</button>`:""}
+      </div>`).join("")}</div>
+    <button onclick="ob.services.push({name:'',price:'',unit:'event'});OnboardRerender()" class="btn-outline btn-sm mt-4">+ Add service</button>`;
+  } else if(ob.step===3){
+    body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">Portfolio with proof</h3>
+    <p class="text-muted text-sm mb-6">Pick up to 6 photos, then tag each with what it <b>actually cost</b> and the guest count. This is your unfair advantage.</p>
+    <div class="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-6">
+      ${PORTFOLIO_POOL.map(src=>{const sel=ob.selImgs.includes(src);return `
+      <button onclick="obToggleImg('${src}')" class="relative rounded-xl overflow-hidden h-28 border-4 ${sel?'border-maroon':'border-transparent'} transition">
+        <img src="${src}" loading="lazy" class="w-full h-full object-cover ${sel?'':'opacity-70'}">
+        ${sel?'<span class="absolute top-1 right-1 w-6 h-6 bg-maroon text-white rounded-full text-sm flex items-center justify-center">✓</span>':''}
+      </button>`;}).join("")}
+    </div>
+    ${ob.selImgs.length?`<h4 class="font-semibold mb-3">Tag each photo with its real budget <span class="text-gold">❄</span></h4>
+    <div class="space-y-3">${ob.selImgs.map(src=>{const m=ob.portMeta[src]||{label:"",budget:"",guests:""};return `
+      <div class="card p-3 flex gap-3 items-center">
+        <img src="${src}" class="w-16 h-16 rounded-lg object-cover shrink-0">
+        <input class="field !py-2 text-sm flex-1" placeholder="Caption (e.g., Mandap setup)" value="${esc(m.label)}" oninput="obSetMeta('${src}','label',this.value)">
+        <input class="field !py-2 text-sm !w-28" type="number" placeholder="Cost $" value="${esc(m.budget)}" oninput="obSetMeta('${src}','budget',this.value)">
+        <input class="field !py-2 text-sm !w-24" type="number" placeholder="Guests" value="${esc(m.guests)}" oninput="obSetMeta('${src}','guests',this.value)">
+      </div>`;}).join("")}</div>`:`<p class="text-sm text-muted">Select at least 2 photos above to continue.</p>`}`;
+  } else {
+    body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">When are you free?</h3>
+    <p class="text-muted text-sm mb-6">Customers book directly into these slots.</p>
+    <label class="lbl">Days</label>
+    <div class="flex flex-wrap gap-2 mb-6">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d=>`
+      <button onclick="obToggleDay('${d}')" class="filter-chip ${ob.days.includes(d)?'active':''}">${d}</button>`).join("")}</div>
+    <label class="lbl">Daily time slots</label>
+    <div class="flex flex-wrap gap-2 mb-6">${SLOT_TIMES.map(t=>`
+      <button onclick="obToggleSlot('${t}')" class="filter-chip ${ob.slots.includes(t)?'active':''}">${t}</button>`).join("")}</div>
+    <div class="bg-gold-pale border border-gold-light rounded-2xl p-5">
+      <h4 class="font-display text-xl font-semibold text-maroon mb-2">Ready to go live?</h4>
+      <p class="text-sm text-muted">Your profile launches with a <span class="badge badge-newcomer">✦ Newcomer</span> badge and enters verification review. No fees to list.</p>
+    </div>`;
+  }
+  const dots = [1,2,3,4].map(i=>`<div class="flex items-center gap-2"><span class="onboard-step-dot ${ob.step===i?'active':ob.step>i?'done':''}">${ob.step>i?'✓':i}</span><span class="text-xs font-bold uppercase tracking-widest ${ob.step===i?'text-maroon':'text-muted'} hidden sm:inline">${["Basics","Services","Portfolio","Availability"][i-1]}</span></div>${i<4?'<div class="w-8 h-px bg-gold-light"></div>':''}`).join("");
+  return `<section class="max-w-3xl mx-auto px-4 sm:px-6 pt-10">
+    <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Vendor onboarding</p>
+    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight mb-6">List your business</h1>
+    <div class="flex items-center gap-2 mb-8">${dots}</div>
+    <div class="card p-7 sm:p-9">${body}
+      <div class="flex gap-3 mt-8">
+        ${ob.step>1?`<button onclick="obCollect();ob.step--;OnboardRerender()" class="btn-outline flex-1 justify-center">← Back</button>`:""}
+        ${ob.step<4?`<button onclick="if(obNext()){ob.step++;OnboardRerender()}" class="btn-primary flex-1 justify-center">Continue →</button>`
+        :`<button onclick="if(obNext())publishVendor()" class="btn-gold flex-1 justify-center text-lg">✦ Publish my profile</button>`}
+      </div>
+    </div>
+  </section>`;
+}
+function OnboardRerender(){ obCollect(); const app=document.getElementById("app"); const y=window.scrollY; app.innerHTML=OnboardView(); window.scrollTo(0,0); initReveals(); }
+function obCollect(){
+  if(!ob) return;
+  const g = id => { const el=document.getElementById(id); return el?el.value.trim():""; };
+  if(ob.step===1){ ob.name=g("ob-name"); ob.cat=g("ob-cat"); ob.city=g("ob-city"); ob.phone=g("ob-phone"); ob.ig=g("ob-ig"); ob.tag=g("ob-tag"); ob.bio=g("ob-bio"); }
+}
+function obNext(){
+  obCollect();
+  if(ob.step===1 && (!ob.name || !ob.cat || !ob.city || !ob.phone)){ toast("Fill name, category, city & phone"); return false; }
+  if(ob.step===2){
+    ob.services = ob.services.filter(s=>s.name.trim() && parseFloat(s.price)>0);
+    if(!ob.services.length){ toast("Add at least one service with a price"); return false; }
+  }
+  if(ob.step===3 && ob.selImgs.length<2){ toast("Pick at least 2 portfolio photos"); return false; }
+  return true;
+}
+function obToggleImg(src){
+  if(ob.selImgs.includes(src)){ ob.selImgs = ob.selImgs.filter(x=>x!==src); delete ob.portMeta[src]; }
+  else { if(ob.selImgs.length>=6){ toast("Up to 6 photos"); return; } ob.selImgs.push(src); }
+  OnboardRerender();
+}
+function obSetMeta(src,k,v){ (ob.portMeta[src]=ob.portMeta[src]||{}); ob.portMeta[src][k]=v; }
+function obToggleDay(d){ ob.days = ob.days.includes(d)?ob.days.filter(x=>x!==d):ob.days.concat([d]); OnboardRerender(); }
+function obToggleSlot(t){ ob.slots = ob.slots.includes(t)?ob.slots.filter(x=>x!==t):ob.slots.concat([t]); OnboardRerender(); }
+function publishVendor(){
+  obCollect();
+  const inIndia = ["Hyderabad","Chennai","Bangalore"].includes(ob.city);
+  const cur = inIndia ? "₹" : "$";
+  const services = ob.services.map(s=>[s.name.trim(), parseFloat(s.price), s.unit]);
+  const port = ob.selImgs.map(src=>{ const m=ob.portMeta[src]||{}; return { img:src, label:m.label||"", budget:m.budget?parseFloat(m.budget):null, guests:m.guests?parseInt(m.guests):null }; });
+  const v = {
+    id:"custom-"+Date.now(), name:ob.name, cat:ob.cat, city:ob.city, country: inIndia?"India":"USA", cur,
+    rating:5.0, rc:0, price:Math.min.apply(null, services.map(s=>s[1])),
+    verified:false, newcomer:true, tag:ob.tag||"New on Utsav — book the future favorite.",
+    bio:ob.bio||"A newcomer on Utsav, ready to prove themselves at honest prices.",
+    langs:["English"], ig:(ob.ig||"yourhandle_demo").replace(/^@/,""),
+    occ:["wedding","birthday"], services, port, revs:[], collab:[],
+    avail:{ days:ob.days, slots:ob.slots }, phone:ob.phone
+  };
+  const custom = store.get("utsav_vendors_custom", []); custom.unshift(v); store.set("utsav_vendors_custom", custom);
+  ob = null;
+  location.hash = "#/vendor/" + v.id;
+  setTimeout(()=>{ toast("Welcome to Utsav! Your profile is live."); confettiBurst(); }, 400);
+}
+
+/* ═══════════ MY BOOKINGS ═══════════ */
+function BookingsView(){
+  const all = store.get("utsav_bookings", []);
+  if(!all.length) return `<section class="max-w-3xl mx-auto px-4 py-20 text-center">
+    <h1 class="font-display text-4xl sm:text-5xl text-maroon mb-4">No bookings yet</h1>
+    <p class="text-muted mb-8">When you book a vendor, your confirmations land here.</p>
+    <a href="#/browse" class="btn-primary">Find vendors →</a></section>`;
+  return `<section class="max-w-4xl mx-auto px-4 sm:px-6 pt-10">
+    <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Your celebrations</p>
+    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight mb-8">My bookings</h1>
+    <div class="space-y-4">${all.map(b=>`
+      <div class="card p-5 sm:p-6">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div class="font-mono text-xs text-muted tracking-widest mb-1">${b.ref} ${b.type==="team"?'<span class="badge badge-cat ml-2">Team booking</span>':""}</div>
+            ${b.type==="team"
+              ? `<h3 class="font-display text-2xl font-semibold text-maroon">${b.vendors.length} vendors · ${prettyDate(b.date)}</h3>
+                 <div class="flex flex-wrap gap-1.5 mt-2">${b.vendors.map(x=>`<a href="#/vendor/${x.id}" class="badge badge-cat hover:bg-maroon hover:text-white transition">${esc(x.name)}</a>`).join("")}</div>`
+              : `<h3 class="font-display text-2xl font-semibold text-maroon">${esc(b.vendorName)}</h3>
+                 <p class="text-sm text-muted">${esc(b.service)} · ${catName(b.cat)}</p>`}
+            <p class="text-sm mt-2">📅 ${prettyDate(b.date)} · ${esc(b.slot)} ${b.type==="single"?`· <b class="text-maroon">${fmtPrice(b.cur,b.price)}</b>`:``}</p>
+            ${b.notes?`<p class="text-xs text-muted mt-1">“${esc(b.notes)}”</p>`:""}
+          </div>
+          <button onclick="cancelBooking('${b.ref}')" class="btn-outline btn-sm">Cancel</button>
+        </div>
+      </div>`).join("")}</div>
+  </section>`;
+}
+function cancelBooking(ref){
+  store.set("utsav_bookings", store.get("utsav_bookings",[]).filter(b=>b.ref!==ref));
+  toast("Booking cancelled"); navigate();
+}
+
+/* ═══════════ OCCASIONS ═══════════ */
+function OccasionsView(){
+  return `<section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10">
+    <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Every reason to celebrate</p>
+    <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight mb-2">Occasions</h1>
+    <p class="text-muted mb-8 max-w-2xl">Indian, American, and everything in between — pick your moment, we'll bring the people who make it.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      ${OCCASIONS.map((o,i)=>{const n = allVendors().filter(v=>v.occ.includes(o.id)).length; return `
+      <a href="#/browse?occasion=${o.id}" class="card reveal ${i%3===1?'reveal-d1':i%3===2?'reveal-d2':''} group">
+        <div class="relative h-48 overflow-hidden">
+          <img src="${o.img}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="${o.name}">
+          <div class="absolute inset-0 bg-gradient-to-t from-maroon-deep/70 to-transparent"></div>
+          <div class="absolute bottom-0 p-5"><h3 class="font-display text-2xl font-semibold text-ivory">${o.name}</h3>
+          <span class="text-gold-light text-sm">${n} vendors →</span></div>
+        </div>
+        <div class="p-5"><p class="text-sm text-muted leading-relaxed">${o.desc}</p></div>
+      </a>`;}).join("")}
+    </div>
+  </section>`;
+}
+
+/* ═══════════ ROUTER / INIT ═══════════ */
+function navigate(){ router(); }
+function router(){
+  const h = location.hash || "#/";
+  const path = h.split("?")[0];
+  const app = document.getElementById("app");
+  let html = "";
+  if(path==="#"||path==="#/") html = HomeView();
+  else if(path==="#/browse") html = BrowseView();
+  else if(path.indexOf("#/vendor/")===0) html = VendorView(path.split("/")[2]);
+  else if(path==="#/compare") html = CompareView();
+  else if(path==="#/team") html = TeamView();
+  else if(path==="#/onboard") html = OnboardView();
+  else if(path==="#/bookings") html = BookingsView();
+  else if(path==="#/occasions") html = OccasionsView();
+  else html = HomeView();
+  app.innerHTML = html;
+  app.classList.remove("page-in"); void app.offsetWidth; app.classList.add("page-in");
+  if(path==="#/browse") renderBrowseResults();
+  if(path.indexOf("#/vendor/")===0){ profileTab = "portfolio"; renderProfileTab(path.split("/")[2]); }
+  renderCompareBar(); updateTeamBadge(); updateFreezePill();
+  initReveals(); initCounters();
+  window.scrollTo(0,0);
+  const mm = document.getElementById("mobile-menu"); if(mm) mm.classList.add("hidden");
+}
+function initReveals(){
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("revealed"); io.unobserve(e.target); } }),{threshold:.12});
+  document.querySelectorAll(".reveal:not(.revealed)").forEach(el=>io.observe(el));
+}
+function initCounters(){
+  document.querySelectorAll(".counter").forEach(el=>{
+    if(el.dataset.done) return; el.dataset.done = "1";
+    const raw = el.dataset.to, to = parseInt(raw), suf = raw.indexOf("%")>=0 ? "%" : "";
+    const t0 = performance.now(), dur = 1400;
+    (function tick(t){
+      const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+      el.textContent = Math.round(to*e) + suf;
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}
+document.getElementById("menu-btn").addEventListener("click", ()=>{
+  document.getElementById("mobile-menu").classList.toggle("hidden");
+});
+document.querySelectorAll(".mobile-link").forEach(a=>a.addEventListener("click", ()=>{
+  document.getElementById("mobile-menu").classList.add("hidden");
+}));
+window.addEventListener("hashchange", router);
+router();
+</script>
+</body>
+</html>
