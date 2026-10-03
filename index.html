@@ -45,6 +45,7 @@ tailwind.config = {
 
   .badge { display:inline-flex; align-items:center; gap:.3rem; font-size:.7rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:9999px; padding:.28rem .7rem; }
   .badge-verified { background:#F7EFDA; color:#8a6d1f; border:1px solid #EAD9AC; }
+  .badge-idver { background:#E7F3ED; color:#1C6B4E; border:1px solid #BFE0D0; }
   .badge-newcomer { background:#E9F5EC; color:#1e7a34; border:1px solid #bfe3c8; }
   .badge-cat { background:rgba(109,26,45,.08); color:#6D1A2D; }
 
@@ -161,7 +162,7 @@ tailwind.config = {
     </div>
     <div>
       <h4 class="font-display text-lg text-gold-light mb-4">Our promise</h4>
-      <p class="text-sm text-ivory/70 leading-relaxed">Every vendor is profile-verified. Newcomers get a fair shot — great work at beginner-friendly prices, rated by real clients.</p>
+      <p class="text-sm text-ivory/70 leading-relaxed">Every vendor is profile-verified with a government ID check — SSN, driver's license or state ID in the US; Aadhaar or PAN in India. Newcomers get a fair shot — great work at beginner-friendly prices, rated by real clients.</p>
     </div>
   </div>
   <div class="border-t border-ivory/15">
@@ -217,7 +218,7 @@ const occName = id => (OCCASIONS.find(o=>o.id===id)||{}).name || id;
 <script>
 /* ---------- seed vendors (19) ---------- */
 const SEED_VENDORS = [
-{ id:"meera", name:"Meera's Marigold Events", cat:"decorators", city:"Houston", country:"USA", cur:"$", rating:4.9, rc:132, price:1200, verified:true, newcomer:false,
+{ id:"meera", name:"Meera's Marigold Events", cat:"decorators", city:"Houston", country:"USA", cur:"$", rating:4.9, rc:132, price:1200, verified:true, idVerified:true, idCountry:"USA", newcomer:false,
   tag:"Mandaps that smell like home.",
   bio:"Meera has dressed 300+ mandaps across Texas over 9 years. Her team grows its own marigolds — yes, really — and builds stages that photograph like a dream. Famous for calm, on-time setups even when the baraat runs two hours late.",
   langs:["English","Hindi","Telugu"], ig:"meerasmarigold_demo",
@@ -227,7 +228,7 @@ const SEED_VENDORS = [
   revs:[["Ananya R.",5,"Sep 2026","The mandap made my mother cry. Meera's team set up 400 flowers while we were still at the temple. Flawless."],["Divya S.",5,"Aug 2026","On time, on budget, and the stage looked straight out of a movie. Worth every dollar."],["Kavya M.",4,"Jun 2026","Gorgeous work. One backdrop panel arrived late but they fixed it before guests walked in."],["Rohit P.",5,"May 2026","They handled my sister's sangeet stage overnight. Magicians, honestly."]],
   collab:["lens","priya"] },
 
-{ id:"priya", name:"Glam by Priya", cat:"makeup", city:"New York", country:"USA", cur:"$", rating:4.8, rc:214, price:350, verified:true, newcomer:false,
+{ id:"priya", name:"Glam by Priya", cat:"makeup", city:"New York", country:"USA", cur:"$", rating:4.8, rc:214, price:350, verified:true, idVerified:true, idCountry:"USA", newcomer:false,
   tag:"Red lips approved by 200+ brides.",
   bio:"Priya is a certified pro artist who specializes in South Asian bridal glam — the kind that lasts through pheras, a hundred hugs, and happy tears. Trial sessions at her Queens studio.",
   langs:["English","Hindi","Tamil"], ig:"glam_by_priya_demo",
@@ -237,7 +238,7 @@ const SEED_VENDORS = [
   revs:[["Sneha K.",5,"Sep 2026","My makeup survived 14 hours, three outfit changes, and my crying. Priya is a miracle worker."],["Lakshmi V.",5,"Jul 2026","She understood 'soft but make it bridal' perfectly. Trial was so thorough."],["Anitha D.",4,"May 2026","Beautiful work, slightly rushed during the big-morning rush — book the trial."],["Farah N.",5,"Apr 2026","Did my whole bridal party of six. Everyone looked like themselves, just luminous."]],
   collab:["aisha"] },
 
-{ id:"aisha", name:"Henna by Aisha", cat:"mehendi", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:6, price:80, verified:true, newcomer:true,
+{ id:"aisha", name:"Henna by Aisha", cat:"mehendi", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:6, price:80, verified:true, idVerified:false, idCountry:"USA", newcomer:true,
   tag:"Bridal henna, party henna, tiny tattoos.",
   bio:"Aisha learned henna from her grandmother in Hyderabad and turned a dorm-room side hustle into the Bay Area's most-booked newcomer. Intricate bridal work in under four hours, organic cones only.",
   langs:["English","Hindi","Urdu"], ig:"henna.by.aisha_demo",
@@ -247,7 +248,7 @@ const SEED_VENDORS = [
   revs:[["Zara H.",5,"Sep 2026","The stain was DARK for a week. My bridal henna got more compliments than my lehenga."],["Priya N.",5,"Aug 2026","Booked her for my sister's mehendi morning — fast, sweet, insanely detailed."],["Meera J.",5,"Jul 2026","Newcomer prices, veteran skills. Get her before she raises rates!"]],
   collab:["priya"] },
 
-{ id:"lens", name:"Lens & Light Studio", cat:"photographers", city:"Dallas", country:"USA", cur:"$", rating:4.9, rc:98, price:1500, verified:true, newcomer:false,
+{ id:"lens", name:"Lens & Light Studio", cat:"photographers", city:"Dallas", country:"USA", cur:"$", rating:4.9, rc:98, price:1500, verified:true, idVerified:true, idCountry:"USA", newcomer:false,
   tag:"Candid first, posed never.",
   bio:"Husband-wife duo Arjun and Sara shoot 40+ Indian weddings a year. Two shooters, a same-day teaser reel, and a gallery your grandchildren will fight over.",
   langs:["English","Hindi"], ig:"lensandlight_demo",
@@ -257,7 +258,7 @@ const SEED_VENDORS = [
   revs:[["Vikram T.",5,"Sep 2026","They caught my dad's expression when he saw my bride. I cried watching the teaser."],["Nisha R.",5,"Aug 2026","Invisible during the ceremony, everywhere that mattered. 900 stunning photos."],["Aditi L.",4,"Jun 2026","Gorgeous gallery. Delivery took 5 weeks, but worth the wait."]],
   collab:["meera"] },
 
-{ id:"natya", name:"Natya Beats", cat:"choreographers", city:"Boston", country:"USA", cur:"$", rating:4.9, rc:8, price:60, verified:true, newcomer:true,
+{ id:"natya", name:"Natya Beats", cat:"choreographers", city:"Boston", country:"USA", cur:"$", rating:4.9, rc:8, price:60, verified:true, idVerified:true, idCountry:"USA", newcomer:true,
   tag:"Your cousins WILL nail the hook step.",
   bio:"Classically trained in Bharatanatyam, fluent in Bollywood. Natya Beats has taught 200+ family members their sangeet routines — including one very reluctant chacha who now won't sit down.",
   langs:["English","Hindi","Tamil"], ig:"natyabeats_demo",
@@ -267,7 +268,7 @@ const SEED_VENDORS = [
   revs:[["Deepa K.",5,"Sep 2026","She taught 14 of us — ages 8 to 68 — a 4-minute medley in 4 sessions. Standing ovation."],["Sanjay M.",5,"Aug 2026","Patient, funny, and our sangeet video looks professional."],["Ritu S.",4,"Jul 2026","Great with kids. Wish we'd booked more sessions!"]],
   collab:["arjun"] },
 
-{ id:"arjun", name:"MC Arjun Rao", cat:"hosts", city:"New York", country:"USA", cur:"$", rating:4.8, rc:76, price:400, verified:true, newcomer:false,
+{ id:"arjun", name:"MC Arjun Rao", cat:"hosts", city:"New York", country:"USA", cur:"$", rating:4.8, rc:76, price:400, verified:true, idVerified:true, idCountry:"USA", newcomer:false,
   tag:"Bilingual banter, zero awkward silences.",
   bio:"Arjun has hosted 150+ sangeets and receptions across the tri-state. English-Hindi-Telugu on the mic, games the elders actually enjoy, and timelines that stay on track.",
   langs:["English","Hindi","Telugu"], ig:"mcarjunrao_demo",
@@ -277,7 +278,7 @@ const SEED_VENDORS = [
   revs:[["Kiran B.",5,"Sep 2026","He had both families laughing within ten minutes. The dumb charades round was legendary."],["Shreya P.",5,"Jul 2026","Professional, punctual, and kept our 6-hour sangeet moving perfectly."],["Amit J.",4,"May 2026","Great energy. Book early — he's in demand."]],
   collab:["natya"] },
 
-{ id:"everafter", name:"EverAfter Decor", cat:"decorators", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:5, price:600, verified:true, newcomer:true,
+{ id:"everafter", name:"EverAfter Decor", cat:"decorators", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:5, price:600, verified:true, idVerified:false, idCountry:"USA", newcomer:true,
   tag:"Pinterest boards, but real.",
   bio:"Two best friends, one storage unit full of drapes, and five flawless events. EverAfter does modern Indian decor — think pampas grass meets marigold, at newcomer prices.",
   langs:["English","Hindi"], ig:"everafter.decor_demo",
@@ -287,7 +288,7 @@ const SEED_VENDORS = [
   revs:[["Neha G.",5,"Sep 2026","Our backyard wedding looked like a venue. They worked with our tiny budget so kindly."],["Sara F.",5,"Aug 2026","The arch was all over Instagram. Setup and teardown were silent and fast."]],
   collab:[] },
 
-{ id:"glowcraft", name:"GlowCraft Artistry", cat:"makeup", city:"Houston", country:"USA", cur:"$", rating:4.9, rc:7, price:180, verified:true, newcomer:true,
+{ id:"glowcraft", name:"GlowCraft Artistry", cat:"makeup", city:"Houston", country:"USA", cur:"$", rating:4.9, rc:7, price:180, verified:true, idVerified:true, idCountry:"USA", newcomer:true,
   tag:"Soft glam that survives happy tears.",
   bio:"Nisha worked backstage at fashion week before moving to Houston. Airbrush bridal looks at prices that don't need a family meeting — and lashes that stay put.",
   langs:["English","Hindi","Gujarati"], ig:"glowcraft.nisha_demo",
@@ -297,7 +298,7 @@ const SEED_VENDORS = [
   revs:[["Pooja V.",5,"Sep 2026","Airbrush lasted 12 hours in Houston humidity. Enough said."],["Rina D.",5,"Jul 2026","So gentle and precise. My engagement photos are flawless."]],
   collab:[] },
 
-{ id:"shubh", name:"Shubh Decor Studio", cat:"decorators", city:"Hyderabad", country:"India", cur:"₹", rating:4.8, rc:187, price:25000, verified:true, newcomer:false,
+{ id:"shubh", name:"Shubh Decor Studio", cat:"decorators", city:"Hyderabad", country:"India", cur:"₹", rating:4.8, rc:187, price:25000, verified:true, idVerified:true, idCountry:"India", newcomer:false,
   tag:"Big-fat-wedding decor, honest prices.",
   bio:"Twelve years, 500+ weddings across Telangana and Andhra Pradesh. Shubh Decor owns its flowers, trussing, and lighting — which is why their quotes never have surprises.",
   langs:["Telugu","Hindi","English"], ig:"shubhdecor_demo",
@@ -307,7 +308,7 @@ const SEED_VENDORS = [
   revs:[["Sravani K.",5,"Sep 2026","They decorated our whole wedding in one night. My in-laws are still talking about the entrance."],["Harish G.",5,"Aug 2026","Transparent billing, no last-minute extras. Rare in this industry."],["Lalitha M.",4,"Jun 2026","Beautiful mandap. Flower freshness could be better in summer — ask for seasonal blooms."]],
   collab:["karthik"] },
 
-{ id:"kaya", name:"Kaya Kalp Makeup", cat:"makeup", city:"Chennai", country:"India", cur:"₹", rating:4.9, rc:143, price:8000, verified:true, newcomer:false,
+{ id:"kaya", name:"Kaya Kalp Makeup", cat:"makeup", city:"Chennai", country:"India", cur:"₹", rating:4.9, rc:143, price:8000, verified:true, idVerified:true, idCountry:"India", newcomer:false,
   tag:"Muhurtham-proof makeup.",
   bio:"Lakshmi's HD bridal looks stay put through six-hour muhurthams and Chennai humidity. Trials at her Adyar studio include a full skin-prep consultation.",
   langs:["Tamil","English","Hindi"], ig:"kayakalpmakeup_demo",
@@ -317,7 +318,7 @@ const SEED_VENDORS = [
   revs:[["Divya R.",5,"Sep 2026","Sweat-proof through a June muhurtham. My photos need zero retouching."],["Janani S.",5,"Jul 2026","The trial alone was worth it — she fixed my skincare routine too."]],
   collab:["ritu"] },
 
-{ id:"ritu", name:"Mehendi Magic by Ritu", cat:"mehendi", city:"Bangalore", country:"India", cur:"₹", rating:5.0, rc:9, price:2100, verified:true, newcomer:true,
+{ id:"ritu", name:"Mehendi Magic by Ritu", cat:"mehendi", city:"Bangalore", country:"India", cur:"₹", rating:5.0, rc:9, price:2100, verified:true, idVerified:false, idCountry:"India", newcomer:true,
   tag:"Full bridal in 4 hours flat.",
   bio:"Ritu does three weddings a weekend in peak season and still takes party bookings. Organic henna, deep-stain guarantee, and designs from minimal chic to full bridal.",
   langs:["Hindi","English","Kannada"], ig:"mehendimagic.ritu_demo",
@@ -327,7 +328,7 @@ const SEED_VENDORS = [
   revs:[["Shalini P.",5,"Sep 2026","Darkest stain I've ever had. She finished both hands in 3.5 hours."],["Nandini K.",5,"Aug 2026","So fast without rushing the detail. Highly recommended."]],
   collab:["kaya"] },
 
-{ id:"karthik", name:"Frames by Karthik", cat:"photographers", city:"Chennai", country:"India", cur:"₹", rating:4.9, rc:11, price:15000, verified:true, newcomer:true,
+{ id:"karthik", name:"Frames by Karthik", cat:"photographers", city:"Chennai", country:"India", cur:"₹", rating:4.9, rc:11, price:15000, verified:true, idVerified:true, idCountry:"India", newcomer:true,
   tag:"Temple-town storytelling.",
   bio:"Karthik shot his first wedding on a borrowed camera; eleven 5-star reviews later, he's Chennai's worst-kept secret. Drone coverage included in every package.",
   langs:["Tamil","English"], ig:"framesbykarthik_demo",
@@ -337,7 +338,7 @@ const SEED_VENDORS = [
   revs:[["Arun V.",5,"Sep 2026","The drone shot of our temple wedding is framed in our living room now."],["Meenakshi D.",5,"Jul 2026","Unobtrusive, creative, and half the price of the big studios."]],
   collab:["shubh"] },
 
-{ id:"dhoom", name:"Dhoom Dance Crew", cat:"choreographers", city:"Hyderabad", country:"India", cur:"₹", rating:4.8, rc:89, price:5000, verified:true, newcomer:false,
+{ id:"dhoom", name:"Dhoom Dance Crew", cat:"choreographers", city:"Hyderabad", country:"India", cur:"₹", rating:4.8, rc:89, price:5000, verified:true, idVerified:true, idCountry:"India", newcomer:false,
   tag:"Sangeet choreography in 6 sessions.",
   bio:"Four dancers, one dhol player on call, and sangeet routines that uncles can actually learn. Dhoom has choreographed 200+ family performances across two states.",
   langs:["Telugu","Hindi","English"], ig:"dhoomdancecrew_demo",
@@ -347,7 +348,7 @@ const SEED_VENDORS = [
   revs:[["Sandeep R.",5,"Sep 2026","My 60-year-old father did a hook step. Enough said."],["Geetha N.",5,"Aug 2026","Six sessions, zero stress, one unforgettable sangeet."]],
   collab:["divya"] },
 
-{ id:"divya", name:"Anchor Divya", cat:"hosts", city:"Bangalore", country:"India", cur:"₹", rating:5.0, rc:4, price:7000, verified:true, newcomer:true,
+{ id:"divya", name:"Anchor Divya", cat:"hosts", city:"Bangalore", country:"India", cur:"₹", rating:5.0, rc:4, price:7000, verified:true, idVerified:true, idCountry:"India", newcomer:true,
   tag:"Games your athai will actually play.",
   bio:"Ex-RJ Divya brings radio energy to sangeets and birthdays. Kannada, Hindi, English, Tamil — she'll get your shyest cousin on stage and keep the aunties laughing.",
   langs:["Kannada","Hindi","English","Tamil"], ig:"anchordivya_demo",
@@ -357,7 +358,7 @@ const SEED_VENDORS = [
   revs:[["Rakshita S.",5,"Sep 2026","She handled a 300-guest sangeet like a pro. The couple's game round was hilarious."]],
   collab:["dhoom"] },
 
-{ id:"petals", name:"Petal & Pine Events", cat:"decorators", city:"Chennai", country:"India", cur:"₹", rating:4.7, rc:12, price:9000, verified:true, newcomer:true,
+{ id:"petals", name:"Petal & Pine Events", cat:"decorators", city:"Chennai", country:"India", cur:"₹", rating:4.7, rc:12, price:9000, verified:true, idVerified:true, idCountry:"India", newcomer:true,
   tag:"Birthdays, half-saree ceremonies, and small joys.",
   bio:"Specialists in intimate celebrations — half-saree functions, seemanthams, first birthdays. Thoughtful, elegant decor that doesn't need a wedding budget.",
   langs:["Tamil","English"], ig:"petalandpine_demo",
@@ -367,7 +368,7 @@ const SEED_VENDORS = [
   revs:[["Kavitha J.",5,"Aug 2026","My daughter's half-saree function looked straight out of a magazine."],["Revathi A.",4,"Jul 2026","Lovely work, very warm team. Slightly delayed setup — plan buffer time."]],
   collab:[] },
 
-{ id:"marcus", name:"DJ Marcus Cole", cat:"djs", city:"Boston", country:"USA", cur:"$", rating:4.8, rc:87, price:500, verified:true, newcomer:false,
+{ id:"marcus", name:"DJ Marcus Cole", cat:"djs", city:"Boston", country:"USA", cur:"$", rating:4.8, rc:87, price:500, verified:true, idVerified:true, idCountry:"USA", newcomer:false,
   tag:"From Bollywood to Bad Bunny, one dance floor.",
   bio:"Marcus DJs 60+ South Asian weddings a year. Bhangra-to-Bad-Bunny transitions, dhol player on request, and a dance floor that empties only when the lights come on.",
   langs:["English"], ig:"djmarcuscole_demo",
@@ -377,7 +378,7 @@ const SEED_VENDORS = [
   revs:[["Jessica T.",5,"Oct 2026","He read our crowd perfectly — my Indian side and his American side never left the floor."],["Aarav M.",5,"Sep 2026","The bhangra-to-hip-hop transitions were unreal. Best sangeet ever."]],
   collab:["confetti"] },
 
-{ id:"confetti", name:"Confetti & Co.", cat:"decorators", city:"Dallas", country:"USA", cur:"$", rating:4.9, rc:6, price:250, verified:true, newcomer:true,
+{ id:"confetti", name:"Confetti & Co.", cat:"decorators", city:"Dallas", country:"USA", cur:"$", rating:4.9, rc:6, price:250, verified:true, idVerified:true, idCountry:"USA", newcomer:true,
   tag:"Balloon arches that break the internet.",
   bio:"Started in a garage in 2024, now Dallas's go-to for birthdays and baby showers. Organic balloon garlands, neon signs, and genuine same-week availability.",
   langs:["English","Spanish"], ig:"confettiandco_demo",
@@ -387,7 +388,7 @@ const SEED_VENDORS = [
   revs:[["Emily R.",5,"Sep 2026","The garland was the backdrop of every photo. Setup took 40 minutes flat."],["Sofia L.",5,"Aug 2026","Affordable, adorable, and so easy to work with."]],
   collab:["marcus"] },
 
-{ id:"hudson", name:"Hudson & Harvest", cat:"caterers", city:"New York", country:"USA", cur:"$", rating:4.7, rc:112, price:900, verified:true, newcomer:false,
+{ id:"hudson", name:"Hudson & Harvest", cat:"caterers", city:"New York", country:"USA", cur:"$", rating:4.7, rc:112, price:900, verified:true, idVerified:true, idCountry:"USA", newcomer:false,
   tag:"Farm-to-table, chaat to charcuterie.",
   bio:"A catering company that actually gets Indian weddings — live chaat counters next to a carving station. Serving 50 to 500 guests across the tri-state area.",
   langs:["English","Hindi"], ig:"hudsonandharvest_demo",
@@ -397,7 +398,7 @@ const SEED_VENDORS = [
   revs:[["Rajesh K.",4,"Sep 2026","The chaat counter had a longer line than the bar. Food was excellent, service slightly slow at peak."],["Michelle D.",5,"Aug 2026","They catered our 200-person Diwali gala flawlessly."]],
   collab:[] },
 
-{ id:"wicked", name:"Wicked Whimsy Studios", cat:"decorators", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:5, price:350, verified:true, newcomer:true,
+{ id:"wicked", name:"Wicked Whimsy Studios", cat:"decorators", city:"Bay Area", country:"USA", cur:"$", rating:5.0, rc:5, price:350, verified:true, idVerified:true, idCountry:"USA", newcomer:true,
   tag:"Halloween haunted houses, Christmas wonderlands.",
   bio:"Prop stylists obsessed with October and December. Haunted house builds, spooky tablescapes, and Christmas installs that belong in movies — at newcomer prices.",
   langs:["English"], ig:"wickedwhimsy_demo",
@@ -577,6 +578,7 @@ function confettiBurst(){
 function badgeRow(v){
   return `<div class="flex flex-wrap gap-1.5 mt-2">
     ${v.verified?`<span class="badge badge-verified">✓ Verified</span>`:""}
+    ${v.idVerified?`<span class="badge badge-idver" title="Government ID verified">🛡 Govt ID Verified</span>`:""}
     ${v.newcomer?`<span class="badge badge-newcomer">✦ Newcomer · Budget pick</span>`:""}
   </div>`;
 }
@@ -1028,7 +1030,7 @@ function HomeView(){
         <div class="flex-1">
           <p class="text-gold-light font-bold tracking-[.2em] text-xs uppercase mb-3">For vendors</p>
           <h2 class="font-display text-4xl sm:text-5xl font-semibold text-ivory tracking-tight leading-tight">Done 2–3 events?<br>Your next 20 start here.</h2>
-          <p class="text-ivory/70 mt-4 max-w-lg leading-relaxed">List free as a newcomer. Tag every portfolio photo with what it actually cost — clients book proof, not promises. Collect ratings, get discovered by the concierge, raise your prices as you grow.</p>
+          <p class="text-ivory/70 mt-4 max-w-lg leading-relaxed">List free as a newcomer. Verify once with your government ID — SSN, license or state ID in the US; Aadhaar or PAN in India — and earn the 🛡 badge customers trust. Tag every portfolio photo with what it actually cost — clients book proof, not promises.</p>
           <div class="flex flex-wrap gap-4 mt-8">
             <a href="#/onboard" class="btn-gold">List your business — free →</a>
             <a href="#/browse?newcomer=1" class="btn-outline !border-gold-light !text-gold-light hover:!bg-gold-light hover:!text-maroon-deep">See newcomer spotlight</a>
@@ -1192,6 +1194,7 @@ function VendorView(id){
           <div class="flex flex-wrap items-center gap-2 mb-1">
             <span class="badge badge-cat">${catName(v.cat)}</span>
             ${v.verified?`<span class="badge badge-verified">✓ Verified</span>`:""}
+            ${v.idVerified?`<span class="badge badge-idver" title="Government-issued ID verified">🛡 Govt ID Verified</span>`:""}
             ${v.newcomer?`<span class="badge badge-newcomer">✦ Newcomer · Budget pick</span>`:""}
           </div>
           <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight">${esc(v.name)}</h1>
@@ -1346,7 +1349,7 @@ function CompareView(){
     ["Rating", v=>`${stars(v.rating)} <b>${v.rating.toFixed(1)}</b> <span class="text-muted text-xs">(${v.rc})</span>`],
     ["Starting price", v=>`<b class="font-display text-2xl text-maroon">${fmtPrice(v.cur,v.price)}</b>`],
     ["Budget proof", v=>{const w=worksWithin(v);return w?`<span class="text-sm">❄ ${fmtPrice(w.cur,w.min)}–${fmtPrice(w.cur,w.max)}</span>`:'<span class="text-muted text-sm">—</span>';}],
-    ["Badges", v=>`<div class="flex justify-center gap-1 flex-wrap">${v.verified?'<span class="badge badge-verified">✓</span>':""}${v.newcomer?'<span class="badge badge-newcomer">✦ New</span>':""}</div>`],
+    ["Badges", v=>`<div class="flex justify-center gap-1 flex-wrap">${v.verified?'<span class="badge badge-verified">✓</span>':""}${v.idVerified?'<span class="badge badge-idver" title="Govt ID verified">🛡</span>':""}${v.newcomer?'<span class="badge badge-newcomer">✦ New</span>':""}</div>`],
     ["Experience", v=>{const n=v.rc;return `<span class="text-sm font-medium">${n>=100?"200+ events":n>=20?"50+ events":n>=5?"10+ events":"Rising star"}</span>`;}],
     ["City", v=>`<span class="text-sm">📍 ${esc(v.city)}</span>`],
     ["Services", v=>`<span class="text-sm">${v.services.length} listed</span>`],
@@ -1594,10 +1597,25 @@ function confirmTeamBooking(ds){
 /* ═══════════ ONBOARDING ═══════════ */
 let ob = null;
 function freshOb(){ return { step:1, name:"", cat:"", city:"", phone:"", ig:"", tag:"", bio:"",
-  services:[{name:"",price:"",unit:"event"}], selImgs:[], portMeta:{}, days:["Sat","Sun"], slots:["10:00 AM","4:00 PM"] }; }
+  services:[{name:"",price:"",unit:"event"}], selImgs:[], portMeta:{}, days:["Sat","Sun"], slots:["10:00 AM","4:00 PM"],
+  idCountry:"", idType:"", idNum:"", idBiz:"", idDone:false }; }
+function obIdTypes(){
+  if(ob.idCountry==="India") return ["Aadhaar Card","PAN Card"];
+  if(ob.idCountry==="USA") return ["SSN — Social Security Number","Driver's License","State ID"];
+  return ["National ID","Passport"];
+}
+function obVerifyId(){
+  obCollect();
+  if(!ob.idCountry || !ob.idType){ toast("Choose your country and ID type"); return; }
+  if(!ob.idNum || ob.idNum.replace(/\D/g,"").length<4){ toast("Enter your ID number"); return; }
+  const btn = document.getElementById("ob-verify-btn");
+  if(btn){ btn.disabled=true; btn.innerHTML="Verifying…"; }
+  setTimeout(()=>{ ob.idDone=true; OnboardRerender(); toast("Identity verified ✓"); }, 900);
+}
 function OnboardView(){
   if(!ob) ob = freshOb();
-  const steps = ["Basics","Services","Portfolio","Availability"];
+  if(!ob.idCountry && ob.city){ ob.idCountry = ["Hyderabad","Chennai","Bangalore"].includes(ob.city) ? "India" : "USA"; }
+  const steps = ["Basics","Services","Portfolio","Verification","Availability"];
   let body = "";
   if(ob.step===1){
     body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">Tell us about your business</h3>
@@ -1640,7 +1658,24 @@ function OnboardView(){
         <input class="field !py-2 text-sm !w-28" type="number" placeholder="Cost $" value="${esc(m.budget)}" oninput="obSetMeta('${src}','budget',this.value)">
         <input class="field !py-2 text-sm !w-24" type="number" placeholder="Guests" value="${esc(m.guests)}" oninput="obSetMeta('${src}','guests',this.value)">
       </div>`;}).join("")}</div>`:`<p class="text-sm text-muted">Select at least 2 photos above to continue.</p>`}`;
-  } else {
+  } else if(ob.step===4){
+    const types = obIdTypes();
+    if(ob.idType && !types.includes(ob.idType)) ob.idType = "";
+    body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">Verify your identity</h3>
+    <p class="text-muted text-sm mb-6">Customers book with confidence when every business is ID-verified. One-time check — free forever.</p>
+    <div class="grid sm:grid-cols-2 gap-4 mb-4">
+      <div><label class="lbl">Country *</label><select id="ob-idcountry" class="field" onchange="ob.idCountry=this.value;ob.idType='';ob.idDone=false;OnboardRerender()">
+        ${["USA","India","Other"].map(c=>`<option ${ob.idCountry===c?"selected":""}>${c}</option>`).join("")}</select></div>
+      <div><label class="lbl">ID type *</label><select id="ob-idtype" class="field" onchange="ob.idType=this.value;ob.idDone=false;OnboardRerender()">
+        <option value="">Choose…</option>${types.map(t=>`<option ${ob.idType===t?"selected":""}>${t}</option>`).join("")}</select></div>
+      <div><label class="lbl">ID number *</label><input id="ob-idnum" type="password" class="field" value="${esc(ob.idNum)}" placeholder="•••• ••••" autocomplete="off"></div>
+      <div><label class="lbl">Business reg. no. <span class="text-muted font-normal">(optional — ${ob.idCountry==="India"?"GSTIN":ob.idCountry==="USA"?"EIN":"tax ID"})</span></label><input id="ob-idbiz" class="field" value="${esc(ob.idBiz)}" placeholder="e.g., ${ob.idCountry==="India"?"29ABCDE1234F1Z5":"12-3456789"}"></div>
+    </div>
+    ${ob.idDone
+      ? `<div class="rounded-2xl p-5 bg-[#E7F3ED] border border-[#BFE0D0] flex items-center gap-3"><span class="text-2xl">🛡</span><div><p class="font-semibold text-[#1C6B4E]">Identity verified</p><p class="text-sm text-muted">${esc(ob.idType)} · ${esc(ob.idCountry)}${ob.idBiz?` · Reg. ${esc(ob.idBiz)}`:""}</p></div></div>`
+      : `<button id="ob-verify-btn" onclick="obVerifyId()" class="btn-primary w-full justify-center">Verify my identity</button>
+         <p class="text-xs text-muted mt-3 text-center">🔒 Demo only — never enter a real ID number here. Live verification runs through a secure identity provider; we never store raw ID numbers.</p>`}`;
+  } else if(ob.step===5){
     body = `<h3 class="font-display text-3xl font-semibold text-maroon mb-1">When are you free?</h3>
     <p class="text-muted text-sm mb-6">Customers book directly into these slots.</p>
     <label class="lbl">Days</label>
@@ -1654,7 +1689,7 @@ function OnboardView(){
       <p class="text-sm text-muted">Your profile launches with a <span class="badge badge-newcomer">✦ Newcomer</span> badge and enters verification review. No fees to list.</p>
     </div>`;
   }
-  const dots = [1,2,3,4].map(i=>`<div class="flex items-center gap-2"><span class="onboard-step-dot ${ob.step===i?'active':ob.step>i?'done':''}">${ob.step>i?'✓':i}</span><span class="text-xs font-bold uppercase tracking-widest ${ob.step===i?'text-maroon':'text-muted'} hidden sm:inline">${["Basics","Services","Portfolio","Availability"][i-1]}</span></div>${i<4?'<div class="w-8 h-px bg-gold-light"></div>':''}`).join("");
+  const dots = [1,2,3,4,5].map(i=>`<div class="flex items-center gap-2"><span class="onboard-step-dot ${ob.step===i?'active':ob.step>i?'done':''}">${ob.step>i?'✓':i}</span><span class="text-xs font-bold uppercase tracking-widest ${ob.step===i?'text-maroon':'text-muted'} hidden sm:inline">${["Basics","Services","Portfolio","Verification","Availability"][i-1]}</span></div>${i<5?'<div class="w-8 h-px bg-gold-light"></div>':''}`).join("");
   return `<section class="max-w-3xl mx-auto px-4 sm:px-6 pt-10">
     <p class="text-gold font-bold tracking-[.2em] text-xs uppercase mb-2">Vendor onboarding</p>
     <h1 class="font-display text-4xl sm:text-5xl font-semibold text-maroon tracking-tight mb-6">List your business</h1>
@@ -1662,7 +1697,7 @@ function OnboardView(){
     <div class="card p-7 sm:p-9">${body}
       <div class="flex gap-3 mt-8">
         ${ob.step>1?`<button onclick="obCollect();ob.step--;OnboardRerender()" class="btn-outline flex-1 justify-center">← Back</button>`:""}
-        ${ob.step<4?`<button onclick="if(obNext()){ob.step++;OnboardRerender()}" class="btn-primary flex-1 justify-center">Continue →</button>`
+        ${ob.step<5?`<button onclick="if(obNext()){ob.step++;OnboardRerender()}" class="btn-primary flex-1 justify-center">Continue →</button>`
         :`<button onclick="if(obNext())publishVendor()" class="btn-gold flex-1 justify-center text-lg">✦ Publish my profile</button>`}
       </div>
     </div>
@@ -1673,6 +1708,7 @@ function obCollect(){
   if(!ob) return;
   const g = id => { const el=document.getElementById(id); return el?el.value.trim():""; };
   if(ob.step===1){ ob.name=g("ob-name"); ob.cat=g("ob-cat"); ob.city=g("ob-city"); ob.phone=g("ob-phone"); ob.ig=g("ob-ig"); ob.tag=g("ob-tag"); ob.bio=g("ob-bio"); }
+  if(ob.step===4){ ob.idCountry=g("ob-idcountry"); ob.idType=g("ob-idtype"); ob.idNum=g("ob-idnum"); ob.idBiz=g("ob-idbiz"); }
 }
 function obNext(){
   obCollect();
@@ -1682,6 +1718,7 @@ function obNext(){
     if(!ob.services.length){ toast("Add at least one service with a price"); return false; }
   }
   if(ob.step===3 && ob.selImgs.length<2){ toast("Pick at least 2 portfolio photos"); return false; }
+  if(ob.step===4 && !ob.idDone){ toast("Please verify your identity to continue"); return false; }
   return true;
 }
 function obToggleImg(src){
@@ -1701,7 +1738,8 @@ function publishVendor(){
   const v = {
     id:"custom-"+Date.now(), name:ob.name, cat:ob.cat, city:ob.city, country: inIndia?"India":"USA", cur,
     rating:5.0, rc:0, price:Math.min.apply(null, services.map(s=>s[1])),
-    verified:false, newcomer:true, tag:ob.tag||"New on Utsav — book the future favorite.",
+    verified:false, newcomer:true, idVerified:ob.idDone, idCountry:ob.idCountry, idType:ob.idType,
+    tag:ob.tag||"New on Utsav — book the future favorite.",
     bio:ob.bio||"A newcomer on Utsav, ready to prove themselves at honest prices.",
     langs:["English"], ig:(ob.ig||"yourhandle_demo").replace(/^@/,""),
     occ:["wedding","birthday"], services, port, revs:[], collab:[],
