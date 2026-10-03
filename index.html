@@ -162,7 +162,7 @@ tailwind.config = {
     </div>
     <div>
       <h4 class="font-display text-lg text-gold-light mb-4">Our promise</h4>
-      <p class="text-sm text-ivory/70 leading-relaxed">Every vendor is profile-verified with a government ID check — SSN, driver's license or state ID in the US; Aadhaar or PAN in India. Newcomers get a fair shot — great work at beginner-friendly prices, rated by real clients.</p>
+      <p class="text-sm text-ivory/70 leading-relaxed">Every vendor is profile-verified with a government ID check — SSN, driver's license or state ID in the US; Aadhaar or PAN in India; Emirates ID, SIN, NIN and more across 13 countries. Newcomers get a fair shot — great work at beginner-friendly prices, rated by real clients.</p>
     </div>
   </div>
   <div class="border-t border-ivory/15">
@@ -207,7 +207,7 @@ const OCCASIONS = [
   { id:"corporate",   name:"Corporate Event",      img:"images/cat-host.jpg",      desc:"Offsites and galas with hosts who keep it sharp." },
   { id:"prewedding",  name:"Pre-wedding Shoot",    img:"images/port-prewedding.jpg",desc:"Golden-hour portraits before the chaos begins." }
 ];
-const CITIES = ["Boston","New York","Houston","Bay Area","Dallas","Hyderabad","Chennai","Bangalore"];
+const CITIES = ["Boston","New York","Houston","Bay Area","Dallas","Dubai","Hyderabad","Chennai","Bangalore"];
 const SLOT_TIMES = ["10:00 AM","1:00 PM","4:00 PM","7:00 PM"];
 const PORTFOLIO_POOL = ["images/hero.jpg","images/cat-decorator.jpg","images/cat-makeup.jpg","images/cat-mehendi.jpg","images/cat-photographer.jpg","images/cat-choreographer.jpg","images/cat-host.jpg","images/cat-birthday.jpg","images/cat-dj.jpg","images/cat-caterer.jpg","images/port-mandap.jpg","images/port-bridal.jpg","images/port-table.jpg","images/port-prewedding.jpg","images/port-sangeet.jpg","images/port-mehendi-detail.jpg"];
 
@@ -406,7 +406,27 @@ const SEED_VENDORS = [
   services:[["Halloween home haunt",350,"event"],["Christmas install",500,"event"],["Spooky tablescape",200,"setup"]],
   port:["images/cat-birthday.jpg","images/port-sangeet.jpg"],
   revs:[["Hannah W.",5,"Oct 2026","Our house was THE house on the street. Kids are still talking about it."],["Chris B.",5,"Sep 2026","Insanely creative. The floating candles! The fog! Worth double."]],
-  collab:[] }
+  collab:[] },
+
+{ id:"zahra", name:"Zahra Luxe Events", cat:"decorators", city:"Dubai", country:"UAE", cur:"AED", rating:4.9, rc:143, price:4500, verified:true, idVerified:true, idCountry:"UAE", newcomer:false,
+  tag:"Arabian-night luxury meets desi grandeur.",
+  bio:"Dubai's go-to team for big-fat weddings — Indian, Arab, and fusion. Ten years across Palm Jumeirah ballrooms and desert venues. Emirates ID verified, trade-licensed, and famous for setups that photograph like film sets.",
+  langs:["English","Hindi","Arabic","Urdu"], ig:"zahraluxe_demo",
+  occ:["wedding","sangeet","mehendi","corporate","anniversary"],
+  services:[["Luxury wedding stage + mandap",4500,"event"],["Sangeet night production",3200,"event"],["Mehendi morning setup",1800,"event"],["Corporate gala decor",2500,"event"]],
+  port:["images/hero.jpg","images/port-mandap.jpg","images/port-sangeet.jpg"],
+  revs:[["Fatima A.",5,"Sep 2026","Our Nikah stage looked like a palace. Guests from three countries asked who did the decor."],["Rohan M.",5,"Aug 2026","Sangeet production with LED walls and dhol entry — flawless."],["Sara K.",4,"Jul 2026","Premium pricing, premium result. Book early, they fill fast."]],
+  collab:["dunes"] },
+
+{ id:"dunes", name:"Dunes & Vows Films", cat:"photographers", city:"Dubai", country:"UAE", cur:"AED", rating:5.0, rc:9, price:3500, verified:true, idVerified:true, idCountry:"UAE", newcomer:true,
+  tag:"Desert golden hour is our studio.",
+  bio:"A young duo shooting weddings across the dunes and the Marina. Drone + candid, same-day edits, and prices that undercut the big studios while the portfolio grows. Emirates ID verified.",
+  langs:["English","Hindi","Malayalam"], ig:"dunesandvows_demo",
+  occ:["wedding","prewedding","sangeet","anniversary"],
+  services:[["Full wedding day (photo+drone)",3500,"event"],["Pre-wedding desert shoot",1500,"session"],["Sangeet candid coverage",1200,"event"]],
+  port:["images/cat-photographer.jpg","images/port-prewedding.jpg"],
+  revs:[["Anjali P.",5,"Sep 2026","Our desert pre-wedding shoot looks straight out of a movie. They knew exactly where the light would be."],["Omar S.",5,"Aug 2026","Drone shots over the dunes during our vows — unreal. Fastest-growing team in Dubai for a reason."]],
+  collab:["zahra"] }
 ];
 
 /* ---------- testimonials ---------- */
@@ -435,6 +455,7 @@ const catVendors = cat => allVendors().filter(v => v.cat === cat);
 /* ---------- formatting ---------- */
 function fmtPrice(cur, amt){
   if(cur === "₹") return "₹" + Number(amt).toLocaleString("en-IN");
+  if(cur === "AED") return "AED " + Number(amt).toLocaleString("en-US");
   return "$" + Number(amt).toLocaleString("en-US");
 }
 const priceUSD = v => v.cur === "₹" ? v.price / 83 : v.price;
@@ -1030,7 +1051,7 @@ function HomeView(){
         <div class="flex-1">
           <p class="text-gold-light font-bold tracking-[.2em] text-xs uppercase mb-3">For vendors</p>
           <h2 class="font-display text-4xl sm:text-5xl font-semibold text-ivory tracking-tight leading-tight">Done 2–3 events?<br>Your next 20 start here.</h2>
-          <p class="text-ivory/70 mt-4 max-w-lg leading-relaxed">List free as a newcomer. Verify once with your government ID — SSN, license or state ID in the US; Aadhaar or PAN in India — and earn the 🛡 badge customers trust. Tag every portfolio photo with what it actually cost — clients book proof, not promises.</p>
+          <p class="text-ivory/70 mt-4 max-w-lg leading-relaxed">List free as a newcomer. Verify once with your government ID — SSN or license in the US, Aadhaar or PAN in India, Emirates ID in the UAE, and 10 more countries — and earn the 🛡 badge customers trust. Tag every portfolio photo with what it actually cost — clients book proof, not promises.</p>
           <div class="flex flex-wrap gap-4 mt-8">
             <a href="#/onboard" class="btn-gold">List your business — free →</a>
             <a href="#/browse?newcomer=1" class="btn-outline !border-gold-light !text-gold-light hover:!bg-gold-light hover:!text-maroon-deep">See newcomer spotlight</a>
@@ -1599,10 +1620,28 @@ let ob = null;
 function freshOb(){ return { step:1, name:"", cat:"", city:"", phone:"", ig:"", tag:"", bio:"",
   services:[{name:"",price:"",unit:"event"}], selImgs:[], portMeta:{}, days:["Sat","Sun"], slots:["10:00 AM","4:00 PM"],
   idCountry:"", idType:"", idNum:"", idBiz:"", idDone:false }; }
+const ID_COUNTRIES = {
+  "USA":             { ids:["SSN — Social Security Number","Driver's License","State ID"], biz:"EIN" },
+  "India":           { ids:["Aadhaar Card","PAN Card"], biz:"GSTIN" },
+  "United Kingdom":  { ids:["National Insurance Number","Driver's Licence","Passport"], biz:"Company Number" },
+  "Canada":          { ids:["Social Insurance Number (SIN)","Driver's Licence","Passport"], biz:"Business Number (BN)" },
+  "Australia":       { ids:["Tax File Number (TFN)","Driver's Licence","Passport"], biz:"ABN" },
+  "UAE":             { ids:["Emirates ID","Passport"], biz:"Trade License No." },
+  "Singapore":       { ids:["NRIC / FIN","Passport"], biz:"UEN" },
+  "Pakistan":        { ids:["CNIC","Passport"], biz:"NTN" },
+  "Bangladesh":      { ids:["National ID (NID)","Passport"], biz:"Trade License No." },
+  "Nepal":           { ids:["Citizenship Certificate","Passport"], biz:"PAN / VAT No." },
+  "Germany":         { ids:["National ID Card (Personalausweis)","Passport"], biz:"Steuernummer" },
+  "France":          { ids:["National ID Card","Passport"], biz:"SIRET" },
+  "Other":           { ids:["National ID","Passport","Driver's License"], biz:"Business Reg. No." }
+};
 function obIdTypes(){
-  if(ob.idCountry==="India") return ["Aadhaar Card","PAN Card"];
-  if(ob.idCountry==="USA") return ["SSN — Social Security Number","Driver's License","State ID"];
-  return ["National ID","Passport"];
+  const c = ID_COUNTRIES[ob.idCountry] || ID_COUNTRIES["Other"];
+  return c.ids;
+}
+function obBizLabel(){
+  const c = ID_COUNTRIES[ob.idCountry] || ID_COUNTRIES["Other"];
+  return c.biz;
 }
 function obVerifyId(){
   obCollect();
@@ -1614,7 +1653,7 @@ function obVerifyId(){
 }
 function OnboardView(){
   if(!ob) ob = freshOb();
-  if(!ob.idCountry && ob.city){ ob.idCountry = ["Hyderabad","Chennai","Bangalore"].includes(ob.city) ? "India" : "USA"; }
+  if(!ob.idCountry && ob.city){ ob.idCountry = ["Hyderabad","Chennai","Bangalore"].includes(ob.city) ? "India" : ob.city==="Dubai" ? "UAE" : "USA"; }
   const steps = ["Basics","Services","Portfolio","Verification","Availability"];
   let body = "";
   if(ob.step===1){
@@ -1665,11 +1704,11 @@ function OnboardView(){
     <p class="text-muted text-sm mb-6">Customers book with confidence when every business is ID-verified. One-time check — free forever.</p>
     <div class="grid sm:grid-cols-2 gap-4 mb-4">
       <div><label class="lbl">Country *</label><select id="ob-idcountry" class="field" onchange="ob.idCountry=this.value;ob.idType='';ob.idDone=false;OnboardRerender()">
-        ${["USA","India","Other"].map(c=>`<option ${ob.idCountry===c?"selected":""}>${c}</option>`).join("")}</select></div>
+        ${Object.keys(ID_COUNTRIES).map(c=>`<option ${ob.idCountry===c?"selected":""}>${c}</option>`).join("")}</select></div>
       <div><label class="lbl">ID type *</label><select id="ob-idtype" class="field" onchange="ob.idType=this.value;ob.idDone=false;OnboardRerender()">
         <option value="">Choose…</option>${types.map(t=>`<option ${ob.idType===t?"selected":""}>${t}</option>`).join("")}</select></div>
       <div><label class="lbl">ID number *</label><input id="ob-idnum" type="password" class="field" value="${esc(ob.idNum)}" placeholder="•••• ••••" autocomplete="off"></div>
-      <div><label class="lbl">Business reg. no. <span class="text-muted font-normal">(optional — ${ob.idCountry==="India"?"GSTIN":ob.idCountry==="USA"?"EIN":"tax ID"})</span></label><input id="ob-idbiz" class="field" value="${esc(ob.idBiz)}" placeholder="e.g., ${ob.idCountry==="India"?"29ABCDE1234F1Z5":"12-3456789"}"></div>
+      <div><label class="lbl">Business reg. no. <span class="text-muted font-normal">(optional — ${esc(obBizLabel())})</span></label><input id="ob-idbiz" class="field" value="${esc(ob.idBiz)}" placeholder="e.g., ${ob.idCountry==="India"?"29ABCDE1234F1Z5":"12-3456789"}"></div>
     </div>
     ${ob.idDone
       ? `<div class="rounded-2xl p-5 bg-[#E7F3ED] border border-[#BFE0D0] flex items-center gap-3"><span class="text-2xl">🛡</span><div><p class="font-semibold text-[#1C6B4E]">Identity verified</p><p class="text-sm text-muted">${esc(ob.idType)} · ${esc(ob.idCountry)}${ob.idBiz?` · Reg. ${esc(ob.idBiz)}`:""}</p></div></div>`
@@ -1732,11 +1771,13 @@ function obToggleSlot(t){ ob.slots = ob.slots.includes(t)?ob.slots.filter(x=>x!=
 function publishVendor(){
   obCollect();
   const inIndia = ["Hyderabad","Chennai","Bangalore"].includes(ob.city);
-  const cur = inIndia ? "₹" : "$";
+  const inUAE = ob.city==="Dubai";
+  const cur = inIndia ? "₹" : inUAE ? "AED" : "$";
+  const country = inIndia ? "India" : inUAE ? "UAE" : "USA";
   const services = ob.services.map(s=>[s.name.trim(), parseFloat(s.price), s.unit]);
   const port = ob.selImgs.map(src=>{ const m=ob.portMeta[src]||{}; return { img:src, label:m.label||"", budget:m.budget?parseFloat(m.budget):null, guests:m.guests?parseInt(m.guests):null }; });
   const v = {
-    id:"custom-"+Date.now(), name:ob.name, cat:ob.cat, city:ob.city, country: inIndia?"India":"USA", cur,
+    id:"custom-"+Date.now(), name:ob.name, cat:ob.cat, city:ob.city, country, cur,
     rating:5.0, rc:0, price:Math.min.apply(null, services.map(s=>s[1])),
     verified:false, newcomer:true, idVerified:ob.idDone, idCountry:ob.idCountry, idType:ob.idType,
     tag:ob.tag||"New on Utsav — book the future favorite.",
