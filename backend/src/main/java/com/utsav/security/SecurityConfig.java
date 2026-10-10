@@ -72,7 +72,8 @@ public class SecurityConfig {
                         "/api-docs/**",
                         "/v3/api-docs/**",
                         "/actuator/health",
-                        "/actuator/info")
+                        "/actuator/info",
+                        "/error")
                     .permitAll()
                     // Vaadin frontend routes
                     .requestMatchers("/", "/login", "/concierge", "/budget", "/teams", "/bookings",

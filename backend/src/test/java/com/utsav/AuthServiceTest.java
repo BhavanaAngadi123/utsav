@@ -15,6 +15,17 @@ class AuthServiceTest extends IntegrationTestBase {
   @Autowired private AuthService authService;
 
   @Test
+  void successfulRegistrationPersistsUserAndAudit() {
+    var user =
+        authService.register("newbie@t.local", "StrongPass!123", "Newbie", Role.CUSTOMER);
+    assertThat(user.getId()).isNotNull();
+    assertThat(users.findByEmail("newbie@t.local")).isPresent();
+    // login works straight after registration (proves the user row committed)
+    var tokens = authService.login("newbie@t.local", "StrongPass!123");
+    assertThat(tokens.accessToken()).isNotBlank();
+  }
+
+  @Test
   void weakPasswordIsRejected() {
     assertThatThrownBy(
             () -> authService.register("a@t.local", "weak", "Weak", Role.CUSTOMER))

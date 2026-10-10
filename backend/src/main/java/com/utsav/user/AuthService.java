@@ -62,7 +62,9 @@ public class AuthService {
     User user =
         new User(cleanEmail, passwordEncoder.encode(rawPassword), displayName.trim(), role);
     users.save(user);
-    audit.log(user, "REGISTER", "User", user.getId().toString(), "role=" + role);
+    // The actor was just created in this transaction: audit in the same
+    // transaction (REQUIRES_NEW could not see the uncommitted user row).
+    audit.logInTransaction(user, "REGISTER", "User", user.getId().toString(), "role=" + role);
     return user;
   }
 
