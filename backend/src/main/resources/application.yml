@@ -1,0 +1,62 @@
+# Utsav backend — all secrets via environment variables. The app fails fast
+# at startup if required secrets are missing (see UtsavProperties).
+
+spring:
+  application:
+    name: utsav-backend
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/utsav}
+    username: ${DATABASE_USER:utsav}
+    password: ${DATABASE_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: validate # schema is owned by Flyway, never by Hibernate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    validate-on-migrate: true
+  ai:
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+  # Google OAuth2: only configure when GOOGLE_OAUTH_ENABLED=true with real credentials.
+  # (Left unconfigured by default; SecurityConfig enables oauth2Login conditionally.)
+
+utsav:
+  # REQUIRED — at least 32 bytes. Generate: openssl rand -base64 48
+  jwt-secret: ${UTSAV_JWT_SECRET:}
+  jwt-access-ttl-seconds: 900 # 15 minutes
+  jwt-refresh-ttl-seconds: 604800 # 7 days, rotated on every use
+  cors-allowed-origins: ${UTSAV_CORS_ORIGINS:http://localhost:8080}
+  stripe:
+    enabled: ${STRIPE_ENABLED:false}
+    # TEST keys only. Live keys go here when she is ready (still env vars).
+    secret-key: ${STRIPE_SECRET_KEY:sk_test_PLACEHOLDER}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_PLACEHOLDER}
+  concierge:
+    enabled: ${CONCIERGE_ENABLED:true}
+    ollama-model: ${OLLAMA_MODEL:qwen3:8b}
+  oauth:
+    google-enabled: ${GOOGLE_OAUTH_ENABLED:false}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.utsav: INFO
