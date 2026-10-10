@@ -1,0 +1,59 @@
+# Render Blueprint for the Utsav event-vendor marketplace.
+#
+# How to use (Bhavana does this once in the Render dashboard):
+#   1. Sign up at https://dashboard.render.com (free).
+#   2. New → Blueprint → connect the GitHub repo BhavanaAngadi123/utsav.
+#   3. Render reads this file, creates the web service + database below,
+#      and deploys. The public URL will look like
+#      https://utsav-backend.onrender.com
+#
+# Free-tier notes:
+#   - The web service sleeps after ~15 min idle; first request wakes it (~30s).
+#   - The Docker build runs `mvn -Pproduction package`, which bundles the
+#     Vaadin UI (Node.js is downloaded automatically during the build —
+#     no Node needed at runtime).
+#   - Stripe stays DISABLED (STRIPE_ENABLED defaults to false in the app);
+#     no Stripe keys are needed for the app to boot and serve.
+#   - Ollama does not run on Render free, so the AI concierge serves in its
+#     graceful fallback mode (/api/concierge/status → {"aiAvailable":false}).
+#     Everything else — auth, vendors, bookings, reviews — works fully.
+
+services:
+  - type: web
+    name: utsav-backend
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      # REQUIRED — the app fails fast at startup without it (>= 32 chars).
+      # Render generates a 256-bit random value on first apply.
+      - key: UTSAV_JWT_SECRET
+        generateValue: true
+      # Database connection parts. entrypoint.sh composes these into the
+      # JDBC DATABASE_URL the app expects (see backend/entrypoint.sh).
+      - key: DB_HOST
+        fromDatabase:
+          name: utsav-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: utsav-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: utsav-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: utsav-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: utsav-db
+          property: password
+
+databases:
+  - name: utsav-db
+    plan: free

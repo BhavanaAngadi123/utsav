@@ -176,23 +176,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-      <!-- Vaadin frontend plugin disabled for offline build; re-enable for production.
-      <plugin>
-        <groupId>com.vaadin</groupId>
-        <artifactId>vaadin-maven-plugin</artifactId>
-        <version>${vaadin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-frontend</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <skipFrontendBuild>${vaadin.skipFrontendBuild}</skipFrontendBuild>
-        </configuration>
-      </plugin>
-      -->
     </plugins>
   </build>
 
@@ -202,6 +185,30 @@
       <properties>
         <vaadin.skipFrontendBuild>true</vaadin.skipFrontendBuild>
       </properties>
+    </profile>
+    <!-- Production: bundles the Vaadin frontend (build-frontend downloads Node
+         automatically when the machine has internet — e.g. Render's Docker build).
+         Produces a self-contained jar that serves the UI with no Node needed at runtime. -->
+    <profile>
+      <id>production</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-maven-plugin</artifactId>
+            <version>${vaadin.version}</version>
+            <executions>
+              <execution>
+                <id>frontend</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>build-frontend</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
