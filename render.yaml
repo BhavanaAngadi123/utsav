@@ -31,6 +31,10 @@ services:
       # Render generates a 256-bit random value on first apply.
       - key: UTSAV_JWT_SECRET
         generateValue: true
+      # JVM memory tuning for the 512 MB free instance: cap the heap so the
+      # container doesn't get OOM-killed under load (honored by entrypoint.sh).
+      - key: JAVA_OPTS
+        value: "-Xmx350m -XX:MaxMetaspaceSize=128m -XX:+UseSerialGC"
       # Database connection parts. entrypoint.sh composes these into the
       # JDBC DATABASE_URL the app expects (see backend/entrypoint.sh).
       - key: DB_HOST

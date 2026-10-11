@@ -16,4 +16,7 @@ fi
 
 # Render sets $PORT (its router only talks to that port). Default 8080 for
 # local `docker run` without -e PORT.
-exec java "-Dserver.port=${PORT:-8080}" -jar /app/app.jar
+# JAVA_OPTS (e.g. "-Xmx350m -XX:+UseSerialGC") is honored for memory tuning
+# on small instances — set it via render.yaml.
+# shellcheck disable=SC2086
+exec java "-Dserver.port=${PORT:-8080}" ${JAVA_OPTS:-} -jar /app/app.jar
