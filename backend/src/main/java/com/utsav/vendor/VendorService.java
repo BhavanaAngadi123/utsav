@@ -59,7 +59,13 @@ public class VendorService {
 
   public Page<Vendor> search(
       String category, String city, BigDecimal maxPrice, boolean verifiedOnly, Pageable pageable) {
-    return vendors.search(category, city, maxPrice, verifiedOnly, pageable);
+    // Build the LIKE pattern in Java: a NULL parameter nested inside SQL
+    // CONCAT()/LOWER() gets bound as bytea on PostgreSQL and crashes with
+    // "function lower(bytea) does not exist". Pre-lowering here keeps the
+    // query portable and null-safe.
+    String cityPattern =
+        city == null || city.isBlank() ? null : "%" + city.toLowerCase(java.util.Locale.ROOT) + "%";
+    return vendors.search(category, cityPattern, maxPrice, verifiedOnly, pageable);
   }
 
   /** Search with an optional customer Budget Freeze applied (filters to budget-fit). */

@@ -20,13 +20,13 @@ public interface VendorRepository extends JpaRepository<Vendor, UUID> {
       """
       SELECT v FROM Vendor v WHERE v.active = true
         AND (:category IS NULL OR v.categorySlug = :category)
-        AND (:city IS NULL OR LOWER(v.city) LIKE LOWER(CONCAT('%', :city, '%')))
+        AND (:cityPattern IS NULL OR LOWER(v.city) LIKE :cityPattern)
         AND (:maxPrice IS NULL OR v.basePrice IS NULL OR v.basePrice <= :maxPrice)
         AND (:verifiedOnly = false OR v.verifiedStatus = com.utsav.vendor.Vendor$VerificationStatus.VERIFIED)
       """)
   Page<Vendor> search(
       @Param("category") String category,
-      @Param("city") String city,
+      @Param("cityPattern") String cityPattern,
       @Param("maxPrice") BigDecimal maxPrice,
       @Param("verifiedOnly") boolean verifiedOnly,
       Pageable pageable);
